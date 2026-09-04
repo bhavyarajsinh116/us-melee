@@ -1,0 +1,1313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Melee Diamonds | Enterprise Admin System</title>
+    <link rel="icon" href="../images/logo/melee-logo.png" type="image/png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../js/adminDataStore.js"></script>
+    <script src="../js/stockData.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=Cinzel:wght@600;700;800&display=swap');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f8fafc; color: #0f172a; }
+        .font-heading { font-family: 'Cinzel', serif; }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #0f172a; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #334155; border-radius: 999px; }
+        .gd-gold-text { color: #d4af37; }
+        .gd-gold-bg { background-color: #d4af37; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between bg-slate-50">
+    <!-- Toast Notifications Container -->
+    <div id="toast-container" class="fixed top-5 right-5 z-[9999] space-y-2 pointer-events-none"></div>
+
+    <!-- MAIN APP CONTAINER -->
+    <div id="admin-root" class="min-h-screen flex flex-col">
+        <!-- Rendered dynamically by admin script below -->
+    </div>
+
+    <script>
+        (function () {
+            'use strict';
+
+            const STORE = window.GuruAdminStore;
+
+            // Auth State
+            function isAdminLoggedIn() {
+                return localStorage.getItem('gd_admin_session') === 'active';
+            }
+
+            function setAdminSession(active) {
+                if (active) localStorage.setItem('gd_admin_session', 'active');
+                else localStorage.removeItem('gd_admin_session');
+                renderApp();
+            }
+
+            function showToast(msg, isError = false) {
+                const container = document.getElementById('toast-container');
+                if (!container) return;
+                const toast = document.createElement('div');
+                toast.className = `p-3 px-5 rounded-xl text-xs font-bold text-white shadow-2xl flex items-center gap-2 transition-all duration-300 transform translate-y-0 ${
+                    isError ? 'bg-rose-600' : 'bg-slate-900 border border-amber-500/40 text-amber-300'
+                }`;
+                toast.innerHTML = `<span>${isError ? '⚠️' : '✨'}</span> <span>${msg}</span>`;
+                container.appendChild(toast);
+                setTimeout(() => {
+                    toast.style.opacity = '0';
+                    setTimeout(() => toast.remove(), 300);
+                }, 3000);
+            }
+
+            let activeTab = 'overview';
+            let searchQuery = '';
+            let statusFilter = 'All';
+
+            function renderApp() {
+                const root = document.getElementById('admin-root');
+                if (!root) return;
+
+                if (!isAdminLoggedIn()) {
+                    root.innerHTML = renderLoginScreen();
+                    return;
+                }
+
+                root.innerHTML = `
+                    <!-- Top Header -->
+                    <header class="bg-[#0F172A] border-b border-amber-500/40 px-6 py-4 flex items-center justify-between sticky top-0 z-50 shadow-xl">
+                        <div class="flex items-center gap-4">
+                            <a href="../index.html" class="flex items-center gap-2">
+                                <img src="../images/logo/melee-logo.png" alt="Melee Diamonds" class="h-10 w-auto">
+                            </a>
+                            <div class="h-7 w-px bg-slate-700"></div>
+                            <div>
+                                <div class="flex items-center gap-2">
+                                    <h1 class="text-xl font-serif font-extrabold text-white tracking-wider">
+                                        MELEE <span class="text-[#D4AF37]">DIAMONDS</span>
+                                    </h1>
+                                    <span class="bg-amber-400/10 text-amber-300 border border-amber-400/40 text-[10px] font-mono font-extrabold px-2.5 py-0.5 rounded-full uppercase tracking-widest">
+                                        Enterprise Control Desk
+                                    </span>
+                                </div>
+                                <p class="text-[11px] text-slate-300 font-light tracking-wide">US & UK B2B Wholesale Operations · Customer Pricing Tiers · Live Stock & Inquiry Engine</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-4">
+                            <a href="../stock.html" target="_blank" class="text-xs font-bold text-slate-200 hover:text-white transition flex items-center gap-1.5 bg-slate-800/90 px-3.5 py-2 rounded-xl border border-slate-700 shadow-md">
+                                <span>📄 View Stock Sheets</span>
+                            </a>
+                            <a href="../index.html" target="_blank" class="text-xs font-bold text-amber-300 hover:text-amber-200 transition flex items-center gap-1.5 bg-slate-800/90 px-4 py-2 rounded-xl border border-amber-500/30 hover:border-amber-400 shadow-md">
+                                <span>🌐 View Website Live &rarr;</span>
+                            </a>
+                            <button onclick="handleAdminLogout()" class="px-4 py-2 bg-rose-950/90 hover:bg-rose-900 border border-rose-800/80 text-rose-200 text-xs font-bold rounded-xl transition cursor-pointer shadow-md">
+                                Logout
+                            </button>
+                        </div>
+                    </header>
+
+                    <!-- Navigation Bar Tabs -->
+                    <nav class="bg-[#0F172A] border-b border-slate-800 px-6 py-2.5 flex items-center gap-1.5 overflow-x-auto custom-scrollbar shadow-inner">
+                        ${renderNavTabs()}
+                    </nav>
+
+                    <!-- Main Content Area -->
+                    <main class="flex-1 p-6 max-w-7xl mx-auto w-full custom-scrollbar">
+                        ${renderTabContent()}
+                    </main>
+
+                    <!-- Footer -->
+                    <footer class="bg-white border-t border-slate-200 py-4 px-6 text-center text-xs text-slate-500 font-medium">
+                        <div>&copy; 2026 Melee Diamonds. US: 36 W 47th St, Suite 509, NY 10036 | UK: Suite 4.1, 6/7 Hatton Garden, London EC1N 8AD | Tel: +1 (332) 279-0323</div>
+                    </footer>
+                `;
+            }
+
+            function renderLoginScreen() {
+                return `
+                    <div class="min-h-screen flex items-center justify-center p-4 bg-[#0F172A]">
+                        <div class="bg-white rounded-3xl p-8 max-w-md w-full shadow-2xl space-y-6 border border-amber-500/40">
+                            <div class="text-center space-y-2">
+                                <img src="../images/logo/melee-logo.png" alt="Melee Diamonds" class="h-12 w-auto mx-auto mb-2">
+                                <h2 class="text-2xl font-serif font-extrabold text-[#0F172A]">MELEE <span class="text-[#D4AF37]">DIAMONDS</span></h2>
+                                <p class="text-xs text-slate-500 font-bold uppercase tracking-widest">Enterprise Admin Control Portal</p>
+                            </div>
+
+                            <form onsubmit="handleAdminLogin(event)" class="space-y-4 text-xs">
+                                <div>
+                                    <label class="block font-bold text-slate-700 mb-1">Admin Username / Email</label>
+                                    <input type="text" id="admin-user" required placeholder="Enter Admin Username or Email" value="" class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-300 text-slate-900 font-semibold outline-none focus:border-[#D4AF37] focus:bg-white">
+                                </div>
+                                <div>
+                                    <label class="block font-bold text-slate-700 mb-1">Password</label>
+                                    <input type="password" id="admin-pass" required placeholder="Enter Admin Password" value="" class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-300 text-slate-900 font-semibold outline-none focus:border-[#D4AF37] focus:bg-white">
+                                </div>
+                                <button type="submit" class="w-full py-3 bg-[#0F172A] hover:bg-[#1E293B] text-[#D4AF37] font-black text-sm rounded-xl shadow-lg transition cursor-pointer border border-[#D4AF37]/50">
+                                    Unlock Enterprise Admin System &rarr;
+                                </button>
+                            </form>
+                            <div class="text-center text-[11px] text-slate-400 font-medium">
+                                Protected System · Authenticated Melee Diamonds Portal
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            function renderNavTabs() {
+                const appointments = STORE.getCollection('appointments');
+                const inquiries = STORE.getCollection('inquiries');
+                const customOrders = STORE.getCollection('customOrders');
+                const apps = STORE.getCollection('customerApplications');
+                const pendingApts = appointments.filter(a => a.status === 'Pending').length;
+                const pendingInqs = inquiries.filter(i => i.status === 'New').length;
+                const pendingCads = customOrders.filter(c => c.status === 'New').length;
+                const pendingApps = apps.filter(a => a.status === 'Pending Approval').length;
+
+                const tabs = [
+                    { id: 'overview', label: 'Dashboard', icon: '📊' },
+                    { id: 'appointments', label: `Appointments (${appointments.length})`, icon: '📅', badge: pendingApts },
+                    { id: 'inquiries', label: `Inquiries (${inquiries.length})`, icon: '✉️', badge: pendingInqs },
+                    { id: 'customOrders', label: `Custom CAD (${customOrders.length})`, icon: '💍', badge: pendingCads },
+                    { id: 'registrations', label: `Approvals (${apps.length})`, icon: '👤', badge: pendingApps },
+                    { id: 'customers', label: 'Customers', icon: '👥' },
+                    { id: 'groups', label: 'Discount Tiers', icon: '🏷️' },
+                    { id: 'priceAccess', label: 'Price Access Logs', icon: '🔑' },
+                    { id: 'inventory', label: 'Inventory Stock', icon: '💎' },
+                    { id: 'pricing', label: 'Pricing Rules', icon: '💲' },
+                    { id: 'orders', label: 'Orders', icon: '🛍️' },
+                    { id: 'stockSheets', label: 'Stock Sheets Manager', icon: '📄' },
+                    { id: 'reports', label: 'Reports & CSV', icon: '📑' },
+                    { id: 'audit', label: 'Audit Logs', icon: '📜' }
+                ];
+
+                return tabs.map(t => {
+                    const isActive = activeTab === t.id;
+                    return `
+                        <button onclick="switchTab('${t.id}')" class="flex items-center gap-1.5 px-3.5 py-2 text-xs font-bold rounded-xl transition shrink-0 cursor-pointer ${
+                            isActive ? 'bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 font-black shadow-lg border border-amber-300' : 'text-slate-300 hover:bg-slate-800/80 hover:text-white border border-transparent'
+                        }">
+                            <span>${t.icon}</span>
+                            <span>${t.label}</span>
+                            ${t.badge > 0 ? `<span class="text-[10px] px-1.5 py-0.2 rounded-full font-black ${isActive ? 'bg-slate-950 text-amber-300' : 'bg-rose-500 text-white'}">${t.badge}</span>` : ''}
+                        </button>
+                    `;
+                }).join('');
+            }
+
+            function renderTabContent() {
+                switch (activeTab) {
+                    case 'overview': return renderOverviewTab();
+                    case 'appointments': return renderAppointmentsTab();
+                    case 'inquiries': return renderInquiriesTab();
+                    case 'customOrders': return renderCustomOrdersTab();
+                    case 'registrations': return renderRegistrationsTab();
+                    case 'customers': return renderCustomersTab();
+                    case 'groups': return renderGroupsTab();
+                    case 'priceAccess': return renderPriceAccessTab();
+                    case 'inventory': return renderInventoryTab();
+                    case 'pricing': return renderPricingTab();
+                    case 'orders': return renderOrdersTab();
+                    case 'stockSheets': return renderStockSheetsTab();
+                    case 'reports': return renderReportsTab();
+                    case 'audit': return renderAuditTab();
+                    default: return renderOverviewTab();
+                }
+            }
+
+            // 1. OVERVIEW TAB
+            function renderOverviewTab() {
+                const customers = STORE.getCollection('customers');
+                const apps = STORE.getCollection('customerApplications');
+                const diamonds = STORE.getCollection('diamonds');
+                const orders = STORE.getCollection('orders');
+                const apts = STORE.getCollection('appointments');
+                const inqs = STORE.getCollection('inquiries');
+                const cads = STORE.getCollection('customOrders');
+                const priceLogs = STORE.getCollection('priceAccessLogs');
+
+                const totalRevenue = orders.reduce((sum, o) => sum + (o.totalAmount || 0), 0);
+                const stockValue = diamonds.reduce((sum, d) => sum + (d.totalPrice || 0), 0);
+
+                return `
+                    <div class="space-y-6">
+                        <!-- Stat Cards Grid -->
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                            <div class="bg-white border border-slate-200 p-5 rounded-2xl shadow-xs">
+                                <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Active Trade Members</div>
+                                <div class="text-3xl font-black text-[#0F172A] mt-1 font-heading">${customers.filter(c => c.status === 'active').length}</div>
+                                <div class="text-xs text-amber-600 mt-1 font-semibold flex items-center gap-1">
+                                    <span>⏳ ${apps.filter(a => a.status === 'Pending Approval').length} Pending Approvals</span>
+                                </div>
+                            </div>
+                            <div class="bg-[#0F172A] text-white p-5 rounded-2xl shadow-md border border-amber-500/30">
+                                <div class="text-[10px] font-bold text-amber-400 uppercase tracking-wider">Gross Wholesale Revenue</div>
+                                <div class="text-3xl font-black text-[#F3E5AB] mt-1 font-heading">$${totalRevenue.toLocaleString()}</div>
+                                <div class="text-xs text-slate-300 mt-1 font-medium">${orders.length} Wholesale Orders</div>
+                            </div>
+                            <div class="bg-white border border-slate-200 p-5 rounded-2xl shadow-xs">
+                                <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Inventory Valuation</div>
+                                <div class="text-3xl font-black text-emerald-700 mt-1 font-heading">$${stockValue.toLocaleString()}</div>
+                                <div class="text-xs text-slate-500 mt-1 font-semibold">${diamonds.length} Certified Loose Stones</div>
+                            </div>
+                            <div class="bg-white border border-slate-200 p-5 rounded-2xl shadow-xs">
+                                <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Total Customer Requests</div>
+                                <div class="text-3xl font-black text-indigo-900 mt-1 font-heading">${apts.length + inqs.length + cads.length}</div>
+                                <div class="text-xs text-slate-500 mt-1 font-medium">${apts.length} Appointments · ${cads.length} CAD Projects</div>
+                            </div>
+                        </div>
+
+                        <!-- Recent Activity Grid -->
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                            <!-- Recent Appointments Widget -->
+                            <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-xs space-y-4">
+                                <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                                    <h3 class="font-bold text-[#0F172A] text-sm flex items-center gap-2">
+                                        <span class="text-amber-600">📅</span>
+                                        <span>Recent Consultations & Appointments</span>
+                                    </h3>
+                                    <button onclick="switchTab('appointments')" class="text-xs font-bold text-[#0F172A] hover:text-[#D4AF37] transition hover:underline cursor-pointer">View All &rarr;</button>
+                                </div>
+                                <div class="space-y-2 text-xs">
+                                    ${apts.slice(0, 3).map(a => `
+                                        <div class="p-3 bg-slate-50 rounded-xl border border-slate-200/80 flex items-center justify-between">
+                                            <div>
+                                                <div class="font-bold text-slate-900">${a.name} (${a.company})</div>
+                                                <div class="text-[11px] text-slate-500">${a.location} · ${a.datetime}</div>
+                                            </div>
+                                            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase ${
+                                                a.status === 'Confirmed' ? 'bg-emerald-100 text-emerald-800 border border-emerald-300' : 'bg-amber-100 text-amber-800 border border-amber-300'
+                                            }">${a.status}</span>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+
+                            <!-- Protected Price Access Logs Widget -->
+                            <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-xs space-y-4">
+                                <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                                    <h3 class="font-bold text-[#0F172A] text-sm flex items-center gap-2">
+                                        <span class="text-amber-600">🔑</span>
+                                        <span>Protected Trade Price Access Log</span>
+                                    </h3>
+                                    <button onclick="switchTab('priceAccess')" class="text-xs font-bold text-[#0F172A] hover:text-[#D4AF37] transition hover:underline cursor-pointer">Audit Logs &rarr;</button>
+                                </div>
+                                <div class="space-y-2 text-xs">
+                                    ${priceLogs.slice(0, 3).map(l => `
+                                        <div class="p-3 bg-slate-50 rounded-xl border border-slate-200/80 flex items-center justify-between">
+                                            <div>
+                                                <div class="font-bold text-[#0F172A]">${l.userName} (${l.company})</div>
+                                                <div class="text-[11px] text-slate-500">${l.action} ${l.sku !== 'N/A' ? '· Stock #' + l.sku : ''}</div>
+                                            </div>
+                                            <span class="text-[10px] font-mono text-slate-400">${l.timestamp}</span>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // 2. APPOINTMENTS TAB
+            function renderAppointmentsTab() {
+                const appointments = STORE.getCollection('appointments');
+                const filtered = appointments.filter(a => {
+                    const matchesSearch = (a.name + a.company + a.email + a.phone + a.location).toLowerCase().includes(searchQuery.toLowerCase());
+                    const matchesStatus = statusFilter === 'All' || a.status === statusFilter;
+                    return matchesSearch && matchesStatus;
+                });
+
+                return `
+                    <div class="space-y-4 text-xs">
+                        <div class="flex flex-col sm:flex-row items-center justify-between gap-3 bg-white p-4 rounded-2xl border border-slate-200 shadow-xs">
+                            <div class="flex items-center gap-3 w-full sm:w-auto">
+                                <input type="text" placeholder="Search customer, company, location..." value="${searchQuery}" oninput="searchQuery = this.value; renderApp();" class="px-4 py-2 rounded-xl bg-slate-50 border border-slate-300 text-slate-900 outline-none focus:bg-white focus:border-[#0F172A] w-full sm:w-72 font-medium">
+                                <select onchange="statusFilter = this.value; renderApp();" class="px-3 py-2 rounded-xl bg-slate-50 border border-slate-300 text-slate-900 font-bold">
+                                    <option value="All" ${statusFilter === 'All' ? 'selected' : ''}>All Statuses</option>
+                                    <option value="Pending" ${statusFilter === 'Pending' ? 'selected' : ''}>Pending</option>
+                                    <option value="Confirmed" ${statusFilter === 'Confirmed' ? 'selected' : ''}>Confirmed</option>
+                                    <option value="Completed" ${statusFilter === 'Completed' ? 'selected' : ''}>Completed</option>
+                                    <option value="Cancelled" ${statusFilter === 'Cancelled' ? 'selected' : ''}>Cancelled</option>
+                                </select>
+                            </div>
+                            <div class="text-slate-500 font-semibold">Total Appointments: ${filtered.length}</div>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-2xl overflow-hidden bg-white shadow-xs">
+                            <table class="w-full text-left border-collapse">
+                                <thead class="bg-[#0F172A] text-white font-bold border-b border-slate-200">
+                                    <tr>
+                                        <th class="p-3">Customer & Company</th>
+                                        <th class="p-3">Contact</th>
+                                        <th class="p-3">Location / Format</th>
+                                        <th class="p-3">Diamond Interest</th>
+                                        <th class="p-3">Date & Time</th>
+                                        <th class="p-3">Status</th>
+                                        <th class="p-3 text-center">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-100">
+                                    ${filtered.map(a => `
+                                        <tr class="hover:bg-slate-50 transition">
+                                            <td class="p-3">
+                                                <div class="font-bold text-slate-900">${a.name}</div>
+                                                <div class="text-[11px] text-amber-700 font-medium">${a.company}</div>
+                                            </td>
+                                            <td class="p-3">
+                                                <div class="font-mono text-slate-800">${a.email}</div>
+                                                <div class="text-[11px] text-slate-500">${a.phone}</div>
+                                            </td>
+                                            <td class="p-3 text-slate-700 font-medium">${a.location}</td>
+                                            <td class="p-3 text-indigo-900 font-semibold">${a.diamondType || 'General'}</td>
+                                            <td class="p-3 font-mono text-slate-600">${a.datetime}</td>
+                                            <td class="p-3">
+                                                <select onchange="updateAppointmentStatus('${a.id}', this.value)" class="px-2.5 py-1 text-xs rounded-lg font-bold border outline-none ${
+                                                    a.status === 'Confirmed' ? 'bg-emerald-100 text-emerald-800 border-emerald-300' :
+                                                    a.status === 'Completed' ? 'bg-blue-100 text-blue-800 border-blue-300' :
+                                                    a.status === 'Cancelled' ? 'bg-rose-100 text-rose-800 border-rose-300' :
+                                                    'bg-amber-100 text-amber-800 border-amber-300'
+                                                }">
+                                                    <option ${a.status === 'Pending' ? 'selected' : ''}>Pending</option>
+                                                    <option ${a.status === 'Confirmed' ? 'selected' : ''}>Confirmed</option>
+                                                    <option ${a.status === 'Completed' ? 'selected' : ''}>Completed</option>
+                                                    <option ${a.status === 'Cancelled' ? 'selected' : ''}>Cancelled</option>
+                                                </select>
+                                            </td>
+                                            <td class="p-3 text-center">
+                                                <button onclick="deleteAppointment('${a.id}')" class="px-2.5 py-1 bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 rounded-lg transition font-bold cursor-pointer">Delete</button>
+                                            </td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // 3. INQUIRIES TAB
+            function renderInquiriesTab() {
+                const inquiries = STORE.getCollection('inquiries');
+                const filtered = inquiries.filter(i => {
+                    const matchesSearch = (i.name + i.company + i.email + i.subject + i.message).toLowerCase().includes(searchQuery.toLowerCase());
+                    const matchesStatus = statusFilter === 'All' || i.status === statusFilter;
+                    return matchesSearch && matchesStatus;
+                });
+
+                return `
+                    <div class="space-y-4 text-xs">
+                        <div class="flex flex-col sm:flex-row items-center justify-between gap-3 bg-white p-4 rounded-2xl border border-slate-200 shadow-xs">
+                            <input type="text" placeholder="Search inquiry subject, customer, email..." value="${searchQuery}" oninput="searchQuery = this.value; renderApp();" class="px-4 py-2 rounded-xl bg-slate-50 border border-slate-300 text-slate-900 outline-none focus:bg-white focus:border-[#0F172A] w-full sm:w-72 font-medium">
+                            <select onchange="statusFilter = this.value; renderApp();" class="px-3 py-2 rounded-xl bg-slate-50 border border-slate-300 text-slate-900 font-bold">
+                                <option value="All" ${statusFilter === 'All' ? 'selected' : ''}>All Statuses</option>
+                                <option value="New" ${statusFilter === 'New' ? 'selected' : ''}>New</option>
+                                <option value="In Progress" ${statusFilter === 'In Progress' ? 'selected' : ''}>In Progress</option>
+                                <option value="Resolved" ${statusFilter === 'Resolved' ? 'selected' : ''}>Resolved</option>
+                            </select>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-2xl overflow-hidden bg-white shadow-xs">
+                            <table class="w-full text-left border-collapse">
+                                <thead class="bg-[#0F172A] text-white font-bold border-b border-slate-200">
+                                    <tr>
+                                        <th class="p-3">Customer</th>
+                                        <th class="p-3">Subject & Type</th>
+                                        <th class="p-3">Message Snippet</th>
+                                        <th class="p-3">Submitted</th>
+                                        <th class="p-3">Status</th>
+                                        <th class="p-3 text-center">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-100">
+                                    ${filtered.map(i => `
+                                        <tr class="hover:bg-slate-50 transition">
+                                            <td class="p-3">
+                                                <div class="font-bold text-slate-900">${i.name}</div>
+                                                <div class="text-[11px] text-slate-500">${i.company}</div>
+                                            </td>
+                                            <td class="p-3">
+                                                <div class="font-bold text-indigo-900">${i.subject}</div>
+                                                <div class="text-[10px] font-bold text-amber-700">${i.type}</div>
+                                            </td>
+                                            <td class="p-3 text-slate-700 font-medium max-w-xs truncate">${i.message}</td>
+                                            <td class="p-3 font-mono text-slate-500">${i.submittedAt}</td>
+                                            <td class="p-3">
+                                                <select onchange="updateInquiryStatus('${i.id}', this.value)" class="px-2.5 py-1 text-xs rounded-lg font-bold border outline-none ${
+                                                    i.status === 'Resolved' ? 'bg-emerald-100 text-emerald-800 border-emerald-300' :
+                                                    i.status === 'In Progress' ? 'bg-blue-100 text-blue-800 border-blue-300' :
+                                                    'bg-amber-100 text-amber-800 border-amber-300'
+                                                }">
+                                                    <option ${i.status === 'New' ? 'selected' : ''}>New</option>
+                                                    <option ${i.status === 'In Progress' ? 'selected' : ''}>In Progress</option>
+                                                    <option ${i.status === 'Resolved' ? 'selected' : ''}>Resolved</option>
+                                                </select>
+                                            </td>
+                                            <td class="p-3 text-center">
+                                                <button onclick="deleteInquiry('${i.id}')" class="px-2.5 py-1 bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 rounded-lg transition font-bold cursor-pointer">Delete</button>
+                                            </td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // 4. CUSTOM CAD ORDERS TAB
+            function renderCustomOrdersTab() {
+                const customOrders = STORE.getCollection('customOrders');
+                return `
+                    <div class="space-y-4 text-xs">
+                        <div class="flex items-center justify-between bg-white p-4 rounded-2xl border border-slate-200 shadow-xs">
+                            <h3 class="font-bold text-[#0F172A] text-sm">💍 Custom Jewelry CAD Orders & Specifications</h3>
+                            <span class="text-slate-500 font-semibold">${customOrders.length} Projects</span>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            ${customOrders.map(c => `
+                                <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-xs space-y-3">
+                                    <div class="flex items-center justify-between border-b border-slate-100 pb-2">
+                                        <div>
+                                            <h4 class="font-bold text-slate-900 text-sm">${c.company}</h4>
+                                            <div class="text-[11px] text-slate-500 font-mono">${c.email}</div>
+                                        </div>
+                                        <span class="text-lg font-black text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">$${(c.estPrice || 0).toLocaleString()} EST</span>
+                                    </div>
+                                    <div class="grid grid-cols-2 gap-2 text-xs">
+                                        <div><span class="text-slate-500 block">Jewelry Type</span><strong class="text-slate-900">${c.jewelryType}</strong></div>
+                                        <div><span class="text-slate-500 block">Diamond Choice</span><strong class="text-indigo-900">${c.diamondType}</strong></div>
+                                        <div><span class="text-slate-500 block">Metal</span><strong class="text-amber-800 uppercase font-bold">${c.metal}</strong></div>
+                                        <div><span class="text-slate-500 block">Carat Weight</span><strong class="text-slate-900">${c.carat} ct</strong></div>
+                                    </div>
+                                    <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 text-slate-700">
+                                        <span class="text-[10px] text-slate-500 font-bold block uppercase">Custom CAD Notes:</span>
+                                        ${c.notes || 'No extra notes specified'}
+                                    </div>
+                                    <div class="flex items-center justify-between pt-2 border-t border-slate-100">
+                                        <select onchange="updateCustomOrderStatus('${c.id}', this.value)" class="px-3 py-1.5 rounded-xl bg-white border border-slate-300 font-bold text-slate-900">
+                                            <option ${c.status === 'New' ? 'selected' : ''}>New</option>
+                                            <option ${c.status === 'Reviewing' ? 'selected' : ''}>Reviewing</option>
+                                            <option ${c.status === 'Processing' ? 'selected' : ''}>Processing</option>
+                                            <option ${c.status === 'Completed' ? 'selected' : ''}>Completed</option>
+                                            <option ${c.status === 'Cancelled' ? 'selected' : ''}>Cancelled</option>
+                                        </select>
+                                        <button onclick="deleteCustomOrder('${c.id}')" class="px-3 py-1.5 bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 rounded-xl transition font-bold cursor-pointer">Delete Project</button>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+
+            // 5. REGISTRATIONS TAB
+            function renderRegistrationsTab() {
+                const apps = STORE.getCollection('customerApplications');
+                return `
+                    <div class="space-y-4 text-xs">
+                        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between">
+                            <h3 class="font-bold text-[#0F172A] text-sm">👤 B2B Reseller Trade Registrations</h3>
+                            <span class="text-slate-500 font-semibold">${apps.filter(a => a.status === 'Pending Approval').length} Pending Approval</span>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-2xl overflow-hidden bg-white shadow-xs">
+                            <table class="w-full text-left border-collapse">
+                                <thead class="bg-[#0F172A] text-white font-bold border-b border-slate-200">
+                                    <tr>
+                                        <th class="p-3">Application #</th>
+                                        <th class="p-3">Company & Tax ID</th>
+                                        <th class="p-3">Contact Person</th>
+                                        <th class="p-3">Email & Phone</th>
+                                        <th class="p-3">Submitted</th>
+                                        <th class="p-3">Status</th>
+                                        <th class="p-3 text-center">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-100">
+                                    ${apps.map(a => `
+                                        <tr class="hover:bg-slate-50 transition">
+                                            <td class="p-3 font-mono font-bold text-indigo-900">${a.applicationNumber}</td>
+                                            <td class="p-3">
+                                                <div class="font-bold text-slate-900">${a.companyName}</div>
+                                                <div class="text-[10px] text-amber-700 font-mono font-bold">Tax ID: ${a.taxRegistrationNumber}</div>
+                                            </td>
+                                            <td class="p-3 font-bold text-slate-800">${a.primaryContactName}</td>
+                                            <td class="p-3 font-mono text-slate-600">${a.email}</td>
+                                            <td class="p-3 font-mono text-slate-500">${a.submittedAt}</td>
+                                            <td class="p-3">
+                                                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase ${
+                                                    a.status === 'Approved' ? 'bg-emerald-100 text-emerald-800 border border-emerald-300' :
+                                                    a.status === 'Rejected' ? 'bg-rose-100 text-rose-800 border border-rose-300' :
+                                                    'bg-amber-100 text-amber-800 border border-amber-300'
+                                                }">${a.status}</span>
+                                            </td>
+                                            <td class="p-3 text-center">
+                                                <div class="flex justify-center gap-1.5">
+                                                    ${a.status !== 'Approved' ? `<button onclick="approveRegistration('${a.id}')" class="px-3 py-1 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-lg shadow-xs transition cursor-pointer">Approve</button>` : ''}
+                                                    ${a.status !== 'Rejected' ? `<button onclick="rejectRegistration('${a.id}')" class="px-2.5 py-1 bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 font-bold rounded-lg transition cursor-pointer">Reject</button>` : ''}
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // 6. CUSTOMERS TAB
+            function renderCustomersTab() {
+                const customers = STORE.getCollection('customers');
+                const groups = STORE.getCollection('customerGroups');
+
+                return `
+                    <div class="space-y-4 text-xs">
+                        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between">
+                            <h3 class="font-bold text-[#0F172A] text-sm">👥 Registered Trade Accounts</h3>
+                            <span class="text-slate-500 font-semibold">${customers.length} Accounts</span>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-2xl overflow-hidden bg-white shadow-xs">
+                            <table class="w-full text-left border-collapse">
+                                <thead class="bg-[#0F172A] text-white font-bold border-b border-slate-200">
+                                    <tr>
+                                        <th class="p-3">Customer & Company</th>
+                                        <th class="p-3">Email & Phone</th>
+                                        <th class="p-3">Assigned Group Tier</th>
+                                        <th class="p-3">Custom Discount</th>
+                                        <th class="p-3">Status</th>
+                                        <th class="p-3 text-center">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-100">
+                                    ${customers.map(c => {
+                                        const grp = groups.find(g => g.id === c.groupId) || { name: 'Wholesale Trade', defaultDiscountPercent: 20 };
+                                        return `
+                                            <tr class="hover:bg-slate-50 transition">
+                                                <td class="p-3">
+                                                    <div class="font-bold text-slate-900">${c.name}</div>
+                                                    <div class="text-[11px] text-amber-700 font-medium">${c.company}</div>
+                                                </td>
+                                                <td class="p-3 font-mono text-slate-700">${c.email}</td>
+                                                <td class="p-3 font-bold text-indigo-900">${grp.name} (${grp.defaultDiscountPercent}%)</td>
+                                                <td class="p-3 font-bold text-emerald-700">${c.customDiscountPercent ? c.customDiscountPercent + '%' : 'Default Tier'}</td>
+                                                <td class="p-3">
+                                                    <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase ${c.status === 'active' ? 'bg-emerald-100 text-emerald-800 border border-emerald-300' : 'bg-slate-100 text-slate-600'}">${c.status}</span>
+                                                </td>
+                                                <td class="p-3 text-center">
+                                                    <button onclick="toggleCustomerStatus('${c.id}')" class="px-3 py-1 bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold rounded-lg transition cursor-pointer">${c.status === 'active' ? 'Deactivate' : 'Activate'}</button>
+                                                </td>
+                                            </tr>
+                                        `;
+                                    }).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // 7. GROUPS TAB
+            function renderGroupsTab() {
+                const groups = STORE.getCollection('customerGroups');
+                return `
+                    <div class="space-y-4 text-xs">
+                        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between">
+                            <h3 class="font-bold text-[#0F172A] text-sm">🏷️ Customer Discount Tiers & Groups</h3>
+                            <button onclick="showCreateGroupModal()" class="px-4 py-2 bg-[#0F172A] text-[#D4AF37] font-bold rounded-xl hover:bg-[#1E293B] transition cursor-pointer border border-[#D4AF37]/50">+ Create Tier Group</button>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            ${groups.map(g => `
+                                <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-xs space-y-3">
+                                    <div class="flex items-center justify-between border-b border-slate-100 pb-2">
+                                        <h4 class="font-bold text-slate-900 text-sm">${g.name}</h4>
+                                        <span class="px-3 py-1 bg-amber-50 text-amber-800 border border-amber-300 rounded-full font-black text-xs">${g.defaultDiscountPercent}% Default Discount</span>
+                                    </div>
+                                    <p class="text-slate-600 text-xs">${g.description}</p>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+
+            // 8. PRICE ACCESS TAB
+            function renderPriceAccessTab() {
+                const logs = STORE.getCollection('priceAccessLogs');
+                return `
+                    <div class="space-y-4 text-xs">
+                        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between">
+                            <h3 class="font-bold text-[#0F172A] text-sm">🔑 Protected Price Access & User Activity Log</h3>
+                            <span class="text-slate-500 font-semibold">${logs.length} Events</span>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-2xl overflow-hidden bg-white shadow-xs">
+                            <table class="w-full text-left border-collapse">
+                                <thead class="bg-[#0F172A] text-white font-bold border-b border-slate-200">
+                                    <tr>
+                                        <th class="p-3">User Name & Company</th>
+                                        <th class="p-3">User Email</th>
+                                        <th class="p-3">Access Action</th>
+                                        <th class="p-3">Target Stock SKU</th>
+                                        <th class="p-3">Timestamp</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-100">
+                                    ${logs.map(l => `
+                                        <tr class="hover:bg-slate-50 transition">
+                                            <td class="p-3">
+                                                <div class="font-bold text-slate-900">${l.userName}</div>
+                                                <div class="text-[11px] text-amber-700 font-medium">${l.company}</div>
+                                            </td>
+                                            <td class="p-3 font-mono text-slate-700">${l.email}</td>
+                                            <td class="p-3 font-bold text-indigo-900">${l.action}</td>
+                                            <td class="p-3 font-mono font-bold text-emerald-700">${l.sku}</td>
+                                            <td class="p-3 font-mono text-slate-500">${l.timestamp}</td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // 9. INVENTORY TAB
+            function renderInventoryTab() {
+                const diamonds = STORE.getCollection('diamonds');
+                return `
+                    <div class="space-y-4 text-xs">
+                        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between">
+                            <h3 class="font-bold text-[#0F172A] text-sm">💎 Certified Loose Diamond Inventory</h3>
+                            <button onclick="showAddStoneModal()" class="px-4 py-2 bg-[#0F172A] text-[#D4AF37] font-bold rounded-xl hover:bg-[#1E293B] transition cursor-pointer border border-[#D4AF37]/50">+ Add Diamond Product</button>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-2xl overflow-hidden bg-white shadow-xs">
+                            <table class="w-full text-left border-collapse">
+                                <thead class="bg-[#0F172A] text-white font-bold border-b border-slate-200">
+                                    <tr>
+                                        <th class="p-3">Stock SKU</th>
+                                        <th class="p-3">Shape & Carat</th>
+                                        <th class="p-3">Color / Clarity</th>
+                                        <th class="p-3">Cert & Origin</th>
+                                        <th class="p-3">$/Carat</th>
+                                        <th class="p-3">Total Base Price</th>
+                                        <th class="p-3 text-center">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-100">
+                                    ${diamonds.map(d => `
+                                        <tr class="hover:bg-slate-50 transition">
+                                            <td class="p-3 font-mono font-bold text-amber-700">№ ${d.sku}</td>
+                                            <td class="p-3 font-bold text-slate-900">${d.carat} ct ${d.shape}</td>
+                                            <td class="p-3 text-slate-700 font-medium">${d.color} / ${d.clarity}</td>
+                                            <td class="p-3">
+                                                <span class="font-bold text-indigo-900">${d.lab} #${d.certNo}</span>
+                                                <span class="text-[10px] block text-slate-500 uppercase font-bold">${d.type === 'natural' ? 'Natural Mined' : 'Lab-Grown CVD'}</span>
+                                            </td>
+                                            <td class="p-3 text-slate-700 font-semibold">$${d.pricePerCarat}/ct</td>
+                                            <td class="p-3 font-black text-emerald-700 text-sm">$${(d.totalPrice || 0).toLocaleString()}</td>
+                                            <td class="p-3 text-center">
+                                                <button onclick="deleteDiamond('${d.id}')" class="px-2.5 py-1 bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 rounded-lg transition font-bold cursor-pointer">Delete</button>
+                                            </td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // 10. PRICING RULES TAB
+            function renderPricingTab() {
+                const rules = STORE.getCollection('pricingRules');
+                const priority = STORE.getCollection('priorityConfig');
+
+                return `
+                    <div class="space-y-4 text-xs">
+                        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between">
+                            <h3 class="font-bold text-[#0F172A] text-sm">💲 Customer & Group Pricing Rules</h3>
+                            <button onclick="showAddRuleModal()" class="px-4 py-2 bg-[#0F172A] text-[#D4AF37] font-bold rounded-xl hover:bg-[#1E293B] transition cursor-pointer border border-[#D4AF37]/50">+ Create Pricing Rule</button>
+                        </div>
+
+                        <div class="bg-slate-900 text-white p-4 rounded-2xl font-mono shadow-xs border border-amber-500/30">
+                            <span class="text-amber-400 font-bold block mb-1">Pricing Evaluation Priority Hierarchy:</span>
+                            <span class="text-slate-200">${priority.join(' → ').toUpperCase()}</span>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-2xl overflow-hidden bg-white shadow-xs">
+                            <table class="w-full text-left border-collapse">
+                                <thead class="bg-[#0F172A] text-white font-bold border-b border-slate-200">
+                                    <tr>
+                                        <th class="p-3">Rule Name</th>
+                                        <th class="p-3">Type</th>
+                                        <th class="p-3">Discount Value</th>
+                                        <th class="p-3">Status</th>
+                                        <th class="p-3 text-center">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-100">
+                                    ${rules.map(r => `
+                                        <tr class="hover:bg-slate-50 transition">
+                                            <td class="p-3 font-bold text-slate-900">${r.name}</td>
+                                            <td class="p-3 font-semibold text-indigo-900 uppercase">${r.type}</td>
+                                            <td class="p-3 font-extrabold text-emerald-700 text-sm">${r.discountValue}% Off</td>
+                                            <td class="p-3">
+                                                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase ${r.active ? 'bg-emerald-100 text-emerald-800 border border-emerald-300' : 'bg-slate-100 text-slate-600'}">${r.active ? 'Active' : 'Disabled'}</span>
+                                            </td>
+                                            <td class="p-3 text-center">
+                                                <button onclick="deletePricingRule('${r.id}')" class="px-2.5 py-1 bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 rounded-lg transition font-bold cursor-pointer">Delete</button>
+                                            </td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // 11. ORDERS TAB
+            function renderOrdersTab() {
+                const orders = STORE.getCollection('orders');
+                return `
+                    <div class="space-y-4 text-xs">
+                        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between">
+                            <h3 class="font-bold text-[#0F172A] text-sm">🛍️ Wholesale Orders & Fulfillment</h3>
+                            <span class="text-slate-500 font-semibold">${orders.length} Orders</span>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-2xl overflow-hidden bg-white shadow-xs">
+                            <table class="w-full text-left border-collapse">
+                                <thead class="bg-[#0F172A] text-white font-bold border-b border-slate-200">
+                                    <tr>
+                                        <th class="p-3">Order ID</th>
+                                        <th class="p-3">Customer & Company</th>
+                                        <th class="p-3">Fulfillment</th>
+                                        <th class="p-3">Total Amount</th>
+                                        <th class="p-3">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-100">
+                                    ${orders.map(o => `
+                                        <tr class="hover:bg-slate-50 transition">
+                                            <td class="p-3 font-mono font-bold text-indigo-900">${o.id}</td>
+                                            <td class="p-3">
+                                                <div class="font-bold text-slate-900">${o.customerName}</div>
+                                                <div class="text-[11px] text-amber-700 font-medium">${o.company}</div>
+                                            </td>
+                                            <td class="p-3 text-slate-700 font-medium">${o.fulfillmentMethod}</td>
+                                            <td class="p-3 font-black text-slate-900 text-sm">$${(o.totalAmount || 0).toLocaleString()}</td>
+                                            <td class="p-3">
+                                                <select onchange="updateOrderStatus('${o.id}', this.value)" class="px-2.5 py-1 text-xs rounded-lg font-bold border outline-none ${
+                                                    o.status === 'Shipped' ? 'bg-indigo-100 text-indigo-800 border-indigo-300' :
+                                                    o.status === 'Confirmed' ? 'bg-emerald-100 text-emerald-800 border-emerald-300' :
+                                                    'bg-amber-100 text-amber-800 border-amber-300'
+                                                }">
+                                                    <option ${o.status === 'Pending' ? 'selected' : ''}>Pending</option>
+                                                    <option ${o.status === 'Confirmed' ? 'selected' : ''}>Confirmed</option>
+                                                    <option ${o.status === 'Shipped' ? 'selected' : ''}>Shipped</option>
+                                                    <option ${o.status === 'Delivered' ? 'selected' : ''}>Delivered</option>
+                                                    <option ${o.status === 'Cancelled' ? 'selected' : ''}>Cancelled</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // 12. REPORTS TAB
+            function renderReportsTab() {
+                return `
+                    <div class="space-y-6 text-xs">
+                        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs space-y-4">
+                            <h3 class="font-bold text-[#0F172A] text-base font-serif">Data Reports & CSV Export Center</h3>
+                            <p class="text-slate-500 font-medium">Export complete business records for financial audit, inventory tracking, and client management.</p>
+                            <div class="flex flex-wrap gap-3 pt-2">
+                                <button onclick="STORE.exportCSV('orders')" class="px-4 py-2.5 bg-[#0F172A] hover:bg-[#1E293B] text-[#D4AF37] font-bold rounded-xl shadow-xs transition cursor-pointer border border-[#D4AF37]/50">Export Sales Orders CSV &rarr;</button>
+                                <button onclick="STORE.exportCSV('diamonds')" class="px-4 py-2.5 bg-emerald-700 hover:bg-emerald-800 text-white font-bold rounded-xl shadow-xs transition cursor-pointer">Export Inventory Stock CSV &rarr;</button>
+                                <button onclick="STORE.exportCSV('customers')" class="px-4 py-2.5 bg-slate-800 hover:bg-slate-900 text-white font-bold rounded-xl shadow-xs transition cursor-pointer">Export Customers CSV &rarr;</button>
+                                <button onclick="STORE.exportCSV('appointments')" class="px-4 py-2.5 bg-amber-600 hover:bg-amber-700 text-white font-bold rounded-xl shadow-xs transition cursor-pointer">Export Appointments CSV &rarr;</button>
+                                <button onclick="STORE.exportCSV('inquiries')" class="px-4 py-2.5 bg-slate-800 hover:bg-slate-900 text-white font-bold rounded-xl shadow-xs transition cursor-pointer">Export Inquiries CSV &rarr;</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // 13. AUDIT TAB
+            function renderAuditTab() {
+                const logs = STORE.getCollection('auditLogs');
+                return `
+                    <div class="space-y-4 text-xs">
+                        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between">
+                            <h3 class="font-bold text-[#0F172A] text-sm">📜 Administrative Security Audit Logs</h3>
+                            <span class="text-slate-500 font-semibold">${logs.length} Actions Logged</span>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-2xl overflow-hidden bg-white shadow-xs">
+                            <table class="w-full text-left border-collapse">
+                                <thead class="bg-[#0F172A] text-white font-bold border-b border-slate-200">
+                                    <tr>
+                                        <th class="p-3">Action Description</th>
+                                        <th class="p-3">Admin Account</th>
+                                        <th class="p-3">Details</th>
+                                        <th class="p-3">Timestamp</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-100">
+                                    ${logs.map(l => `
+                                        <tr class="hover:bg-slate-50 transition">
+                                            <td class="p-3 font-bold text-amber-800">${l.action}</td>
+                                            <td class="p-3 font-mono text-slate-700">${l.admin}</td>
+                                            <td class="p-3 text-slate-600 font-medium">${l.details || 'N/A'}</td>
+                                            <td class="p-3 font-mono text-slate-500">${l.timestamp}</td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Global Actions
+            window.switchTab = function (tabId) {
+                activeTab = tabId;
+                searchQuery = '';
+                statusFilter = 'All';
+                renderApp();
+            };
+
+            window.handleAdminLogin = function (e) {
+                e.preventDefault();
+                const user = document.getElementById('admin-user').value.trim();
+                const pass = document.getElementById('admin-pass').value;
+
+                if ((user === 'admin@meleediamonds.com' || user === 'admin') && pass === 'MeleeAdmin#2026!Secure') {
+                    setAdminSession(true);
+                    STORE.logAudit('Admin Login Successful', user, 'Authenticated into Enterprise System');
+                    showToast('Welcome Administrator! Access Granted.');
+                } else {
+                    showToast('Invalid credentials! Access Denied.', true);
+                }
+            };
+
+            window.handleAdminLogout = function () {
+                STORE.logAudit('Admin Logout', 'admin@meleediamonds.com', 'Ended session');
+                setAdminSession(false);
+                showToast('Logged out of Admin System');
+            };
+
+            window.updateAppointmentStatus = function (id, status) {
+                STORE.updateRecordStatus('appointments', id, status);
+                STORE.logAudit('Updated Appointment Status', 'admin@meleediamonds.com', `Appointment #${id} set to ${status}`);
+                showToast(`Appointment status updated to ${status}`);
+            };
+
+            window.deleteAppointment = function (id) {
+                if (confirm('Delete this appointment record?')) {
+                    STORE.deleteRecord('appointments', id);
+                    showToast('Appointment record deleted');
+                    renderApp();
+                }
+            };
+
+            window.updateInquiryStatus = function (id, status) {
+                STORE.updateRecordStatus('inquiries', id, status);
+                showToast(`Inquiry status set to ${status}`);
+            };
+
+            window.deleteInquiry = function (id) {
+                if (confirm('Delete this inquiry record?')) {
+                    STORE.deleteRecord('inquiries', id);
+                    showToast('Inquiry deleted');
+                    renderApp();
+                }
+            };
+
+            window.updateCustomOrderStatus = function (id, status) {
+                STORE.updateRecordStatus('customOrders', id, status);
+                showToast(`Custom order status updated to ${status}`);
+            };
+
+            window.deleteCustomOrder = function (id) {
+                if (confirm('Delete this custom CAD order?')) {
+                    STORE.deleteRecord('customOrders', id);
+                    showToast('Custom order deleted');
+                    renderApp();
+                }
+            };
+
+            window.approveRegistration = function (id) {
+                const apps = STORE.getCollection('customerApplications');
+                const target = apps.find(a => a.id === id);
+                if (!target) return;
+
+                STORE.updateRecordStatus('customerApplications', id, 'Approved');
+                const newCustomer = {
+                    id: 'cust_' + Date.now(),
+                    name: target.primaryContactName,
+                    company: target.companyName,
+                    email: target.email,
+                    phone: target.mobileNumber,
+                    status: 'active',
+                    groupId: 'grp_wholesale',
+                    customDiscountPercent: null,
+                    createdAt: new Date().toISOString().split('T')[0]
+                };
+                STORE.saveRecord('customers', newCustomer);
+                STORE.logAudit('Approved Trade Registration', 'admin@meleediamonds.com', `Approved ${target.companyName} (${target.applicationNumber})`);
+                showToast(`APPROVED application ${target.applicationNumber}! Added as active customer.`);
+                renderApp();
+            };
+
+            window.rejectRegistration = function (id) {
+                if (confirm('Reject this reseller application?')) {
+                    STORE.updateRecordStatus('customerApplications', id, 'Rejected');
+                    showToast('Registration application rejected');
+                    renderApp();
+                }
+            };
+
+            window.toggleCustomerStatus = function (id) {
+                const custs = STORE.getCollection('customers');
+                const target = custs.find(c => c.id === id);
+                if (!target) return;
+                const nextStatus = target.status === 'active' ? 'inactive' : 'active';
+                STORE.updateRecordStatus('customers', id, nextStatus);
+                showToast(`Customer ${target.name} is now ${nextStatus.toUpperCase()}`);
+                renderApp();
+            };
+
+            window.deleteDiamond = function (id) {
+                if (confirm('Delete this diamond product from inventory?')) {
+                    STORE.deleteRecord('diamonds', id);
+                    showToast('Diamond product removed from inventory');
+                    renderApp();
+                }
+            };
+
+            window.deletePricingRule = function (id) {
+                if (confirm('Delete this pricing rule?')) {
+                    STORE.deleteRecord('pricingRules', id);
+                    showToast('Pricing rule deleted');
+                    renderApp();
+                }
+            };
+
+            let currentStockAdminSubTab = 'layout'; // 'layout' or 'round'
+            let stockAdminQuery = '';
+
+            window.switchStockAdminSubTab = function(sub) {
+                currentStockAdminSubTab = sub;
+                renderApp();
+            };
+
+            window.filterStockAdmin = function(val) {
+                stockAdminQuery = val.toLowerCase().trim();
+                renderApp();
+            };
+
+            window.showAddStockSheetItemModal = function(type) {
+                if (type === 'layout') {
+                    const shape = prompt('Enter Shape (e.g. Emerald, Heart, Marquise, Oval, Princess):', 'Emerald');
+                    if (!shape) return;
+                    const mmSize = prompt('Enter MM Size (e.g. 6.00 x 4.00):', '6.00 x 4.00');
+                    const color = prompt('Enter Color (e.g. E-F):', 'E-F');
+                    const clarity = prompt('Enter Clarity (e.g. VS):', 'VS');
+                    const pointSize = prompt('Enter Point / Carat Size (e.g. 70-PT or 1.0CT):', '70-PT');
+                    const hpht = parseFloat(prompt('Enter HPHT Weight (cts):', '10.50')) || 10.50;
+                    const cvd = parseFloat(prompt('Enter CVD Weight (cts):', '15.20')) || 15.20;
+
+                    const newItem = {
+                        id: 'stk_adm_' + Date.now(),
+                        source: '1. Blank Layout Stock Sheet (Admin Added)',
+                        shape: shape,
+                        mm_size: mmSize || '-',
+                        color: color || 'E-F',
+                        clarity: clarity || 'VS',
+                        point_size: pointSize || '-',
+                        hpht_weight: hpht.toFixed(2),
+                        cvd_weight: cvd.toFixed(2),
+                        total_weight: (hpht + cvd).toFixed(2),
+                        status: 'In Stock (Same Day Dispatch)'
+                    };
+                    STORE.saveRecord('layoutStockData', newItem);
+                    STORE.logAudit('Added Stock Sheet Item', 'admin@meleediamonds.com', `Added Fancy Shape ${shape} (${mmSize})`);
+                    showToast(`Added ${shape} (${mmSize}) to Stock Sheet!`);
+                } else {
+                    const mmSize = prompt('Enter MM Size (e.g. 150 MM or 2.50mm):', '150 MM');
+                    if (!mmSize) return;
+                    const sievePts = prompt('Enter Sieve Size / Points (e.g. +4.5-5.5 or 25Pts):', '+4.5-5.5');
+                    const h1 = parseFloat(prompt('Enter H1 Weight (cts):', '8.00')) || 8.00;
+                    const h2 = parseFloat(prompt('Enter H2 Weight (cts):', '12.00')) || 12.00;
+                    const h3 = parseFloat(prompt('Enter H3 Weight (cts):', '5.00')) || 5.00;
+
+                    const newItem = {
+                        id: 'stk_adm_' + Date.now(),
+                        source: '2. Blank Stock 1 (Admin Added)',
+                        shape: 'Round Melee',
+                        mm_size: mmSize,
+                        color: 'E-F',
+                        clarity: 'VS',
+                        point_size: sievePts || '-',
+                        hpht_weight: h1.toFixed(2),
+                        cvd_weight: h2.toFixed(2),
+                        total_weight: (h1 + h2 + h3).toFixed(2),
+                        h1_weight: h1.toFixed(2),
+                        h2_weight: h2.toFixed(2),
+                        h3_weight: h3.toFixed(2),
+                        sieve_pts: sievePts || '-',
+                        status: 'In Stock (Same Day Dispatch)'
+                    };
+                    STORE.saveRecord('roundStockData', newItem);
+                    STORE.logAudit('Added Round Melee Item', 'admin@meleediamonds.com', `Added Round Melee ${mmSize}`);
+                    showToast(`Added Round Melee ${mmSize} to Stock Sheet!`);
+                }
+                renderApp();
+            };
+
+            window.deleteStockSheetItem = function(type, id) {
+                if (confirm('Are you sure you want to remove this stock record?')) {
+                    const col = type === 'layout' ? 'layoutStockData' : 'roundStockData';
+                    STORE.deleteRecord(col, id);
+                    showToast('Stock record deleted');
+                    renderApp();
+                }
+            };
+
+            window.resetStockSheetsToPDF = function() {
+                if (confirm('Reset all stock data to original PDF files data? Any custom admin entries will be cleared.')) {
+                    const db = JSON.parse(localStorage.getItem('gd_admin_database_v1') || '{}');
+                    db.adminAddedStock = [];
+                    db.adminDeletedStockIds = [];
+                    localStorage.setItem('gd_admin_database_v1', JSON.stringify(db));
+                    showToast('Restored stock sheets data from PDFs!');
+                    renderApp();
+                }
+            };
+
+            function renderStockSheetsTab() {
+                const layoutItems = STORE.getCollection('layoutStockData');
+                const roundItems = STORE.getCollection('roundStockData');
+                const isLayout = currentStockAdminSubTab === 'layout';
+                const items = isLayout ? layoutItems : roundItems;
+
+                const filtered = items.filter(item => {
+                    if (!stockAdminQuery) return true;
+                    if (isLayout) {
+                        return (item.shape && item.shape.toLowerCase().includes(stockAdminQuery)) ||
+                               (item.mm_size && item.mm_size.toLowerCase().includes(stockAdminQuery)) ||
+                               (item.point_size && item.point_size.toLowerCase().includes(stockAdminQuery));
+                    } else {
+                        return (item.mm_size && item.mm_size.toLowerCase().includes(stockAdminQuery)) ||
+                               (item.sieve_pts && item.sieve_pts.toLowerCase().includes(stockAdminQuery));
+                    }
+                });
+
+                return `
+                    <div class="space-y-6">
+                        <!-- Top Header & Actions -->
+                        <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+                            <div>
+                                <div class="flex items-center gap-2">
+                                    <h2 class="text-xl font-extrabold text-slate-900">📄 Wholesale Stock Sheets Manager</h2>
+                                    <span class="bg-amber-100 text-amber-800 text-xs font-bold px-2.5 py-0.5 rounded-full border border-amber-300">Live Inventory Sync</span>
+                                </div>
+                                <p class="text-xs text-slate-500 mt-1 font-medium">Manually update, edit, add, or delete stock items displayed on the public Stock page (/stock.html).</p>
+                            </div>
+                            <div class="flex items-center gap-2 flex-wrap">
+                                <button onclick="showAddStockSheetItemModal('${currentStockAdminSubTab}')" class="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-slate-950 font-black text-xs rounded-xl shadow-md transition flex items-center gap-1.5 cursor-pointer">
+                                    <span>➕ Add ${isLayout ? 'Fancy Shape' : 'Round Melee'} Item</span>
+                                </button>
+                                <button onclick="STORE.exportCSV('${isLayout ? 'layoutStockData' : 'roundStockData'}')" class="px-3.5 py-2 bg-slate-800 hover:bg-slate-900 text-white font-bold text-xs rounded-xl transition flex items-center gap-1.5 cursor-pointer">
+                                    <span>📥 Export CSV</span>
+                                </button>
+                                <button onclick="resetStockSheetsToPDF()" class="px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded-xl border border-slate-300 transition flex items-center gap-1.5 cursor-pointer">
+                                    <span>🔄 Reset PDF Default</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Sub-tabs & Search -->
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                            <div class="flex items-center gap-2 border-b border-slate-200 pb-2">
+                                <button onclick="switchStockAdminSubTab('layout')" class="px-4 py-2 text-xs font-bold rounded-xl transition cursor-pointer ${
+                                    isLayout ? 'bg-slate-900 text-amber-400 font-black shadow-md' : 'text-slate-600 hover:bg-slate-100'
+                                }">
+                                    Fancy Shapes Layout Sheet (${layoutItems.length})
+                                </button>
+                                <button onclick="switchStockAdminSubTab('round')" class="px-4 py-2 text-xs font-bold rounded-xl transition cursor-pointer ${
+                                    !isLayout ? 'bg-slate-900 text-amber-400 font-black shadow-md' : 'text-slate-600 hover:bg-slate-100'
+                                }">
+                                    Round Melee Sheet (${roundItems.length})
+                                </button>
+                            </div>
+
+                            <div class="relative w-full sm:w-72">
+                                <input type="text" oninput="filterStockAdmin(this.value)" value="${stockAdminQuery}" placeholder="Filter stock..." class="w-full pl-9 pr-4 py-2 rounded-xl bg-white border border-slate-300 text-xs font-semibold text-slate-800 outline-none focus:border-amber-500">
+                                <span class="absolute left-3 top-2.5 text-slate-400 text-xs">🔍</span>
+                            </div>
+                        </div>
+
+                        <!-- Table -->
+                        <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
+                            <div class="overflow-x-auto max-h-[600px] custom-scrollbar">
+                                <table class="w-full text-left text-xs">
+                                    <thead class="bg-slate-900 text-slate-200 sticky top-0 font-bold uppercase tracking-wider text-[11px]">
+                                        <tr>
+                                            <th class="p-3.5">#</th>
+                                            ${isLayout ? `
+                                                <th class="p-3.5">Shape</th>
+                                                <th class="p-3.5">MM Size</th>
+                                                <th class="p-3.5">Color</th>
+                                                <th class="p-3.5">Clarity</th>
+                                                <th class="p-3.5">Point Size</th>
+                                                <th class="p-3.5">HPHT Weight</th>
+                                                <th class="p-3.5">CVD Weight</th>
+                                            ` : `
+                                                <th class="p-3.5">MM Size</th>
+                                                <th class="p-3.5">Sieve Size / Points</th>
+                                                <th class="p-3.5">H1 Weight</th>
+                                                <th class="p-3.5">H2 Weight</th>
+                                                <th class="p-3.5">H3 Weight</th>
+                                            `}
+                                            <th class="p-3.5 text-right">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-slate-100 font-medium">
+                                        ${filtered.length === 0 ? `
+                                            <tr>
+                                                <td colspan="10" class="p-8 text-center text-slate-400">
+                                                    No stock items match your filter.
+                                                </td>
+                                            </tr>
+                                        ` : filtered.slice(0, 100).map((item, idx) => `
+                                            <tr class="hover:bg-slate-50 transition">
+                                                <td class="p-3.5 font-bold text-slate-400">${idx + 1}</td>
+                                                ${isLayout ? `
+                                                    <td class="p-3.5 font-bold text-slate-900">${item.shape || '-'}</td>
+                                                    <td class="p-3.5 font-semibold text-amber-700">${item.mm_size || '-'}</td>
+                                                    <td class="p-3.5">${item.color || 'E-F'}</td>
+                                                    <td class="p-3.5">${item.clarity || 'VS'}</td>
+                                                    <td class="p-3.5"><span class="bg-amber-50 text-amber-800 px-2 py-0.5 rounded font-bold border border-amber-200">${item.point_size || '-'}</span></td>
+                                                    <td class="p-3.5 text-slate-500">${item.hpht_weight || '0.00'}</td>
+                                                    <td class="p-3.5 text-slate-500">${item.cvd_weight || '0.00'}</td>
+                                                ` : `
+                                                    <td class="p-3.5 font-bold text-indigo-900">${item.mm_size || '-'}</td>
+                                                    <td class="p-3.5"><span class="bg-amber-50 text-amber-800 px-2 py-0.5 rounded font-bold border border-amber-200">${item.sieve_pts || '-'}</span></td>
+                                                    <td class="p-3.5 text-slate-500">${item.h1_weight || '0.00'}</td>
+                                                    <td class="p-3.5 text-slate-500">${item.h2_weight || '0.00'}</td>
+                                                    <td class="p-3.5 text-slate-500">${item.h3_weight || '0.00'}</td>
+                                                `}
+                                                <td class="p-3.5 text-right space-x-2">
+                                                    <button onclick="deleteStockSheetItem('${currentStockAdminSubTab}', '${item.id}')" class="px-2.5 py-1 bg-rose-50 hover:bg-rose-100 text-rose-700 font-bold rounded-lg border border-rose-200 transition cursor-pointer">
+                                                        Delete
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        `).join('')}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="p-3 bg-slate-50 border-t border-slate-200 text-[11px] text-slate-500 text-right font-medium">
+                                Showing top ${Math.min(filtered.length, 100)} of ${filtered.length} total items
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            window.updateOrderStatus = function (id, status) {
+                STORE.updateRecordStatus('orders', id, status);
+                showToast(`Order ${id} status set to ${status}`);
+            };
+
+            window.showAddStoneModal = function () {
+                const shape = prompt('Enter Diamond Shape (e.g. Round, Oval, Cushion, Emerald Cut):', 'Round');
+                if (!shape) return;
+                const carat = parseFloat(prompt('Enter Carat Weight (e.g. 1.50):', '1.50')) || 1.0;
+                const color = prompt('Enter Color (e.g. D, E, F, Fancy Yellow):', 'E');
+                const clarity = prompt('Enter Clarity (e.g. VVS1, VS1, VS2):', 'VS1');
+                const priceCt = parseInt(prompt('Enter Wholesale $/ct:', '500'), 10) || 500;
+                const type = confirm('Is this a Natural Diamond? (Click OK for Natural, Cancel for Lab-Grown)') ? 'natural' : 'lab-grown';
+
+                const newStone = {
+                    id: Date.now().toString(),
+                    sku: (1050000 + Math.floor(Math.random() * 90000)).toString(),
+                    title: `${shape.toUpperCase()} ${carat}ct ${color} ${clarity}`,
+                    shape: shape,
+                    carat: carat,
+                    color: color,
+                    clarity: clarity,
+                    lab: type === 'natural' ? 'GIA' : 'IGI',
+                    certNo: (type === 'natural' ? 'GIA' : 'LG') + Math.floor(100000000 + Math.random() * 900000000),
+                    pricePerCarat: priceCt,
+                    totalPrice: Math.round(carat * priceCt),
+                    type: type,
+                    location: 'NY',
+                    imgUrl: 'images/stones/stone-1042410.jpg',
+                    spinUrl: 'https://video.meleediamonds.com/video.html?d=GD360-16CA'
+                };
+
+                STORE.saveRecord('diamonds', newStone);
+                STORE.logAudit('Added Diamond Product', 'admin@meleediamonds.com', `Added Stock #${newStone.sku}`);
+                showToast(`Added new ${type === 'natural' ? 'Natural' : 'Lab-Grown'} Diamond Stock #${newStone.sku}!`);
+                renderApp();
+            };
+
+            window.showAddRuleModal = function () {
+                const name = prompt('Enter Pricing Rule Name:', 'Trade Sale 15%');
+                if (!name) return;
+                const discount = parseInt(prompt('Enter Discount Percentage (%):', '15'), 10) || 15;
+
+                const newRule = {
+                    id: 'rule_' + Date.now(),
+                    name: name,
+                    type: 'promo',
+                    discountValue: discount,
+                    active: true
+                };
+
+                STORE.saveRecord('pricingRules', newRule);
+                showToast(`Pricing Rule ${name} created!`);
+                renderApp();
+            };
+
+            window.showCreateGroupModal = function () {
+                const name = prompt('Enter Group Name:', 'Boutique Trade');
+                if (!name) return;
+                const discount = parseInt(prompt('Enter Default Discount %:', '18'), 10) || 18;
+
+                const newGroup = {
+                    id: 'grp_' + Date.now(),
+                    name: name,
+                    defaultDiscountPercent: discount,
+                    description: 'Custom Created Trade Group',
+                    memberCount: 0
+                };
+
+                STORE.saveRecord('customerGroups', newGroup);
+                showToast(`Customer Group ${name} created!`);
+                renderApp();
+            };
+
+            // Init App
+            document.addEventListener('DOMContentLoaded', renderApp);
+            renderApp();
+
+        })();
+    </script>
+</body>
+</html>

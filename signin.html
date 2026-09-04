@@ -1,0 +1,226 @@
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Trade Sign In &amp; Register | Melee Diamonds</title>
+    <link rel="icon" href="images/logo/melee-logo.png" type="image/png">
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="js/resend.js"></script>
+    <script src="js/adminDataStore.js"></script>
+    <script src="js/app.js" defer></script>
+    <style>
+        .gd-auth-wrap { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: var(--gd-panel); padding: 40px 20px; }
+        .gd-auth-card { background: #ffffff; border: 1px solid var(--gd-line); border-radius: var(--gd-radius); width: min(480px, 100%); padding: 36px; box-shadow: 0 20px 48px -20px rgba(0,0,0,0.12); }
+        .gd-auth-logo { text-align: center; margin-bottom: 24px; }
+        .gd-auth-logo img { height: 44px; margin: 0 auto; }
+        .gd-form-group { margin-bottom: 18px; }
+        .gd-form-group label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: var(--gd-ink); }
+        .gd-form-control { width: 100%; padding: 11px 14px; border: 1px solid var(--gd-line); border-radius: 8px; font-family: inherit; font-size: 14px; outline: none; }
+        .gd-auth-tabs { display: flex; border-bottom: 1px solid var(--gd-line); margin-bottom: 24px; }
+        .gd-auth-tab { flex: 1; padding: 10px; text-align: center; font-size: 14px; font-weight: 600; color: #666; cursor: pointer; border-bottom: 2px solid transparent; background: none; border-top: none; border-left: none; border-right: none; }
+        .gd-auth-tab.is-active { color: var(--color-themeColor); border-bottom-color: var(--color-themeColor); }
+    </style>
+</head>
+<body>
+    <!-- Global Loader -->
+    <div id="global-loader" class="global-loader" aria-hidden="true">
+        <div class="global-loader__spinner" role="status" aria-label="Loading">
+            <img src="images/loader-diamond.gif" alt="Loading" width="180" height="180">
+        </div>
+    </div>
+
+    <div class="gd-auth-wrap">
+        <div class="gd-auth-card">
+            <div class="gd-auth-logo">
+                <a href="index.html"><img src="images/logo/melee-logo.png" alt="Melee Diamonds"></a>
+            </div>
+            
+            <div class="gd-auth-tabs">
+                <button type="button" class="gd-auth-tab is-active" onclick="showAuthTab('signin')">Sign In</button>
+                <button type="button" class="gd-auth-tab" onclick="showAuthTab('register')">Register Trade Account</button>
+            </div>
+
+            <!-- Sign In Form -->
+            <div id="tab-signin">
+                <h2 style="font-size:18px; font-weight:700; text-align:center; margin-bottom:6px; color:var(--color-themeColor);">Trade Account Sign In</h2>
+                <p style="font-size:12.5px; color:#666666; text-align:center; margin-bottom:20px;">Exclusively for verified jewelry trade accounts &amp; retailers.</p>
+
+                <form onsubmit="handleSignInSubmit(event)">
+                    <div class="gd-form-group">
+                        <label>Email Address</label>
+                        <input type="email" id="signin-email" class="gd-form-control" required placeholder="trade@yourcompany.com">
+                    </div>
+                    <div class="gd-form-group">
+                        <label>Password</label>
+                        <input type="password" id="signin-password" class="gd-form-control" required placeholder="••••••••">
+                    </div>
+                    <button type="submit" class="gd-btn-solid" style="width:100%; justify-content:center; margin-top:8px;">
+                        Sign In to Account &rarr;
+                    </button>
+                </form>
+            </div>
+
+            <!-- Register Form -->
+            <div id="tab-register" style="display:none;">
+                <h2 style="font-size:18px; font-weight:700; text-align:center; margin-bottom:6px; color:var(--color-themeColor);">Apply for B2B Access</h2>
+                <p style="font-size:12.5px; color:#666666; text-align:center; margin-bottom:20px;">Submit your business tax ID or reseller permit for wholesale verification.</p>
+
+                <form onsubmit="handleRegisterSubmit(event)">
+                    <div class="gd-form-group">
+                        <label>Company / Store Name *</label>
+                        <input type="text" id="reg-company" class="gd-form-control" required placeholder="e.g. Empire Fine Jewelers">
+                    </div>
+                    <div class="gd-form-group">
+                        <label>Primary Contact Name *</label>
+                        <input type="text" id="reg-name" class="gd-form-control" required placeholder="Full Name">
+                    </div>
+                    <div class="gd-form-group">
+                        <label>EIN / Sales Tax Resale Permit # *</label>
+                        <input type="text" id="reg-taxid" class="gd-form-control" required placeholder="State Reseller License #">
+                    </div>
+                    <div class="gd-form-group">
+                        <label>Primary Diamond Stock Interest *</label>
+                        <select id="reg-interest" class="gd-form-control" required>
+                            <option value="Certified Lab-Grown Diamonds (CVD/HPHT)">Certified Lab-Grown Diamonds (CVD/HPHT)</option>
+                            <option value="Certified Natural Diamonds (GIA Mined)">Certified Natural Diamonds (GIA Mined)</option>
+                            <option value="Both Lab-Grown & Natural Inventory">Both Lab-Grown &amp; Natural Inventory</option>
+                        </select>
+                    </div>
+                    <div class="gd-form-group">
+                        <label>Work Email Address *</label>
+                        <input type="email" id="reg-email" class="gd-form-control" required placeholder="contact@empirejewelers.com">
+                    </div>
+                    <button type="submit" class="gd-btn-solid" style="width:100%; justify-content:center; margin-top:8px;">
+                        Submit B2B Account Application &rarr;
+                    </button>
+                </form>
+            </div>
+
+            <div style="margin-top:24px; text-align:center; font-size:13px; color:#666; border-top:1px solid #eee; padding-top:16px;">
+                <a href="index.html" style="color:var(--color-themeColor); font-weight:600;">&larr; Return to Melee Diamonds Homepage</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showAuthTab(tab) {
+            document.querySelectorAll('.gd-auth-tab').forEach(b => b.classList.remove('is-active'));
+            if (tab === 'signin') {
+                document.querySelectorAll('.gd-auth-tab')[0].classList.add('is-active');
+                document.getElementById('tab-signin').style.display = 'block';
+                document.getElementById('tab-register').style.display = 'none';
+            } else {
+                document.querySelectorAll('.gd-auth-tab')[1].classList.add('is-active');
+                document.getElementById('tab-signin').style.display = 'none';
+                document.getElementById('tab-register').style.display = 'block';
+            }
+        }
+
+        function handleSignInSubmit(e) {
+            e.preventDefault();
+            const email = document.getElementById('signin-email').value;
+            const userName = email.split('@')[0];
+            
+            if (window.GuruAdminStore) {
+                window.GuruAdminStore.logPriceAccess(email, userName, 'Trade Account Partner', 'User Signed In & Granted Trade Price Access');
+            }
+
+            localStorage.setItem('gd_logged_in_user', JSON.stringify({ email: email, name: userName, role: 'customer' }));
+            alert('Signed in successfully! Access granted to wholesale inventory & live pricing.');
+            window.location.href = 'index.html';
+        }
+
+        // function handleRegisterSubmit(e) {
+        //     e.preventDefault();
+        //     const company = document.getElementById('reg-company').value;
+        //     const name = document.getElementById('reg-name').value;
+        //     const taxid = document.getElementById('reg-taxid').value;
+        //     const email = document.getElementById('reg-email').value;
+
+        //     const seq = Math.floor(10000 + Math.random() * 90000);
+        //     const newApp = {
+        //         id: 'app_' + Date.now(),
+        //         applicationNumber: 'CUST-2026-' + seq,
+        //         companyName: company,
+        //         primaryContactName: name,
+        //         email: email,
+        //         mobileNumber: '+1 (555) 000-0000',
+        //         businessType: 'Wholesale Partner',
+        //         taxRegistrationNumber: taxid,
+        //         status: 'Pending Approval',
+        //         submittedAt: new Date().toISOString().split('T')[0],
+        //         createdAt: new Date().toISOString()
+        //     };
+
+        //     if (window.GuruAdminStore) {
+        //         window.GuruAdminStore.saveRecord('customerApplications', newApp);
+        //         window.GuruAdminStore.logPriceAccess(email, name, company, 'Submitted B2B Reseller Application');
+        //     }
+
+        //     alert('Trade application submitted! Our admin team will verify your tax ID within 1 business hour.');
+        //     window.location.href = 'index.html';
+        // }
+
+
+        async function handleRegisterSubmit(e) {
+    e.preventDefault();
+
+    const company = document.getElementById('reg-company').value;
+    const name = document.getElementById('reg-name').value;
+    const taxid = document.getElementById('reg-taxid').value;
+    const email = document.getElementById('reg-email').value;
+    const interest = document.getElementById('reg-interest').value;
+
+    const seq = Math.floor(10000 + Math.random() * 90000);
+
+    const newApp = {
+        id: 'app_' + Date.now(),
+        applicationNumber: 'CUST-2026-' + seq,
+        companyName: company,
+        primaryContactName: name,
+        email: email,
+        mobileNumber: '+1 (555) 000-0000',
+        businessType: 'Wholesale Partner',
+        taxRegistrationNumber: taxid,
+        interest: interest,
+        status: 'Pending Approval',
+        submittedAt: new Date().toISOString().split('T')[0],
+        createdAt: new Date().toISOString()
+    };
+
+    if (window.GuruAdminStore) {
+        window.GuruAdminStore.saveRecord('customerApplications', newApp);
+
+        window.GuruAdminStore.logPriceAccess(
+            email,
+            name,
+            company,
+            'Submitted B2B Reseller Application'
+        );
+    }
+
+    try {
+        // Send email using Resend
+        await sendEmail(newApp);
+
+        alert(
+            'Trade application submitted successfully! ' +
+            'Notification email sent successfully.'
+        );
+
+        window.location.href = 'index.html';
+
+    } catch (error) {
+
+        alert(
+            'Application submitted, but email sending failed. ' +
+            'Check the browser console.'
+        );
+
+        console.error(error);
+    }
+}
+
+
+    </script>
+</body>
+</html>

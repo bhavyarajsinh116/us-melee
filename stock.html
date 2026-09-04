@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Wholesale Stock Inventory | Melee Diamonds NYC &amp; LA</title>
+    <meta name="description" content="Combined wholesale loose diamond stock inventory from 1. Blank Layout Stock Sheet and 2. Blank Stock 1. Search, filter shapes, and place trade inquiries.">
+    <link rel="icon" href="images/logo/melee-logo.png" type="image/png">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="js/stockData.js"></script>
+    <script src="js/adminDataStore.js"></script>
+    <script src="js/app.js" defer></script>
+    <style>
+        .gd-page-head {
+            padding: 120px 0 50px;
+            background: linear-gradient(135deg, var(--gd-hero-deep) 0%, #1a153a 100%);
+            color: #ffffff;
+            border-bottom: 1px solid var(--gd-over-line);
+        }
+
+        .stock-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            margin-bottom: 30px;
+        }
+
+        .stock-stat-card {
+            background: #ffffff;
+            border: 1px solid var(--color-borderContainer);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .stock-stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: rgba(33, 25, 101, 0.06);
+            color: var(--color-themeColor);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .stock-stat-val {
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--color-primary-darker);
+            line-height: 1.1;
+        }
+
+        .stock-stat-lbl {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--gd-ink-50);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 2px;
+        }
+
+        .stock-combined-card {
+            background: #ffffff;
+            border: 1px solid var(--color-borderContainer);
+            border-radius: 16px;
+            padding: 28px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+        }
+
+        .stock-toolbar {
+            background: #f8fafc;
+            border: 1px solid var(--color-borderContainer);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 24px;
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .stock-search-wrap {
+            position: relative;
+            flex: 1;
+            min-width: 260px;
+        }
+
+        .stock-search-wrap i {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gd-ink-50);
+        }
+
+        .stock-search-input {
+            width: 100%;
+            padding: 10px 14px 10px 40px;
+            border: 1px solid var(--color-borderContainer);
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+            background: #ffffff;
+            transition: border-color 0.2s;
+        }
+        .stock-search-input:focus {
+            border-color: var(--color-themeColor);
+        }
+
+        .stock-select-filter {
+            padding: 10px 14px;
+            border: 1px solid var(--color-borderContainer);
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+            background: #ffffff;
+            cursor: pointer;
+        }
+
+        .stock-table-wrap {
+            border: 1px solid var(--color-borderContainer);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .stock-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 14px;
+        }
+
+        .stock-table th {
+            background: var(--color-themeColor-lighter);
+            color: var(--color-themeColor);
+            font-weight: 700;
+            padding: 14px 18px;
+            border-bottom: 2px solid var(--color-borderContainer);
+            white-space: nowrap;
+        }
+
+        .stock-table td {
+            padding: 14px 18px;
+            border-bottom: 1px solid var(--color-borderContainer);
+            color: var(--color-primary-darker);
+            vertical-align: middle;
+        }
+
+        .stock-table tbody tr:hover {
+            background-color: #fbfbfe;
+        }
+
+        .stock-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            background: rgba(33, 25, 101, 0.08);
+            color: var(--color-themeColor);
+        }
+
+        .stock-badge--src {
+            background: #f1f5f9;
+            color: #334155;
+            border: 1px solid #cbd5e1;
+            font-size: 11px;
+        }
+
+        .stock-badge--gold {
+            background: rgba(201, 169, 110, 0.15);
+            color: #8c6827;
+        }
+
+        .stock-inquire-btn {
+            padding: 8px 16px;
+            border-radius: 6px;
+            background: var(--color-themeColor);
+            color: #ffffff;
+            font-size: 12px;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 6px rgba(33, 25, 101, 0.2);
+        }
+
+        .stock-inquire-btn:hover {
+            background: var(--color-primary-hover);
+            transform: translateY(-1px);
+        }
+
+        .stock-pagination {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 20px;
+            background: #fafafa;
+            border-top: 1px solid var(--color-borderContainer);
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .stock-page-btns {
+            display: flex;
+            gap: 6px;
+        }
+
+        .stock-page-btn {
+            padding: 6px 12px;
+            border: 1px solid var(--color-borderContainer);
+            border-radius: 6px;
+            background: #ffffff;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .stock-page-btn.is-active {
+            background: var(--color-themeColor);
+            color: #ffffff;
+            border-color: var(--color-themeColor);
+        }
+
+        /* Inquiry Modal */
+        .stock-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .stock-modal.is-open {
+            display: flex;
+        }
+
+        .stock-modal-card {
+            background: #ffffff;
+            border-radius: 16px;
+            max-width: 500px;
+            width: 100%;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+            position: relative;
+        }
+
+        .stock-modal-close {
+            position: absolute;
+            top: 18px;
+            right: 18px;
+            font-size: 20px;
+            color: #888;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body id="html-body">
+
+    <!-- Global Loader -->
+    <div id="global-loader" class="global-loader" aria-hidden="true">
+        <div class="global-loader__spinner" role="status" aria-label="Loading">
+            <img src="images/loader-diamond.gif" alt="Loading" width="180" height="180">
+        </div>
+    </div>
+
+    <!-- Site Header -->
+    <header id="site-header" class="site-header site-header--overlay is-solid">
+        <div class="gd-nav-inner">
+
+            <!-- Mobile Burger -->
+            <button type="button" class="gd-burger" aria-label="Open menu" aria-expanded="false" data-gd-drawer-open>
+                <span></span><span></span><span></span>
+            </button>
+
+            <a href="index.html" class="gd-nav-logo" aria-label="Melee Diamonds home">
+                <img src="images/logo/melee-logo.png" alt="Melee Diamonds">
+            </a>
+
+            <!-- Primary Navigation Links -->
+            <nav class="gd-nav-links" aria-label="Primary">
+                <div class="gd-nav-item">
+                    <a href="category/lab-grown.html" class="gd-nav-link">
+                        Diamonds
+                        <svg class="gd-nav-caret" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+                            <path d="m3 4.5 3 3 3-3" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </a>
+                    <div class="gd-nav-panel">
+                        <div class="gd-nav-panel-inner">
+                            <a href="category/lab-grown.html?cat=certified">Certified Diamonds</a>
+                            <a href="category/lab-grown.html?cat=fancy-color">Fancy Color Certified Diamonds</a>
+                            <a href="category/lab-grown.html?cat=matching-pairs">Matching Pairs</a>
+                            <a href="category/lab-grown.html?cat=round-melee">Round Melee &amp; Pointers</a>
+                            <a href="category/lab-grown.html?cat=fancy-loose">Fancy Loose &amp; Layouts</a>
+                            <a href="category/lab-grown.html?cat=exotic-shapes">Exotic Fancy Shapes</a>
+                            <a href="category/lab-grown.html?cat=fancy-color-melee">Fancy Color Melee's</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gd-nav-item">
+                    <a href="category/jewelry.html" class="gd-nav-link">
+                        Jewelry
+                        <svg class="gd-nav-caret" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+                            <path d="m3 4.5 3 3 3-3" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </a>
+                    <div class="gd-nav-panel">
+                        <div class="gd-nav-panel-inner">
+                            <a href="category/jewelry.html?type=band">Band</a>
+                            <a href="category/jewelry.html?type=bracelet">Bracelet</a>
+                            <a href="category/jewelry.html?type=cuff-links">Cuff Links</a>
+                            <a href="category/jewelry.html?type=earring">Earring</a>
+                            <a href="category/jewelry.html?type=necklace">Necklace</a>
+                            <a href="category/jewelry.html?type=pendant">Pendant</a>
+                            <a href="category/jewelry.html?type=ring">Ring</a>
+                            <a href="category/jewelry.html?type=watch">Watch</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gd-nav-item">
+                    <a href="custom-jewelry.html" class="gd-nav-link">Design Your Own</a>
+                </div>
+                <div class="gd-nav-item">
+                    <a href="stock.html" class="gd-nav-link" style="color:var(--jck-gold-bright); font-weight:700;">Stock</a>
+                </div>
+                <div class="gd-nav-item">
+                    <a href="about-us.html" class="gd-nav-link">About</a>
+                </div>
+            </nav>
+
+            <!-- Header Right Section -->
+            <div class="gd-nav-right">
+                <!-- Lab Grown vs Natural Switcher -->
+                <div class="gd-type-switcher">
+                    <button type="button" class="gd-type-btn is-active" data-type="lab-grown">
+                        <span class="gd-type-btn__dot"></span>
+                        <span>Lab Grown</span>
+                    </button>
+                    <button type="button" class="gd-type-btn" data-type="natural">
+                        <span class="gd-type-btn__dot"></span>
+                        <span>Natural</span>
+                    </button>
+                </div>
+
+                <button type="button" class="gd-search-toggle" aria-label="Search by stock number" data-gd-search-toggle>
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <circle cx="11" cy="11" r="7" />
+                        <path d="M21 21l-4.3-4.3" stroke-linecap="round" />
+                    </svg>
+                </button>
+
+                <a href="admin/index.html" class="gd-nav-login" title="Admin Portal" aria-label="Admin Portal" style="background:#0f172a; color:#fbbf24; border:1px solid #334155; padding:7px 11px; border-radius:8px; font-size:16px; display:inline-flex; align-items:center; justify-content:center; text-decoration:none; transition:all 0.2s ease;">🛡️</a>
+                <a href="signin.html" class="gd-nav-login">Login</a>
+                <a href="book-appointment.html" class="gd-btn">Book Appointment</a>
+
+                <div class="gd-nav-search" id="header-search-wrapper">
+                    <div class="gd-search-field">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                            <circle cx="11" cy="11" r="7" />
+                            <path d="M21 21l-4.3-4.3" stroke-linecap="round" />
+                        </svg>
+                        <input type="text" id="header-search-input" placeholder="Search by stock #" autocomplete="off">
+                    </div>
+                    <div id="header-search-results" class="gd-search-results"></div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Drawer Menu -->
+    <div class="gd-drawer" id="gd-drawer" role="dialog" aria-modal="true" aria-label="Site menu">
+        <div class="gd-drawer-scrim" data-gd-drawer-close></div>
+        <div class="gd-drawer-panel">
+            <div class="gd-drawer-head">
+                <img src="images/logo/melee-logo.png" alt="Melee Diamonds" style="height:44px; width:auto; object-fit:contain; border-radius:4px;">
+                <button type="button" class="gd-drawer-close" aria-label="Close menu" data-gd-drawer-close>
+                    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+                        <path d="M6 6l12 12M18 6 6 18" stroke-linecap="round" />
+                    </svg>
+                </button>
+            </div>
+            
+            <div style="padding: 12px 20px;">
+                <div class="gd-type-switcher gd-type-switcher--light" style="width: 100%; justify-content: space-around;">
+                    <button type="button" class="gd-type-btn is-active" data-type="lab-grown" style="flex:1; justify-content:center;">
+                        <span class="gd-type-btn__dot"></span>
+                        <span>Lab Grown</span>
+                    </button>
+                    <button type="button" class="gd-type-btn" data-type="natural" style="flex:1; justify-content:center;">
+                        <span class="gd-type-btn__dot"></span>
+                        <span>Natural</span>
+                    </button>
+                </div>
+            </div>
+
+            <nav class="gd-drawer-nav" aria-label="Mobile">
+                <div class="gd-drawer-row">
+                    <button type="button" aria-expanded="false" aria-controls="gd-drawer-sub-0" data-gd-accordion>
+                        Diamonds
+                        <svg class="gd-nav-caret" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+                            <path d="m3 4.5 3 3 3-3" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </button>
+                    <div class="gd-drawer-sub" id="gd-drawer-sub-0" hidden>
+                        <a href="category/lab-grown.html">All Lab Grown</a>
+                        <a href="category/lab-grown.html?cat=certified">Certified Diamonds</a>
+                        <a href="category/lab-grown.html?cat=fancy-color">Fancy Color Certified Diamonds</a>
+                        <a href="category/lab-grown.html?cat=matching-pairs">Matching Pairs</a>
+                        <a href="category/lab-grown.html?cat=round-melee">Round Melee &amp; Pointers</a>
+                        <a href="category/lab-grown.html?cat=fancy-loose">Fancy Loose &amp; Layouts</a>
+                        <a href="category/lab-grown.html?cat=exotic-shapes">Exotic Fancy Shapes</a>
+                    </div>
+                </div>
+                <div class="gd-drawer-row">
+                    <button type="button" aria-expanded="false" aria-controls="gd-drawer-sub-1" data-gd-accordion>
+                        Jewelry
+                        <svg class="gd-nav-caret" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+                            <path d="m3 4.5 3 3 3-3" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </button>
+                    <div class="gd-drawer-sub" id="gd-drawer-sub-1" hidden>
+                        <a href="category/jewelry.html">All Jewelry</a>
+                        <a href="category/jewelry.html?type=band">Band</a>
+                        <a href="category/jewelry.html?type=bracelet">Bracelet</a>
+                        <a href="category/jewelry.html?type=earring">Earring</a>
+                        <a href="category/jewelry.html?type=necklace">Necklace</a>
+                        <a href="category/jewelry.html?type=ring">Ring</a>
+                    </div>
+                </div>
+                <div class="gd-drawer-row"><a href="custom-jewelry.html">Design Your Own</a></div>
+                <div class="gd-drawer-row"><a href="stock.html">Stock</a></div>
+                <div class="gd-drawer-row"><a href="about-us.html">About</a></div>
+                <div class="gd-drawer-row"><a href="signin.html">Login</a></div>
+            </nav>
+            <div class="gd-drawer-foot">
+                <a href="book-appointment.html" class="gd-btn">Book Appointment</a>
+            </div>
+            <div class="gd-drawer-contact">
+                <a href="tel:+13478122006">+1 (347) 812-2006</a>
+                <a href="mailto:info@meleediamonds.com">info@meleediamonds.com</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Page Header Hero -->
+    <div class="gd-page-head">
+        <div class="gd-wrap">
+            <span class="gd-sec-index" style="color:var(--jck-gold-bright); font-weight:700;">LIVE WHOLESALE INVENTORY</span>
+            <h1 class="gd-h2" style="color:#ffffff; margin-top:6px;">Combined Diamond Stock Inventory</h1>
+            <p class="gd-lede" style="color:var(--gd-hero-text-72); max-width:800px; margin-top:10px;">
+                Direct factory wholesale inventory combining certified Lab-Grown &amp; ethically sourced Natural diamond stock from <strong>1. Blank Layout Stock Sheet</strong> &amp; <strong>2. Blank Stock 1</strong>. Search, filter shapes, and submit trade inquiries instantly.
+            </p>
+        </div>
+    </div>
+
+    <!-- Main Content Section -->
+    <section class="gd-section" style="padding: 40px 0 80px; background: #f8fafc;">
+        <div class="gd-wrap">
+
+            <!-- Summary Stats Cards -->
+            <div class="stock-stats-grid">
+                <div class="stock-stat-card">
+                    <div class="stock-stat-icon"><i class="fa-solid fa-database"></i></div>
+                    <div>
+                        <div class="stock-stat-val" id="stat-total-items">278</div>
+                        <div class="stock-stat-lbl">Combined Stock Items</div>
+                    </div>
+                </div>
+                <div class="stock-stat-card">
+                    <div class="stock-stat-icon"><i class="fa-solid fa-shapes"></i></div>
+                    <div>
+                        <div class="stock-stat-val" id="stat-shapes-count">30 Shapes</div>
+                        <div class="stock-stat-lbl">Shapes &amp; Sizes Available</div>
+                    </div>
+                </div>
+                <div class="stock-stat-card">
+                    <div class="stock-stat-icon"><i class="fa-solid fa-certificate"></i></div>
+                    <div>
+                        <div class="stock-stat-val">E - F / VS</div>
+                        <div class="stock-stat-lbl">Color &amp; Clarity Grade</div>
+                    </div>
+                </div>
+                <div class="stock-stat-card">
+                    <div class="stock-stat-icon"><i class="fa-solid fa-truck-fast"></i></div>
+                    <div>
+                        <div class="stock-stat-val">NYC &amp; LA</div>
+                        <div class="stock-stat-lbl">Same-Day Dispatch</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- UNIFIED COMBINED STOCK TABLE CONTAINER -->
+            <div class="stock-combined-card">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; flex-wrap:wrap; gap:16px;">
+                    <div>
+                        <h2 style="font-size:22px; font-weight:800; color:var(--color-primary-darker); display:flex; align-items:center; gap:10px;">
+                            <i class="fa-solid fa-table-list" style="color:var(--jck-gold);"></i>
+                            <span>Complete Stock Inventory (Both PDFs Combined)</span>
+                        </h2>
+                        <p style="font-size:13px; color:var(--gd-ink-50); margin-top:4px;">Search and filter all 278 inventory items from both <strong>1. Blank Layout Stock Sheet</strong> &amp; <strong>2. Blank Stock 1</strong></p>
+                    </div>
+                </div>
+
+                <!-- Combined Toolbar Filters -->
+                <div class="stock-toolbar">
+                    <div class="stock-search-wrap">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" id="stock-search-input" class="stock-search-input" placeholder="Search by shape, mm size, color, clarity, or points..." oninput="filterCombinedStock()">
+                    </div>
+                    <div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
+                        <select id="stock-source-filter" class="stock-select-filter" onchange="filterCombinedStock()">
+                            <option value="">All PDF Stock Sheets</option>
+                            <option value="1. Blank Layout Stock Sheet">1. Blank Layout Stock Sheet</option>
+                            <option value="2. Blank Stock 1">2. Blank Stock 1</option>
+                        </select>
+
+                        <select id="stock-shape-filter" class="stock-select-filter" onchange="filterCombinedStock()">
+                            <option value="">All Shapes</option>
+                        </select>
+
+                        <button type="button" class="stock-page-btn" onclick="resetStockFilters()"><i class="fa-solid fa-rotate-left"></i> Reset</button>
+                    </div>
+                </div>
+
+                <!-- Combined Table -->
+                <div class="stock-table-wrap">
+                    <div style="overflow-x: auto;">
+                        <table class="stock-table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Source PDF Sheet</th>
+                                    <th>Shape / Category</th>
+                                    <th>MM Size / Spec</th>
+                                    <th>Color</th>
+                                    <th>Clarity</th>
+                                    <th>Point / Sieve Size</th>
+                                    <th>Live Stock Weight</th>
+                                    <th>Availability</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="stock-tbody">
+                                <!-- Rendered dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Pagination -->
+                    <div class="stock-pagination">
+                        <div style="font-size:13px; color:var(--gd-ink-50); font-weight:600;" id="stock-page-info">
+                            Showing 1 to 50 of 278 entries
+                        </div>
+                        <div class="stock-page-btns" id="stock-page-btns">
+                            <!-- Dynamic page buttons -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Stock Inquiry Modal -->
+    <div class="stock-modal" id="stock-inquiry-modal">
+        <div class="stock-modal-card">
+            <span class="stock-modal-close" onclick="closeInquiryModal()">&times;</span>
+            <h3 style="font-size:20px; font-weight:800; color:var(--color-primary-darker); margin-bottom:6px;">Inquire / Order Stock Item</h3>
+            <p style="font-size:13px; color:var(--gd-ink-50); margin-bottom:20px;">Request live pricing or place a wholesale order for this specific stock specification.</p>
+            
+            <form onsubmit="submitStockInquiry(event)">
+                <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:12px; margin-bottom:16px; font-size:13px;">
+                    <strong>Selected Item:</strong> <span id="modal-item-spec" style="color:var(--color-themeColor); font-weight:700;">-</span>
+                </div>
+                
+                <div style="margin-bottom:14px;">
+                    <label style="display:block; font-size:12px; font-weight:700; color:#475569; margin-bottom:4px;">Full Name / Company *</label>
+                    <input type="text" id="inq-name" required placeholder="Jewelry Business Name" style="width:100%; padding:10px; border:1px solid #cbd5e1; border-radius:6px; font-size:14px;">
+                </div>
+
+                <div style="margin-bottom:14px;">
+                    <label style="display:block; font-size:12px; font-weight:700; color:#475569; margin-bottom:4px;">Email Address *</label>
+                    <input type="email" id="inq-email" required placeholder="trade@company.com" style="width:100%; padding:10px; border:1px solid #cbd5e1; border-radius:6px; font-size:14px;">
+                </div>
+
+                <div style="margin-bottom:14px;">
+                    <label style="display:block; font-size:12px; font-weight:700; color:#475569; margin-bottom:4px;">Phone / WhatsApp *</label>
+                    <input type="tel" id="inq-phone" required placeholder="+1 (555) 000-0000" style="width:100%; padding:10px; border:1px solid #cbd5e1; border-radius:6px; font-size:14px;">
+                </div>
+
+                <div style="margin-bottom:20px;">
+                    <label style="display:block; font-size:12px; font-weight:700; color:#475569; margin-bottom:4px;">Quantity / Weight Needed *</label>
+                    <input type="text" id="inq-quantity" required placeholder="e.g. 5 carats or 20 pieces" style="width:100%; padding:10px; border:1px solid #cbd5e1; border-radius:6px; font-size:14px;">
+                </div>
+
+                <button type="submit" style="width:100%; padding:12px; background:var(--color-themeColor); color:#fff; border-radius:8px; font-weight:700; font-size:15px; border:none; cursor:pointer;">
+                    Submit Request
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Site Footer -->
+    <footer>
+        <div class="gd-footer">
+            <div class="gd-wrap">
+                <div class="gd-foot-bottom">
+                    <span class="gd-copy">&copy; 2026 Melee Diamonds. B2B wholesale only.</span>
+                    <div style="display:flex; gap:16px; align-items:center;">
+                        <a href="wholesale-hub.html" style="color:var(--jck-gold-bright);">Trade Tools &rarr;</a>
+                        <a href="index.html" style="color:var(--jck-gold-bright);">Return to Homepage &rarr;</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        let filteredData = [];
+        let currentPage = 1;
+        const pageSize = 50;
+
+        function getCombinedDataset() {
+            if (typeof window !== 'undefined' && Array.isArray(window.COMBINED_STOCK_DATA) && window.COMBINED_STOCK_DATA.length > 0) {
+                return window.COMBINED_STOCK_DATA;
+            }
+            if (typeof COMBINED_STOCK_DATA !== 'undefined' && Array.isArray(COMBINED_STOCK_DATA)) {
+                return COMBINED_STOCK_DATA;
+            }
+            return [];
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initShapeFilterOptions();
+            filterCombinedStock();
+            updateStatsCounters();
+        });
+
+        function updateStatsCounters() {
+            const items = getCombinedDataset();
+            const shapesSet = new Set(items.map(i => i.shape).filter(Boolean));
+
+            document.getElementById('stat-total-items').textContent = items.length;
+            document.getElementById('stat-shapes-count').textContent = shapesSet.size + ' Shapes';
+        }
+
+        function initShapeFilterOptions() {
+            const items = getCombinedDataset();
+            const shapeSelect = document.getElementById('stock-shape-filter');
+            const shapes = Array.from(new Set(items.map(i => i.shape).filter(Boolean))).sort();
+            shapeSelect.innerHTML = '<option value="">All Shapes</option>';
+            shapes.forEach(s => {
+                const opt = document.createElement('option');
+                opt.value = s;
+                opt.textContent = s;
+                shapeSelect.appendChild(opt);
+            });
+        }
+
+        function resetStockFilters() {
+            document.getElementById('stock-search-input').value = '';
+            document.getElementById('stock-source-filter').value = '';
+            document.getElementById('stock-shape-filter').value = '';
+            filterCombinedStock();
+        }
+
+        function filterCombinedStock() {
+            const query = document.getElementById('stock-search-input').value.toLowerCase().trim();
+            const selectedSource = document.getElementById('stock-source-filter').value;
+            const selectedShape = document.getElementById('stock-shape-filter').value;
+
+            const items = getCombinedDataset();
+
+            filteredData = items.filter(item => {
+                const matchSource = !selectedSource || item.source === selectedSource;
+                const matchShape = !selectedShape || item.shape === selectedShape;
+                const matchQuery = !query || 
+                    (item.source && item.source.toLowerCase().includes(query)) ||
+                    (item.shape && item.shape.toLowerCase().includes(query)) ||
+                    (item.mm_size && item.mm_size.toLowerCase().includes(query)) ||
+                    (item.color && item.color.toLowerCase().includes(query)) ||
+                    (item.clarity && item.clarity.toLowerCase().includes(query)) ||
+                    (item.point_size && item.point_size.toLowerCase().includes(query)) ||
+                    (item.sieve_pts && item.sieve_pts.toLowerCase().includes(query));
+                return matchSource && matchShape && matchQuery;
+            });
+
+            currentPage = 1;
+            renderCombinedTable();
+        }
+
+        function renderCombinedTable() {
+            const tbody = document.getElementById('stock-tbody');
+            const startIdx = (currentPage - 1) * pageSize;
+            const endIdx = Math.min(startIdx + pageSize, filteredData.length);
+            const pageSlice = filteredData.slice(startIdx, endIdx);
+
+            if (pageSlice.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="10" style="text-align:center; padding:40px; color:#94a3b8;"><i class="fa-solid fa-folder-open" style="font-size:32px; display:block; margin-bottom:8px;"></i>No matching stock items found.</td></tr>`;
+            } else {
+                tbody.innerHTML = pageSlice.map((item, idx) => {
+                    const globalIdx = startIdx + idx + 1;
+                    return `
+                        <tr>
+                            <td style="font-weight:700; color:#94a3b8;">${globalIdx}</td>
+                            <td><span class="stock-badge stock-badge--src">${item.source}</span></td>
+                            <td><span class="stock-badge">${item.shape || '-'}</span></td>
+                            <td style="font-weight:600; color:var(--color-themeColor);">${item.mm_size || '-'}</td>
+                            <td>${item.color || 'E-F'}</td>
+                            <td>${item.clarity || 'VS'}</td>
+                            <td><span class="stock-badge stock-badge--gold">${item.point_size || item.sieve_pts || '-'}</span></td>
+                            <td style="font-weight:700; color:#0f172a;">${item.total_weight} cts <span style="font-size:11px; font-weight:normal; color:#64748b;">(HPHT: ${item.hpht_weight || '0.00'} | CVD: ${item.cvd_weight || '0.00'})</span></td>
+                            <td><span style="color:#10b981; font-weight:700; font-size:12px;"><i class="fa-solid fa-circle-check"></i> ${item.status || 'In Stock'}</span></td>
+                            <td><button type="button" class="stock-inquire-btn" onclick="openInquiryModal('${item.source}: ${item.shape} ${item.mm_size} (${item.point_size || item.sieve_pts}) - ${item.total_weight} cts')">Inquire</button></td>
+                        </tr>
+                    `;
+                }).join('');
+            }
+
+            document.getElementById('stock-page-info').textContent = filteredData.length > 0 
+                ? `Showing ${startIdx + 1} to ${endIdx} of ${filteredData.length} combined entries`
+                : `Showing 0 entries`;
+
+            renderPaginationBtns();
+        }
+
+        function renderPaginationBtns() {
+            const container = document.getElementById('stock-page-btns');
+            const totalPages = Math.ceil(filteredData.length / pageSize);
+
+            if (totalPages <= 1) {
+                container.innerHTML = '';
+                return;
+            }
+
+            let btnsHtml = '';
+            btnsHtml += `<button type="button" class="stock-page-btn" ${currentPage === 1 ? 'disabled style="opacity:0.5;"' : ''} onclick="goToPage(${currentPage - 1})"><i class="fa-solid fa-chevron-left"></i></button>`;
+
+            for (let i = 1; i <= totalPages; i++) {
+                btnsHtml += `<button type="button" class="stock-page-btn ${i === currentPage ? 'is-active' : ''}" onclick="goToPage(${i})">${i}</button>`;
+            }
+
+            btnsHtml += `<button type="button" class="stock-page-btn" ${currentPage === totalPages ? 'disabled style="opacity:0.5;"' : ''} onclick="goToPage(${currentPage + 1})"><i class="fa-solid fa-chevron-right"></i></button>`;
+
+            container.innerHTML = btnsHtml;
+        }
+
+        function goToPage(page) {
+            currentPage = page;
+            renderCombinedTable();
+            window.scrollTo({ top: 350, behavior: 'smooth' });
+        }
+
+        function openInquiryModal(spec) {
+            document.getElementById('modal-item-spec').textContent = spec;
+            document.getElementById('stock-inquiry-modal').classList.add('is-open');
+        }
+
+        function closeInquiryModal() {
+            document.getElementById('stock-inquiry-modal').classList.remove('is-open');
+        }
+
+        function submitStockInquiry(e) {
+            e.preventDefault();
+
+            const spec = document.getElementById('modal-item-spec').textContent || 'General Stock Item';
+            const name = document.getElementById('inq-name').value.trim();
+            const email = document.getElementById('inq-email').value.trim();
+            const phone = document.getElementById('inq-phone').value.trim();
+            const quantity = document.getElementById('inq-quantity').value.trim();
+
+            const newInquiry = {
+                id: 'inq_' + Date.now(),
+                name: name,
+                company: name,
+                email: email,
+                phone: phone,
+                subject: 'Live Stock Inquiry: ' + spec,
+                type: 'Stock Inventory',
+                message: 'Quantity/Weight Needed: ' + quantity + ' | Spec: ' + spec,
+                submittedAt: new Date().toISOString().split('T')[0],
+                status: 'New'
+            };
+
+            if (window.GuruAdminStore && typeof window.GuruAdminStore.saveRecord === 'function') {
+                window.GuruAdminStore.saveRecord('inquiries', newInquiry);
+            } else {
+                try {
+                    const STORAGE_KEY = 'gd_admin_database_v1';
+                    const raw = localStorage.getItem(STORAGE_KEY);
+                    let db = raw ? JSON.parse(raw) : {};
+                    if (!db.inquiries) db.inquiries = [];
+                    db.inquiries.unshift(newInquiry);
+                    localStorage.setItem(STORAGE_KEY, JSON.stringify(db));
+                } catch (err) {
+                    console.error('Failed saving inquiry to storage:', err);
+                }
+            }
+
+            alert('Thank you! Your inquiry request has been submitted successfully and saved to the admin panel.');
+            document.getElementById('inq-name').value = '';
+            document.getElementById('inq-email').value = '';
+            document.getElementById('inq-phone').value = '';
+            document.getElementById('inq-quantity').value = '';
+            closeInquiryModal();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,333 @@
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Design Your Own Custom Jewelry | Melee Diamonds Studio</title>
+    <link rel="icon" href="images/logo/melee-logo.png" type="image/png">
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="js/adminDataStore.js"></script>
+    <script src="js/app.js" defer></script>
+    <style>
+        .gd-page-head { padding: 120px 0 40px; background: var(--gd-hero-deep); color: #ffffff; }
+        .gd-form-card { background: #ffffff; border: 1px solid var(--gd-line); border-radius: var(--gd-radius); padding: 36px; max-width: 680px; margin: 0 auto; box-shadow: 0 12px 36px -12px rgba(0,0,0,0.1); }
+        .gd-form-group { margin-bottom: 20px; }
+        .gd-form-group label { display: block; font-size: 13.5px; font-weight: 600; margin-bottom: 6px; color: var(--gd-ink); }
+        .gd-form-control { width: 100%; padding: 12px 16px; border: 1px solid var(--gd-line); border-radius: 8px; font-family: inherit; font-size: 14px; outline: none; }
+        .gd-form-control:focus { border-color: var(--color-themeColor); }
+    </style>
+</head>
+<body>
+    <!-- Global Loader -->
+    <div id="global-loader" class="global-loader" aria-hidden="true">
+        <div class="global-loader__spinner" role="status" aria-label="Loading">
+            <img src="images/loader-diamond.gif" alt="Loading" width="180" height="180">
+        </div>
+    </div>
+
+    <!-- Site Header -->
+    <header id="site-header" class="site-header site-header--overlay is-solid">
+        <div class="gd-nav-inner">
+
+            <!-- Mobile Burger -->
+            <button type="button" class="gd-burger" aria-label="Open menu" aria-expanded="false" data-gd-drawer-open>
+                <span></span><span></span><span></span>
+            </button>
+
+            <a href="index.html" class="gd-nav-logo" aria-label="Melee Diamonds home">
+                <img src="images/logo/melee-logo.png" alt="Melee Diamonds">
+            </a>
+
+            <!-- Primary Navigation Links -->
+            <nav class="gd-nav-links" aria-label="Primary">
+                <div class="gd-nav-item">
+                    <a href="category/lab-grown.html" class="gd-nav-link">
+                        Diamonds
+                        <svg class="gd-nav-caret" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+                            <path d="m3 4.5 3 3 3-3" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </a>
+                    <div class="gd-nav-panel">
+                        <div class="gd-nav-panel-inner">
+                            <a href="category/lab-grown.html?cat=certified">Certified Diamonds</a>
+                            <a href="category/lab-grown.html?cat=fancy-color">Fancy Color Certified Diamonds</a>
+                            <a href="category/lab-grown.html?cat=matching-pairs">Matching Pairs</a>
+                            <a href="category/lab-grown.html?cat=round-melee">Round Melee &amp; Pointers</a>
+                            <a href="category/lab-grown.html?cat=fancy-loose">Fancy Loose &amp; Layouts</a>
+                            <a href="category/lab-grown.html?cat=exotic-shapes">Exotic Fancy Shapes</a>
+                            <a href="category/lab-grown.html?cat=fancy-color-melee">Fancy Color Melee's</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gd-nav-item">
+                    <a href="category/jewelry.html" class="gd-nav-link">
+                        Jewelry
+                        <svg class="gd-nav-caret" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+                            <path d="m3 4.5 3 3 3-3" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </a>
+                    <div class="gd-nav-panel">
+                        <div class="gd-nav-panel-inner">
+                            <a href="category/jewelry.html?type=band">Band</a>
+                            <a href="category/jewelry.html?type=bracelet">Bracelet</a>
+                            <a href="category/jewelry.html?type=cuff-links">Cuff Links</a>
+                            <a href="category/jewelry.html?type=earring">Earring</a>
+                            <a href="category/jewelry.html?type=necklace">Necklace</a>
+                            <a href="category/jewelry.html?type=pendant">Pendant</a>
+                            <a href="category/jewelry.html?type=ring">Ring</a>
+                            <a href="category/jewelry.html?type=watch">Watch</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gd-nav-item">
+                    <a href="custom-jewelry.html" class="gd-nav-link">Design Your Own</a>
+                </div>
+                
+                <div class="gd-nav-item">
+                    <a href="stock.html" class="gd-nav-link">Stock</a>
+                </div>
+                <div class="gd-nav-item">
+                    <a href="about-us.html" class="gd-nav-link">About</a>
+                </div>
+            </nav>
+
+            <!-- Header Right Section -->
+            <div class="gd-nav-right">
+                <!-- Lab Grown vs Natural Switcher -->
+                <div class="gd-type-switcher">
+                    <button type="button" class="gd-type-btn is-active" data-type="lab-grown">
+                        <span class="gd-type-btn__dot"></span>
+                        <span>Lab Grown</span>
+                    </button>
+                    <button type="button" class="gd-type-btn" data-type="natural">
+                        <span class="gd-type-btn__dot"></span>
+                        <span>Natural</span>
+                    </button>
+                </div>
+
+                <button type="button" class="gd-search-toggle" aria-label="Search by stock number" data-gd-search-toggle>
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <circle cx="11" cy="11" r="7" />
+                        <path d="M21 21l-4.3-4.3" stroke-linecap="round" />
+                    </svg>
+                </button>
+
+                <a href="admin/index.html" class="gd-nav-login" title="Admin Portal" aria-label="Admin Portal" style="background:#0f172a; color:#fbbf24; border:1px solid #334155; padding:7px 11px; border-radius:8px; font-size:16px; display:inline-flex; align-items:center; justify-content:center; text-decoration:none; transition:all 0.2s ease;">🛡️</a>
+                <a href="signin.html" class="gd-nav-login">Login</a>
+                <a href="book-appointment.html" class="gd-btn">Book Appointment</a>
+
+                <div class="gd-nav-search" id="header-search-wrapper">
+                    <div class="gd-search-field">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                            <circle cx="11" cy="11" r="7" />
+                            <path d="M21 21l-4.3-4.3" stroke-linecap="round" />
+                        </svg>
+                        <input type="text" id="header-search-input" placeholder="Search by stock #" autocomplete="off">
+                    </div>
+                    <div id="header-search-results" class="gd-search-results"></div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Drawer Menu -->
+    <div class="gd-drawer" id="gd-drawer" role="dialog" aria-modal="true" aria-label="Site menu">
+        <div class="gd-drawer-scrim" data-gd-drawer-close></div>
+        <div class="gd-drawer-panel">
+            <div class="gd-drawer-head">
+                <img src="images/logo/melee-logo.png" alt="Melee Diamonds" style="height:44px; width:auto; object-fit:contain; border-radius:4px;">
+                <button type="button" class="gd-drawer-close" aria-label="Close menu" data-gd-drawer-close>
+                    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+                        <path d="M6 6l12 12M18 6 6 18" stroke-linecap="round" />
+                    </svg>
+                </button>
+            </div>
+            
+            <div style="padding: 12px 20px;">
+                <div class="gd-type-switcher gd-type-switcher--light" style="width: 100%; justify-content: space-around;">
+                    <button type="button" class="gd-type-btn is-active" data-type="lab-grown" style="flex:1; justify-content:center;">
+                        <span class="gd-type-btn__dot"></span>
+                        <span>Lab Grown</span>
+                    </button>
+                    <button type="button" class="gd-type-btn" data-type="natural" style="flex:1; justify-content:center;">
+                        <span class="gd-type-btn__dot"></span>
+                        <span>Natural</span>
+                    </button>
+                </div>
+            </div>
+
+            <nav class="gd-drawer-nav" aria-label="Mobile">
+                <div class="gd-drawer-row">
+                    <button type="button" aria-expanded="false" aria-controls="gd-drawer-sub-0" data-gd-accordion>
+                        Diamonds
+                        <svg class="gd-nav-caret" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+                            <path d="m3 4.5 3 3 3-3" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </button>
+                    <div class="gd-drawer-sub" id="gd-drawer-sub-0" hidden>
+                        <a href="category/lab-grown.html">All Lab Grown</a>
+                        <a href="category/lab-grown.html?cat=certified">Certified Diamonds</a>
+                        <a href="category/lab-grown.html?cat=fancy-color">Fancy Color Certified Diamonds</a>
+                        <a href="category/lab-grown.html?cat=matching-pairs">Matching Pairs</a>
+                        <a href="category/lab-grown.html?cat=round-melee">Round Melee &amp; Pointers</a>
+                        <a href="category/lab-grown.html?cat=fancy-loose">Fancy Loose &amp; Layouts</a>
+                        <a href="category/lab-grown.html?cat=exotic-shapes">Exotic Fancy Shapes</a>
+                    </div>
+                </div>
+                <div class="gd-drawer-row">
+                    <button type="button" aria-expanded="false" aria-controls="gd-drawer-sub-1" data-gd-accordion>
+                        Jewelry
+                        <svg class="gd-nav-caret" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+                            <path d="m3 4.5 3 3 3-3" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </button>
+                    <div class="gd-drawer-sub" id="gd-drawer-sub-1" hidden>
+                        <a href="category/jewelry.html">All Jewelry</a>
+                        <a href="category/jewelry.html?type=band">Band</a>
+                        <a href="category/jewelry.html?type=bracelet">Bracelet</a>
+                        <a href="category/jewelry.html?type=earring">Earring</a>
+                        <a href="category/jewelry.html?type=necklace">Necklace</a>
+                        <a href="category/jewelry.html?type=ring">Ring</a>
+                    </div>
+                </div>
+                <div class="gd-drawer-row"><a href="custom-jewelry.html">Design Your Own</a></div>
+                
+                <div class="gd-drawer-row"><a href="stock.html">Stock</a></div>
+                <div class="gd-drawer-row"><a href="about-us.html">About</a></div>
+                <div class="gd-drawer-row"><a href="signin.html">Login</a></div>
+            </nav>
+            <div class="gd-drawer-foot">
+                <a href="book-appointment.html" class="gd-btn">Book Appointment</a>
+            </div>
+            <div class="gd-drawer-contact">
+                <a href="tel:+13478122006">+1 (347) 812-2006</a>
+                <a href="mailto:info@meleediamonds.com">info@meleediamonds.com</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="gd-page-head">
+        <div class="gd-wrap" style="text-align:center;">
+            <span class="gd-sec-index" style="color:var(--jck-gold-bright);">Custom CAD Studio</span>
+            <h1 class="gd-h2" style="color:#ffffff;">Send Your CAD. We Cast, Set &amp; Finish.</h1>
+            <p class="gd-lede" style="color:var(--gd-hero-text-72); max-width:600px; margin:0 auto;">
+                Upload your CAD 3D model file or design sketch. Choose certified Lab-Grown or Natural Diamonds. Finished pieces shipped in 4-6 days from NYC or LA.
+            </p>
+        </div>
+    </div>
+
+    <section class="gd-section gd-section--alt">
+        <div class="gd-wrap">
+            <div class="gd-form-card">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; border-bottom:1px solid #eee; padding-bottom:16px;">
+                    <h3 style="font-size:20px; font-weight:700; color:var(--color-themeColor); margin:0;">Custom Project Spec &amp; Estimator</h3>
+                    <span id="custom-est-price" style="font-size:18px; font-weight:800; color:#10b981; background:#ecfdf5; padding:6px 14px; border-radius:999px;">$1,070 EST</span>
+                </div>
+                <form id="gd-custom-jewelry-form" onsubmit="handleCustomSubmit(event)">
+                    <div class="gd-form-group">
+                        <label>Business / Retailer Name *</label>
+                        <input type="text" id="cad-company" class="gd-form-control" required placeholder="e.g. Gotham Fine Jewelry NYC">
+                    </div>
+                    <div class="gd-form-group">
+                        <label>Contact Email *</label>
+                        <input type="email" id="cad-email" class="gd-form-control" required placeholder="trade@yourdomain.com">
+                    </div>
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+                        <div class="gd-form-group">
+                            <label>Diamond Type *</label>
+                            <select id="custom-diamond-type" class="gd-form-control" required>
+                                <option value="Lab-Grown Diamond (CVD)">Lab-Grown Diamond (CVD)</option>
+                                <option value="Natural Diamond (Ethically Mined)">Natural Diamond (Ethically Mined)</option>
+                            </select>
+                        </div>
+                        <div class="gd-form-group">
+                            <label>Center Stone Carat Weight *</label>
+                            <input type="number" id="custom-carat" class="gd-form-control" step="0.1" min="0.3" max="20" value="1.0">
+                        </div>
+                    </div>
+                    <div class="gd-form-group">
+                        <label>Jewelry Type *</label>
+                        <select id="cad-jewelry-type" class="gd-form-control" required>
+                            <option value="Solitaire Ring">Solitaire Ring</option>
+                            <option value="Eternity Band">Eternity Band</option>
+                            <option value="Tennis Bracelet">Tennis Bracelet</option>
+                            <option value="Pendant / Necklace">Pendant / Necklace</option>
+                            <option value="Earrings">Earrings</option>
+                            <option value="Custom Other">Custom Other</option>
+                        </select>
+                    </div>
+                    <div class="gd-form-group">
+                        <label>Metal Choice *</label>
+                        <select id="custom-metal" class="gd-form-control" required>
+                            <option value="14k">14K Gold (White/Yellow/Rose)</option>
+                            <option value="18k">18K Gold (White/Yellow/Rose)</option>
+                            <option value="platinum">Platinum 950</option>
+                        </select>
+                    </div>
+                    <div class="gd-form-group">
+                        <label>Upload CAD File (.3dm, .stl) or Sketch</label>
+                        <input type="file" id="cad-file" class="gd-form-control">
+                    </div>
+                    <div class="gd-form-group">
+                        <label>Additional Specifications &amp; Notes</label>
+                        <textarea id="cad-notes" class="gd-form-control" rows="4" placeholder="Detail stone sizes, finger size, engraving notes..."></textarea>
+                    </div>
+                    <button type="submit" class="gd-btn-solid" style="width:100%; justify-content:center; margin-top:10px;">
+                        Submit CAD Project &amp; Get Final Quote &rarr;
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        function handleCustomSubmit(e) {
+            e.preventDefault();
+            const company = document.getElementById('cad-company').value;
+            const email = document.getElementById('cad-email').value;
+            const jewelryType = document.getElementById('cad-jewelry-type').value;
+            const diamondType = document.getElementById('custom-diamond-type').value;
+            const carat = parseFloat(document.getElementById('custom-carat').value) || 1.0;
+            const metal = document.getElementById('custom-metal').value;
+            const notes = document.getElementById('cad-notes').value || '';
+            const estText = document.getElementById('custom-est-price').textContent;
+
+            const newCadOrder = {
+                id: 'cad_' + Date.now(),
+                company: company,
+                email: email,
+                jewelryType: jewelryType,
+                diamondType: diamondType,
+                carat: carat,
+                metal: metal,
+                estPrice: parseInt(estText.replace(/[^0-9]/g, ''), 10) || 1070,
+                notes: notes,
+                status: 'New',
+                submittedAt: new Date().toISOString().split('T')[0]
+            };
+
+            if (window.GuruAdminStore) {
+                window.GuruAdminStore.saveRecord('customOrders', newCadOrder);
+                window.GuruAdminStore.logPriceAccess(email, company, company, 'Submitted Custom CAD Inquiry');
+            }
+
+            alert('Custom CAD order request submitted! Our trade desk will contact you within 2 hours with CAD confirmation.');
+            window.location.href = 'index.html';
+        }
+    </script>
+
+    <footer>
+        <div class="gd-footer">
+            <div class="gd-wrap">
+                <div class="gd-foot-bottom">
+                    <span class="gd-copy">&copy; 2026 Melee Diamonds. B2B wholesale only.</span>
+                    <div style="display:flex; gap:16px; align-items:center;">
+                        <a href="wholesale-hub.html" style="color:var(--jck-gold-bright);">Trade Tools &rarr;</a>
+                        <a href="index.html" style="color:var(--jck-gold-bright);">Return to Homepage &rarr;</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

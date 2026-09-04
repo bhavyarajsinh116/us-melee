@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Fine Jewelry Collection | Melee Diamonds</title>
+    <link rel="icon" href="../images/logo/melee-logo.png" type="image/png">
+    <link rel="stylesheet" href="../css/styles.css">
+    <script src="../js/app.js" defer></script>
+    <style>
+        .gd-page-head {
+            padding: 120px 0 40px;
+            background: var(--gd-hero-deep);
+            color: #ffffff;
+        }
+        
+        /* Clean E-Commerce Shopping Product Grid & Card Design */
+        .gd-shop-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 28px;
+            margin-top: 24px;
+        }
+
+        .gd-product-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+            position: relative;
+        }
+        .gd-product-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 30px -10px rgba(15, 23, 42, 0.12);
+            border-color: #cbd5e1;
+        }
+
+        .gd-product-img-wrap {
+            position: relative;
+            width: 100%;
+            height: 260px;
+            background: #f8fafc;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .gd-product-img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .gd-product-card:hover .gd-product-img-wrap img {
+            transform: scale(1.08);
+        }
+
+        .gd-product-tag {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: rgba(15, 23, 42, 0.85);
+            color: #fbbf24;
+            font-size: 10px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            padding: 4px 10px;
+            border-radius: 20px;
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(251, 191, 36, 0.3);
+        }
+
+        .gd-product-info {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .gd-product-title {
+            font-family: var(--font-serif);
+            font-size: 18px;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 4px;
+            line-height: 1.3;
+        }
+
+        .gd-product-meta {
+            font-size: 12px;
+            color: #64748b;
+            margin-bottom: 16px;
+            font-weight: 500;
+        }
+
+        .gd-product-bottom {
+            margin-top: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding-top: 14px;
+            border-top: 1px solid #f1f5f9;
+        }
+
+        .gd-login-price-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: #fffbeb;
+            border: 1.5px dashed #f59e0b;
+            color: #b45309;
+            padding: 10px 14px;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            text-align: center;
+        }
+        .gd-login-price-btn:hover {
+            background: #fef3c7;
+            color: #92400e;
+            border-style: solid;
+        }
+
+        .gd-product-action-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            background: #0f172a;
+            color: #ffffff;
+            padding: 11px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+        .gd-product-action-btn:hover {
+            background: #1e293b;
+            color: #fbbf24;
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.2);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Site Header -->
+    <header id="site-header" class="site-header site-header--overlay">
+        <div class="gd-nav-inner">
+
+            <!-- Mobile Burger -->
+            <button type="button" class="gd-burger" aria-label="Open menu" aria-expanded="false" data-gd-drawer-open>
+                <span></span><span></span><span></span>
+            </button>
+
+            <a href="../index.html" class="gd-nav-logo" aria-label="Melee Diamonds home">
+                <img src="../images/logo/melee-logo.png" alt="Melee Diamonds">
+            </a>
+
+            <!-- Primary Navigation Links -->
+            <nav class="gd-nav-links" aria-label="Primary">
+                <div class="gd-nav-item">
+                    <a href="lab-grown.html" class="gd-nav-link">
+                        Diamonds
+                        <svg class="gd-nav-caret" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+                            <path d="m3 4.5 3 3 3-3" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </a>
+                    <div class="gd-nav-panel">
+                        <div class="gd-nav-panel-inner">
+                            <a href="lab-grown.html?cat=certified">Certified Diamonds</a>
+                            <a href="lab-grown.html?cat=fancy-color">Fancy Color Certified Diamonds</a>
+                            <a href="lab-grown.html?cat=matching-pairs">Matching Pairs</a>
+                            <a href="lab-grown.html?cat=round-melee">Round Melee &amp; Pointers</a>
+                            <a href="lab-grown.html?cat=fancy-loose">Fancy Loose &amp; Layouts</a>
+                            <a href="lab-grown.html?cat=exotic-shapes">Exotic Fancy Shapes</a>
+                            <a href="lab-grown.html?cat=fancy-color-melee">Fancy Color Melee's</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gd-nav-item">
+                    <a href="jewelry.html" class="gd-nav-link">
+                        Jewelry
+                        <svg class="gd-nav-caret" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+                            <path d="m3 4.5 3 3 3-3" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </a>
+                    <div class="gd-nav-panel">
+                        <div class="gd-nav-panel-inner">
+                            <a href="jewelry.html?type=band">Band</a>
+                            <a href="jewelry.html?type=bracelet">Bracelet</a>
+                            <a href="jewelry.html?type=cuff-links">Cuff Links</a>
+                            <a href="jewelry.html?type=earring">Earring</a>
+                            <a href="jewelry.html?type=necklace">Necklace</a>
+                            <a href="jewelry.html?type=pendant">Pendant</a>
+                            <a href="jewelry.html?type=ring">Ring</a>
+                            <a href="jewelry.html?type=watch">Watch</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gd-nav-item">
+                    <a href="../custom-jewelry.html" class="gd-nav-link">Design Your Own</a>
+                </div>
+                
+                <div class="gd-nav-item">
+                    <a href="../stock.html" class="gd-nav-link">Stock</a>
+                </div>
+                <div class="gd-nav-item">
+                    <a href="../about-us.html" class="gd-nav-link">About</a>
+                </div>
+            </nav>
+
+            <!-- Header Right Section -->
+            <div class="gd-nav-right">
+                <!-- Lab Grown vs Natural Switcher -->
+                <div class="gd-type-switcher">
+                    <button type="button" class="gd-type-btn is-active" data-type="lab-grown">
+                        <span class="gd-type-btn__dot"></span>
+                        <span>Lab Grown</span>
+                    </button>
+                    <button type="button" class="gd-type-btn" data-type="natural">
+                        <span class="gd-type-btn__dot"></span>
+                        <span>Natural</span>
+                    </button>
+                </div>
+
+                <button type="button" class="gd-search-toggle" aria-label="Search by stock number" data-gd-search-toggle>
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <circle cx="11" cy="11" r="7" />
+                        <path d="M21 21l-4.3-4.3" stroke-linecap="round" />
+                    </svg>
+                </button>
+
+                <a href="../admin/index.html" class="gd-nav-login" title="Admin Portal" aria-label="Admin Portal" style="background:#0f172a; color:#fbbf24; border:1px solid #334155; padding:7px 11px; border-radius:8px; font-size:16px; display:inline-flex; align-items:center; justify-content:center; text-decoration:none; transition:all 0.2s ease;">🛡️</a>
+                <a href="../signin.html" class="gd-nav-login">Login</a>
+                <a href="../book-appointment.html" class="gd-btn">Book Appointment</a>
+
+                <div class="gd-nav-search" id="header-search-wrapper">
+                    <div class="gd-search-field">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                            <circle cx="11" cy="11" r="7" />
+                            <path d="M21 21l-4.3-4.3" stroke-linecap="round" />
+                        </svg>
+                        <input type="text" id="header-search-input" placeholder="Search by stock #" autocomplete="off">
+                    </div>
+                    <div id="header-search-results" class="gd-search-results"></div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Drawer Menu -->
+    <div class="gd-drawer" id="gd-drawer" role="dialog" aria-modal="true" aria-label="Site menu">
+        <div class="gd-drawer-scrim" data-gd-drawer-close></div>
+        <div class="gd-drawer-panel">
+            <div class="gd-drawer-head">
+                <img src="../images/logo/melee-logo.png" alt="Melee Diamonds" style="height:44px; width:auto; object-fit:contain; border-radius:4px;">
+                <button type="button" class="gd-drawer-close" aria-label="Close menu" data-gd-drawer-close>
+                    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+                        <path d="M6 6l12 12M18 6 6 18" stroke-linecap="round" />
+                    </svg>
+                </button>
+            </div>
+            
+            <div style="padding: 12px 20px;">
+                <div class="gd-type-switcher gd-type-switcher--light" style="width: 100%; justify-content: space-around;">
+                    <button type="button" class="gd-type-btn is-active" data-type="lab-grown" style="flex:1; justify-content:center;">
+                        <span class="gd-type-btn__dot"></span>
+                        <span>Lab Grown</span>
+                    </button>
+                    <button type="button" class="gd-type-btn" data-type="natural" style="flex:1; justify-content:center;">
+                        <span class="gd-type-btn__dot"></span>
+                        <span>Natural</span>
+                    </button>
+                </div>
+            </div>
+
+            <nav class="gd-drawer-nav" aria-label="Mobile">
+                <div class="gd-drawer-row">
+                    <button type="button" aria-expanded="false" aria-controls="gd-drawer-sub-0" data-gd-accordion>
+                        Diamonds
+                        <svg class="gd-nav-caret" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+                            <path d="m3 4.5 3 3 3-3" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </button>
+                    <div class="gd-drawer-sub" id="gd-drawer-sub-0" hidden>
+                        <a href="lab-grown.html">All Lab Grown</a>
+                        <a href="lab-grown.html?cat=certified">Certified Diamonds</a>
+                        <a href="lab-grown.html?cat=fancy-color">Fancy Color Certified Diamonds</a>
+                        <a href="lab-grown.html?cat=matching-pairs">Matching Pairs</a>
+                        <a href="lab-grown.html?cat=round-melee">Round Melee &amp; Pointers</a>
+                        <a href="lab-grown.html?cat=fancy-loose">Fancy Loose &amp; Layouts</a>
+                        <a href="lab-grown.html?cat=exotic-shapes">Exotic Fancy Shapes</a>
+                    </div>
+                </div>
+                <div class="gd-drawer-row">
+                    <button type="button" aria-expanded="false" aria-controls="gd-drawer-sub-1" data-gd-accordion>
+                        Jewelry
+                        <svg class="gd-nav-caret" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+                            <path d="m3 4.5 3 3 3-3" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </button>
+                    <div class="gd-drawer-sub" id="gd-drawer-sub-1" hidden>
+                        <a href="jewelry.html">All Jewelry</a>
+                        <a href="jewelry.html?type=band">Band</a>
+                        <a href="jewelry.html?type=bracelet">Bracelet</a>
+                        <a href="jewelry.html?type=earring">Earring</a>
+                        <a href="jewelry.html?type=necklace">Necklace</a>
+                        <a href="jewelry.html?type=ring">Ring</a>
+                    </div>
+                </div>
+                <div class="gd-drawer-row"><a href="../custom-jewelry.html">Design Your Own</a></div>
+                <div class="gd-drawer-row"><a href="../stock.html">Stock</a></div>
+                <div class="gd-drawer-row"><a href="../about-us.html">About</a></div>
+                <div class="gd-drawer-row"><a href="../signin.html">Login</a></div>
+            </nav>
+            <div class="gd-drawer-foot">
+                <a href="../book-appointment.html" class="gd-btn">Book Appointment</a>
+            </div>
+            <div class="gd-drawer-contact">
+                <a href="tel:+13478122006">+1 (347) 812-2006</a>
+                <a href="mailto:info@meleediamonds.com">info@meleediamonds.com</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="gd-page-head">
+        <div class="gd-wrap">
+            <span class="gd-sec-index" style="color:var(--jck-gold-bright);">Fine Jewelry</span>
+            <h1 class="gd-h2" style="color:#ffffff;">Wholesale Fine Jewelry Collection</h1>
+            <p class="gd-lede" style="color:var(--gd-hero-text-72);">
+                Made to order fine diamond jewellery. Available in certified Lab-Grown CVD or Natural ethically sourced diamonds. Bands, bracelets, earrings, necklaces, solitaires and eternity rings produced in 4-6 days.
+            </p>
+        </div>
+    </div>
+
+    <section class="gd-section">
+        <div class="gd-wrap">
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom: 24px; flex-wrap:wrap; gap:16px;">
+                <div class="gd-cat-row" style="margin-bottom:0;" id="jewelry-cat-filter">
+                    <button type="button" class="gd-cat-chip is-active" data-filter="all" style="background:var(--color-themeColor); color:#fff;">All Jewelry</button>
+                    <button type="button" class="gd-cat-chip" data-filter="band">Bands</button>
+                    <button type="button" class="gd-cat-chip" data-filter="bracelet">Bracelets</button>
+                    <button type="button" class="gd-cat-chip" data-filter="earring">Earrings</button>
+                    <button type="button" class="gd-cat-chip" data-filter="necklace">Necklaces</button>
+                    <button type="button" class="gd-cat-chip" data-filter="pendant">Pendants</button>
+                    <button type="button" class="gd-cat-chip" data-filter="ring">Rings</button>
+                    <button type="button" class="gd-cat-chip" data-filter="watch">Watches</button>
+                </div>
+
+                <div class="gd-type-switcher gd-type-switcher--light">
+                    <button type="button" class="gd-type-btn is-active" data-type="lab-grown">
+                        <span class="gd-type-btn__dot"></span>
+                        <span>Lab-Grown Accents</span>
+                    </button>
+                    <button type="button" class="gd-type-btn" data-type="natural">
+                        <span class="gd-type-btn__dot"></span>
+                        <span>Natural Diamond Accents</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- E-Commerce Product Card Grid -->
+            <div class="gd-shop-grid" id="jewelry-shop-grid">
+
+                <!-- 1. BANDS -->
+                <div class="gd-product-card" data-cat="band">
+                    <div class="gd-product-img-wrap">
+                        <span class="gd-product-tag">Bands</span>
+                        <img src="../images/homepage/jewelry/radiant-eternity.webp" alt="Radiant Eternity Band">
+                    </div>
+                    <div class="gd-product-info">
+                        <h3 class="gd-product-title">Radiant Eternity Band</h3>
+                        <p class="gd-product-meta">18K Yellow Gold • 4.50 ctw Full Eternity</p>
+                        <div class="gd-product-bottom">
+                            <a href="../signin.html" class="gd-login-price-btn">🔒 Login to View Wholesale Price</a>
+                            <a href="../signin.html" class="gd-product-action-btn">Inquire / Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gd-product-card" data-cat="band">
+                    <div class="gd-product-img-wrap">
+                        <span class="gd-product-tag">Bands</span>
+                        <img src="https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&w=600&q=80" alt="Emerald Cut Shared-Prong Band">
+                    </div>
+                    <div class="gd-product-info">
+                        <h3 class="gd-product-title">Emerald Shared-Prong Band</h3>
+                        <p class="gd-product-meta">Platinum • 3.50 ctw Step Cut Diamonds</p>
+                        <div class="gd-product-bottom">
+                            <a href="../signin.html" class="gd-login-price-btn">🔒 Login to View Wholesale Price</a>
+                            <a href="../signin.html" class="gd-product-action-btn">Inquire / Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gd-product-card" data-cat="band">
+                    <div class="gd-product-img-wrap">
+                        <span class="gd-product-tag">Bands</span>
+                        <img src="https://images.unsplash.com/photo-1603561591411-07134e71a2a9?auto=format&fit=crop&w=600&q=80" alt="French Cut Pavé Band">
+                    </div>
+                    <div class="gd-product-info">
+                        <h3 class="gd-product-title">French Cut Pavé Band</h3>
+                        <p class="gd-product-meta">18K Rose Gold • 1.80 ctw Micro Pavé</p>
+                        <div class="gd-product-bottom">
+                            <a href="../signin.html" class="gd-login-price-btn">🔒 Login to View Wholesale Price</a>
+                            <a href="../signin.html" class="gd-product-action-btn">Inquire / Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gd-product-card" data-cat="band">
+                    <div class="gd-product-img-wrap">
+                        <span class="gd-product-tag">Bands</span>
+                        <img src="https://images.unsplash.com/photo-1602751584552-8ba73aad10e1?auto=format&fit=crop&w=600&q=80" alt="Baguette Channel Set Band">
+                    </div>
+                    <div class="gd-product-info">
+                        <h3 class="gd-product-title">Baguette Channel Set Band</h3>
+                        <p class="gd-product-meta">Platinum • Straight Baguettes</p>
+                        <div class="gd-product-bottom">
+                            <a href="../signin.html" class="gd-login-price-btn">🔒 Login to View Wholesale Price</a>
+                            <a href="../signin.html" class="gd-product-action-btn">Inquire / Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gd-product-card" data-cat="band">
+                    <div class="gd-product-img-wrap">
+                        <span class="gd-product-tag">Bands</span>
+                        <img src="https://images.unsplash.com/photo-1603561596112-0a132b757442?auto=format&fit=crop&w=600&q=80" alt="Marquise & Round Eternity Band">
+                    </div>
+                    <div class="gd-product-info">
+                        <h3 class="gd-product-title">Marquise &amp; Round Eternity Band</h3>
+                        <p class="gd-product-meta">18K White Gold • Alternating Shapes</p>
+                        <div class="gd-product-bottom">
+                            <a href="../signin.html" class="gd-login-price-btn">🔒 Login to View Wholesale Price</a>
+                            <a href="../signin.html" class="gd-product-action-btn">Inquire / Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- 2. BRACELETS -->
+                <div class="gd-product-card" data-cat="bracelet">
+                    <div class="gd-product-img-wrap">
+                        <span class="gd-product-tag">Bracelets</span>
+                        <img src="../images/homepage/jewelry/tennis-bracelet.webp" alt="Classic Tennis Bracelet">
+                    </div>
+                    <div class="gd-product-info">
+                        <h3 class="gd-product-title">Classic Tennis Bracelet</h3>
+                        <p class="gd-product-meta">14K / 18K White Gold • 4-Prong 10.00 ctw</p>
+                        <div class="gd-product-bottom">
+                            <a href="../signin.html" class="gd-login-price-btn">🔒 Login to View Wholesale Price</a>
+                            <a href="../signin.html" class="gd-product-action-btn">Inquire / Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gd-product-card" data-cat="bracelet">
+                    <div class="gd-product-img-wrap">
+                        <span class="gd-product-tag">Bracelets</span>
+                        <img src="https://images.unsplash.com/photo-1611591475245-be5a0333b20e?auto=format&fit=crop&w=600&q=80" alt="Emerald Cut Line Bracelet">
+                    </div>
+                    <div class="gd-product-info">
+                        <h3 class="gd-product-title">Emerald Cut Line Bracelet</h3>
+                        <p class="gd-product-meta">Platinum • 15.50 ctw Step Cut Diamonds</p>
+                        <div class="gd-product-bottom">
+                            <a href="../signin.html" class="gd-login-price-btn">🔒 Login to View Wholesale Price</a>
+                            <a href="../signin.html" class="gd-product-action-btn">Inquire / Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gd-product-card" data-cat="bracelet">
+                    <div class="gd-product-img-wrap">
+                        <span class="gd-product-tag">Bracelets</span>
+                        <img src="https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=600&q=80" alt="Diamond Bangle Bracelet">
+                    </div>
+                    <div class="gd-product-info">
+                        <h3 class="gd-product-title">Diamond Bangle Bracelet</h3>
+                        <p class="gd-product-meta">18K Yellow Gold • Hinge Clasp Setting</p>
+                        <div class="gd-product-bottom">
+                            <a href="../signin.html" class="gd-login-price-btn">🔒 Login to View Wholesale Price</a>
+                            <a href="../signin.html" class="gd-product-action-btn">Inquire / Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gd-product-card" data-cat="bracelet">
+                    <div class="gd-product-img-wrap">
+                        <span class="gd-product-tag">Bracelets</span>
+                        <img src="https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=600&q=80" alt="Bezel Set Tennis Bracelet">
+                    </div>
+                    <div class="gd-product-info">
+                        <h3 class="gd-product-title">Bezel Set Tennis Bracelet</h3>
+                        <p class="gd-product-meta">18K Rose Gold • 8.00 ctw Bezel</p>
+                        <div class="gd-product-bottom">
+                            <a href="../signin.html" class="gd-login-price-btn">🔒 Login to View Wholesale Price</a>
+                            <a href="../signin.html" class="gd-product-action-btn">Inquire / Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gd-product-card" data-cat="bracelet">
+                    <div class="gd-product-img-wrap">
+                        <span class="gd-product-tag">Bracelets</span>
+                        <img src="https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&w=600&q=80" alt="Cluster Diamond Flex Bracelet">
+                    </div>
+                    <div class="gd-product-info">
+                        <h3 class="gd-product-title">Cluster Diamond Flex Bracelet</h3>
+                        <p class="gd-product-meta">18K White Gold • Multi-Shape Clusters</p>
+                        <div class="gd-product-bottom">
+                            <a href="../signin.html" class="gd-login-price-btn">🔒 Login to View Wholesale Price</a>
+                            <a href="../signin.html" class="gd-product-action-btn">Inquire / Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- 3. EARRINGS -->
+                <div class="gd-product-card" data-cat="earring">
+                    <div class="gd-product-img-wrap">
+                        <span class="gd-product-tag">Earrings</span>
+                        <img src="../images/homepage/jewelry/climber-earrings.webp" alt="Climber Drop Earrings">
+                    </div>
+                    <div class="gd-product-info">
+                        <h3 class="gd-product-title">Climber Drop Earrings</h3>
+                        <p class="gd-product-meta">18K White Gold • Lab-Grown CVD Accents</p>
+                        <div class="gd-product-bottom">
+                            <a href="../signin.html" class="gd-login-price-btn">🔒 Login to View Wholesale Price</a>
+                            <a href="../signin.html" class="gd-product-action-btn">Inquire / Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gd-product-card" data-cat="earring">
+                    <div class="gd-product-img-wrap">
+                        <span class="gd-product-tag">Earrings</span>
+                        <img src="../images/homepage/jewelry/diamond-studs.webp" alt="Classic Diamond Studs">
+                    </div>
+                    <div class="gd-product-info">
+                        <h3 class="gd-product-title">Classic Diamond Studs</h3>
+                        <p class="gd-product-meta">Platinum / 18K Gold • 2.00 ctw Pair</p>
+                        <div class="gd-product-bottom">
+                            <a href="../signin.html" class="gd-login-price-btn">🔒 Login to View Wholesale Price</a>
+                            <a href="../signin.html" class="gd-product-action-btn">Inquire / Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gd-product-card" data-cat="earring">
+                    <div class="gd-product-img-wrap">
+                        <span class="gd-product-tag">Earrings</span>
+                        <img src="https://images.unsplash.com/photo-1630019852942-f89202989a59?auto=format&fit=crop&w=600&q=80" alt="Diamond Halo Drop Earrings">
+                    </div>
+                    <div class="gd-product-info">
+                        <h3 class="gd-product-title">Diamond Halo Drop Earrings</h3>
+                        <p class="gd-product-meta">18K White Gold • Oval Center + Halo</p>
+                        <div class="gd-product-bottom">
+                            <a href="../signin.html" class="gd-login-price-btn">🔒 Login to View Wholesale Price</a>
+                            <a href="../signin.html" class="gd-product-action-btn">Inquire / Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gd-product-card" data-cat="earring">
+                    <div class="gd-product-img-wrap">
+                        <span class="gd-product-tag">Earrings</span>
+                        <img src="https://images.unsplash.com/photo-1635767798638-3e25273a8236?auto=format&fit=crop&w=600&q=80" alt="In-Out Diamond Huggie Hoops">
+                    </div>
+                    <div class="gd-product-info">
+                        <h3 class="gd-product-title">In-Out Diamond Huggie Hoops</h3>
+                        <p class="gd-product-meta">18K Yellow Gold • Full Pavé Setting</p>
+                        <div class="gd-product-bottom">
+                            <a href="../signin.html" class="gd-login-price-btn">🔒 Login to View Wholesale Price</a>
+                            <a href="../signin.html" class="gd-product-action-btn">Inquire / Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gd-product-card" data-cat="earring">
+                    <div class="gd-product-img-wrap">
+                        <span class="gd-product-tag">Earrings</span>
+                        <img src="https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=600&q=80" alt="Pear Shape Solitaire Earrings">
+                    </div>
+                    <div class="gd-product-info">
+                        <h3 class="gd-product-title">Pear Shape Solitaire Earrings</h3>
+                        <p class="gd-product-meta">18K Rose Gold • 3.00 ctw Pear Pair</p>
+                        <div class="gd-product-bottom">
+                            <a href="../signin.html" class="gd-login-price-btn">🔒 Login to View Wholesale Price</a>
+                            <a href="../signin.html" class="gd-product-action-btn">Inquire / Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- 4. NECKLACES -->
+                <div class="gd-product-card" data-cat="necklace">
+                    <div class="gd-product-img-wrap">
+                        <span class="gd-product-tag">Necklaces</span>
+                        <img src="https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=600&q=80" alt="Graduated Tennis Necklace">
+                    </div>
+                    <div class="gd-product-info">
+                        <h3 class="gd-product-title">Graduated Tennis Necklace</h3>
+                        <p class="gd-product-meta">18K White Gold • 18.00 ctw Graduated</p>
+                        <div class="gd-product-bottom">
+                            <a href="../signin.html" class="gd-login-price-btn">🔒 Login to View Wholesale Price</a>
+                            <a href="../signin.html" class="gd-product-action-btn">Inquire / Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gd-product-card" data-cat="necklace">
+                    <div class="gd-product-img-wrap">
+                        <span class="gd-product-tag">Necklaces</span>
+                        <img src="https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&w=600&q=80" alt="Diamond Rivière Necklace">
+                    </div>
+                    <div class="gd-product-info">
+                        <h3 class="gd-product-title">Diamond Rivière Necklace</h3>
+                        <p class="gd-product-meta">Platinum • 25.00 ctw Round Brilliant</p>
+                        <div class="gd-product-bottom">
+                            <a href="../signin.html" class="gd-login-price-btn">🔒 Login to View Wholesale Price</a>
+                            <a href="../signin.html" class="gd-product-action-btn">Inquire / Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gd-product-card" data-cat="necklace">
+                    <div class="gd-product-img-wrap">
+                        <span class="gd-product-tag">Necklaces</span>
+                        <img src="https://images.unsplash.com/photo-1611591475245-be5a0333b20e?auto=format&fit=crop&w=600&q=80" alt="Emerald Cut Station Necklace">
+                    </div>
+                    <div class="gd-product-info">
+                        <h3 class="gd-product-title">Emerald Cut Station Necklace</h3>
+                        <p class="gd-product-meta">18K Yellow Gold • Bezel Set Stations</p>
+                        <div class="gd-product-bottom">
+                            <a href="../signin.html" class="gd-login-price-btn">🔒 Login to View Wholesale Price</a>
+                            <a href="../signin.html" class="gd-product-action-btn">Inquire / Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gd-product-card" data-cat="necklace">
+                    <div class="gd-product-img-wrap">
+                        <span class="gd-product-tag">Necklaces</span>
+                        <img src="https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=600&q=80" alt="Lariat Diamond Y-Necklace">
+                    </div>
+                    <div class="gd-product-info">
+                        <h3 class="gd-product-title">Lariat Diamond Y-Necklace</h3>
+                        <p class="gd-product-meta">18K Yellow Gold • Drop Diamond Accent</p>
+                        <div class="gd-product-bottom">
+                            <a href="../signin.html" class="gd-login-price-btn">🔒 Login to View Wholesale Price</a>
+                            <a href="../signin.html" class="gd-product-action-btn">Inquire / Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gd-product-card" data-cat="necklace">
+                    <div class="gd-product-img-wrap">
+                        <span class="gd-product-tag">Necklaces</span>
+                        <img src="https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&w=600&q=80" alt="Pavé Collar Choker Necklace">
+                    </div>
+                    <div class="gd-product-info">
+                        <h3 class="gd-product-title">Pavé Collar Choker Necklace</h3>
+                        <p class="gd-product-meta">18K Rose Gold • Full Pavé Setting</p>
+                        <div class="gd-product-bottom">
+                            <a href="../signin.html" class="gd-login-price-btn">🔒 Login to View Wholesale Price</a>
+                            <a href="../signin.html" class="gd-product-action-btn">Inquire / Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- 5. PENDANTS -->
+                <div class="gd-product-card" data-cat="pendant">
+                    <div class="gd-product-img-wrap">
+                        <span class="gd-product-tag">Pendants</span>
+                        <img src="https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&w=600&q=80" alt="Solitaire Diamond Pendant">
+                    </div>
+                    <div class="gd-product-info">
+                        <h3 class="gd-product-title">Solitaire Diamond Pendant</h3>
+                        <p class="gd-product-meta">18K White Gold • 1.50 ct Round</p>
+                        <div class="gd-product-bottom">
+                            <a href="../signin.html" class="gd-login-price-btn">🔒 Login to View Wholesale Price</a>
+                            <a href="../signin.html" class="gd-product-action-btn">Inquire / Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gd-product-card" data-cat="pendant">
+                    <div class="gd-product-img-wrap">
+                        <span class="gd-product-tag">Pendants</span>
+                        <img src="https://images.unsplash.com/photo-1603561591411-07134e71a2a9?auto=format&fit=crop&w=600&q=80" alt="Halo Oval Diamond Pendant">
+                    </div>
+                    <div class="gd-product-info">
+                        <h3 class="gd-product-title">Halo Oval Diamond Pendant</h3>
+                        <p class="gd-product-meta">18K Yellow Gold • Oval Center + Halo</p>
+                        <div class="gd-product-bottom">
+                            <a href="../signin.html" class="gd-login-price-btn">🔒 Login to View Wholesale Price</a>
+                            <a href="../signin.html" class="gd-product-action-btn">Inquire / Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gd-product-card" data-cat="pendant">
+                    <div class="gd-product-img-wrap">
+                        <span class="gd-product-tag">Pendants</span>
+                        <img src="https://images.unsplash.com/photo-1602751584552-8ba73aad10e1?auto=format&fit=crop&w=600&q=80" alt="Floating Heart Diamond Pendant">
+                    </div>
+                    <div class="gd-product-info">
+                        <h3 class="gd-product-title">Floating Heart Diamond Pendant</h3>
+                        <p class="gd-product-meta">18K Rose Gold • Heart CVD Diamond</p>
+                        <div class="gd-product-bottom">
+                            <a href="../signin.html" class="gd-login-price-btn">🔒 Login to View Wholesale Price</a>
+                            <a href="../signin.html" class="gd-product-action-btn">Inquire / Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gd-product-card" data-cat="pendant">
+                    <div class="gd-product-img-wrap">
+                        <span class="gd-product-tag">Pendants</span>
+                        <img src="https://images.unsplash.com/photo-1603561596112-0a132b757442?auto=format&fit=crop&w=600&q=80" alt="Cross Diamond Pendant">
+                    </div>
+                    <div class="gd-product-info">
+                        <h3 class="gd-product-title">Cross Diamond Pendant</h3>
+                        <p class="gd-product-meta">18K White Gold • 1.20 ctw Princess Cut</p>
+                        <div class="gd-product-bottom">
+                            <a href="../signin.html" class="gd-login-price-btn">🔒 Login to View Wholesale Price</a>
+                            <a href="../signin.html" class="gd-product-action-btn">Inquire / Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gd-product-card" data-cat="pendant">
+                    <div class="gd-product-img-wrap">
+                        <span class="gd-product-tag">Pendants</span>
+                        <img src="https://images.unsplash.com/photo-1630019852942-f89202989a59?auto=format&fit=crop&w=600&q=80" alt="Emerald Cut Bezel Pendant">
+                    </div>
+                    <div class="gd-product-info">
+                        <h3 class="gd-product-title">Emerald Cut Bezel Pendant</h3>
+                        <p class="gd-product-meta">Platinum • 2.00 ct Step Cut</p>
+                        <div class="gd-product-bottom">
+                            <a href="../signin.html" class="gd-login-price-btn">🔒 Login to View Wholesale Price</a>
+                            <a href="../signin.html" class="gd-product-action-btn">Inquire / Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- 6. RINGS -->
+                <div class="gd-product-card" data-cat="ring">
+                    <div class="gd-product-img-wrap">
+                        <span class="gd-product-tag">Rings</span>
+                        <img src="../images/homepage/jewelry/cushion-solitaire.webp" alt="Cushion Solitaire Ring">
+                    </div>
+                    <div class="gd-product-info">
+                        <h3 class="gd-product-title">Cushion Solitaire Ring</h3>
+                        <p class="gd-product-meta">18K Yellow Gold • Solitaire Setting</p>
+                        <div class="gd-product-bottom">
+                            <a href="../signin.html" class="gd-login-price-btn">🔒 Login to View Wholesale Price</a>
+                            <a href="../signin.html" class="gd-product-action-btn">Inquire / Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gd-product-card" data-cat="ring">
+                    <div class="gd-product-img-wrap">
+                        <span class="gd-product-tag">Rings</span>
+                        <img src="https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&w=600&q=80" alt="Oval Hidden Halo Ring">
+                    </div>
+                    <div class="gd-product-info">
+                        <h3 class="gd-product-title">Oval Hidden Halo Ring</h3>
+                        <p class="gd-product-meta">Platinum • 3.00 ct Oval Center</p>
+                        <div class="gd-product-bottom">
+                            <a href="../signin.html" class="gd-login-price-btn">🔒 Login to View Wholesale Price</a>
+                            <a href="../signin.html" class="gd-product-action-btn">Inquire / Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gd-product-card" data-cat="ring">
+                    <div class="gd-product-img-wrap">
+                        <span class="gd-product-tag">Rings</span>
+                        <img src="https://images.unsplash.com/photo-1603561591411-07134e71a2a9?auto=format&fit=crop&w=600&q=80" alt="Three-Stone Emerald Ring">
+                    </div>
+                    <div class="gd-product-info">
+                        <h3 class="gd-product-title">Three-Stone Emerald Ring</h3>
+                        <p class="gd-product-meta">18K White Gold • Trapezoid Side Stones</p>
+                        <div class="gd-product-bottom">
+                            <a href="../signin.html" class="gd-login-price-btn">🔒 Login to View Wholesale Price</a>
+                            <a href="../signin.html" class="gd-product-action-btn">Inquire / Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gd-product-card" data-cat="ring">
+                    <div class="gd-product-img-wrap">
+                        <span class="gd-product-tag">Rings</span>
+                        <img src="https://images.unsplash.com/photo-1602751584552-8ba73aad10e1?auto=format&fit=crop&w=600&q=80" alt="Pear Shape Solitaire Ring">
+                    </div>
+                    <div class="gd-product-info">
+                        <h3 class="gd-product-title">Pear Shape Solitaire Ring</h3>
+                        <p class="gd-product-meta">18K Yellow Gold • 2.50 ct Pear Cut</p>
+                        <div class="gd-product-bottom">
+                            <a href="../signin.html" class="gd-login-price-btn">🔒 Login to View Wholesale Price</a>
+                            <a href="../signin.html" class="gd-product-action-btn">Inquire / Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gd-product-card" data-cat="ring">
+                    <div class="gd-product-img-wrap">
+                        <span class="gd-product-tag">Rings</span>
+                        <img src="https://images.unsplash.com/photo-1603561596112-0a132b757442?auto=format&fit=crop&w=600&q=80" alt="Toi et Moi Twin Ring">
+                    </div>
+                    <div class="gd-product-info">
+                        <h3 class="gd-product-title">Toi et Moi Twin Ring</h3>
+                        <p class="gd-product-meta">Platinum • Oval &amp; Radiant Diamond Pair</p>
+                        <div class="gd-product-bottom">
+                            <a href="../signin.html" class="gd-login-price-btn">🔒 Login to View Wholesale Price</a>
+                            <a href="../signin.html" class="gd-product-action-btn">Inquire / Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- 7. WATCHES -->
+                <div class="gd-product-card" data-cat="watch">
+                    <div class="gd-product-img-wrap">
+                        <span class="gd-product-tag">Watches</span>
+                        <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=600&q=80" alt="Executive Diamond Watch">
+                    </div>
+                    <div class="gd-product-info">
+                        <h3 class="gd-product-title">Executive Diamond Watch</h3>
+                        <p class="gd-product-meta">Swiss Automatic • 4.20 ctw Diamond Bezel</p>
+                        <div class="gd-product-bottom">
+                            <a href="../signin.html" class="gd-login-price-btn">🔒 Login to View Wholesale Price</a>
+                            <a href="../signin.html" class="gd-product-action-btn">Inquire / Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gd-product-card" data-cat="watch">
+                    <div class="gd-product-img-wrap">
+                        <span class="gd-product-tag">Watches</span>
+                        <img src="https://images.unsplash.com/photo-1524805444758-089113d48a6d?auto=format&fit=crop&w=600&q=80" alt="Full Pavé Luxury Watch">
+                    </div>
+                    <div class="gd-product-info">
+                        <h3 class="gd-product-title">Full Pavé Luxury Watch</h3>
+                        <p class="gd-product-meta">18K White Gold • Full Pavé Dial &amp; Bracelet</p>
+                        <div class="gd-product-bottom">
+                            <a href="../signin.html" class="gd-login-price-btn">🔒 Login to View Wholesale Price</a>
+                            <a href="../signin.html" class="gd-product-action-btn">Inquire / Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gd-product-card" data-cat="watch">
+                    <div class="gd-product-img-wrap">
+                        <span class="gd-product-tag">Watches</span>
+                        <img src="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=600&q=80" alt="Baguette Bezel Chronograph">
+                    </div>
+                    <div class="gd-product-info">
+                        <h3 class="gd-product-title">Baguette Bezel Chronograph</h3>
+                        <p class="gd-product-meta">Platinum • Channel Set Baguette Diamonds</p>
+                        <div class="gd-product-bottom">
+                            <a href="../signin.html" class="gd-login-price-btn">🔒 Login to View Wholesale Price</a>
+                            <a href="../signin.html" class="gd-product-action-btn">Inquire / Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gd-product-card" data-cat="watch">
+                    <div class="gd-product-img-wrap">
+                        <span class="gd-product-tag">Watches</span>
+                        <img src="https://images.unsplash.com/photo-1539185441755-769473a23570?auto=format&fit=crop&w=600&q=80" alt="Diamond Dial Dress Watch">
+                    </div>
+                    <div class="gd-product-info">
+                        <h3 class="gd-product-title">Diamond Dial Dress Watch</h3>
+                        <p class="gd-product-meta">Stainless Steel • Diamond Hour Markers</p>
+                        <div class="gd-product-bottom">
+                            <a href="../signin.html" class="gd-login-price-btn">🔒 Login to View Wholesale Price</a>
+                            <a href="../signin.html" class="gd-product-action-btn">Inquire / Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gd-product-card" data-cat="watch">
+                    <div class="gd-product-img-wrap">
+                        <span class="gd-product-tag">Watches</span>
+                        <img src="../images/homepage/trade-partner.webp" alt="Ice Out Custom Diamond Watch">
+                    </div>
+                    <div class="gd-product-info">
+                        <h3 class="gd-product-title">Ice Out Custom Diamond Watch</h3>
+                        <p class="gd-product-meta">18K Yellow Gold • 25.00 ctw CVD Diamonds</p>
+                        <div class="gd-product-bottom">
+                            <a href="../signin.html" class="gd-login-price-btn">🔒 Login to View Wholesale Price</a>
+                            <a href="../signin.html" class="gd-product-action-btn">Inquire / Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="gd-footer">
+            <div class="gd-wrap">
+                <div class="gd-foot-bottom">
+                    <span class="gd-copy">&copy; 2026 Melee Diamonds. B2B wholesale only.</span>
+                    <div style="display:flex; gap:16px; align-items:center;">
+                        <a href="../wholesale-hub.html" style="color:var(--jck-gold-bright);">Trade Tools &rarr;</a>
+                        <a href="../index.html" style="color:var(--jck-gold-bright);">Return to Homepage &rarr;</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Interactive Category Filter Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const filterButtons = document.querySelectorAll('#jewelry-cat-filter .gd-cat-chip');
+            const productCards = document.querySelectorAll('#jewelry-shop-grid .gd-product-card');
+
+            const applyFilter = (category) => {
+                // Update active button state
+                filterButtons.forEach(btn => {
+                    const isMatch = btn.getAttribute('data-filter') === category;
+                    if (isMatch) {
+                        btn.style.background = 'var(--color-themeColor)';
+                        btn.style.color = '#ffffff';
+                        btn.classList.add('is-active');
+                    } else {
+                        btn.style.background = '';
+                        btn.style.color = '';
+                        btn.classList.remove('is-active');
+                    }
+                });
+
+                // Show/hide product cards
+                productCards.forEach(card => {
+                    const cardCat = card.getAttribute('data-cat');
+                    if (category === 'all' || cardCat === category) {
+                        card.style.display = 'flex';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            };
+
+            // Check URL query parameter (e.g. ?type=band or ?type=watch)
+            const urlParams = new URLSearchParams(window.location.search);
+            const typeParam = urlParams.get('type');
+            if (typeParam) {
+                applyFilter(typeParam.toLowerCase());
+            }
+
+            // Click listener for filter chips
+            filterButtons.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const filter = btn.getAttribute('data-filter');
+                    applyFilter(filter);
+                });
+            });
+        });
+    </script>
+</body>
+</html>

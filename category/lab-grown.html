@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certified Diamonds Inventory | Melee Diamonds</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../css/styles.css">
+    <style>
+        .gd-cd-shapes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 10px;
+        }
+        .gd-cd-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900 font-sans antialiased">
+
+    <!-- Top Announcement Bar -->
+    <div class="bg-slate-900 text-amber-300 text-xs py-2 px-4 text-center font-medium tracking-wide border-b border-amber-500/20">
+        <span class="inline-flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            LIVE WHOLESALE DESK — USA NYC (Suite 509) & UK London (Hatton Garden) Direct Stock
+        </span>
+    </div>
+
+    <!-- Site Header -->
+    <header id="site-header" class="site-header site-header--overlay is-solid">
+        <div class="gd-nav-inner">
+
+            <!-- Mobile Burger -->
+            <button type="button" class="gd-burger" aria-label="Open menu" aria-expanded="false" data-gd-drawer-open>
+                <span></span><span></span><span></span>
+            </button>
+
+            <a href="../index.html" class="gd-nav-logo" aria-label="Melee Diamonds home">
+                <img src="../images/logo/melee-logo.png" alt="Melee Diamonds">
+            </a>
+
+            <!-- Primary Navigation Links -->
+            <nav class="gd-nav-links" aria-label="Primary">
+                <div class="gd-nav-item">
+                    <a href="lab-grown.html" class="gd-nav-link">
+                        Diamonds
+                        <svg class="gd-nav-caret" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+                            <path d="m3 4.5 3 3 3-3" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </a>
+                    <div class="gd-nav-panel">
+                        <div class="gd-nav-panel-inner">
+                            <a href="lab-grown.html?cat=certified">Certified Diamonds</a>
+                            <a href="lab-grown.html?cat=fancy-color">Fancy Color Certified Diamonds</a>
+                            <a href="lab-grown.html?cat=matching-pairs">Matching Pairs</a>
+                            <a href="lab-grown.html?cat=round-melee">Round Melee &amp; Pointers</a>
+                            <a href="lab-grown.html?cat=fancy-loose">Fancy Loose &amp; Layouts</a>
+                            <a href="lab-grown.html?cat=exotic-shapes">Exotic Fancy Shapes</a>
+                            <a href="lab-grown.html?cat=fancy-color-melee">Fancy Color Melee's</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gd-nav-item">
+                    <a href="jewelry.html" class="gd-nav-link">
+                        Jewelry
+                        <svg class="gd-nav-caret" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+                            <path d="m3 4.5 3 3 3-3" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </a>
+                    <div class="gd-nav-panel">
+                        <div class="gd-nav-panel-inner">
+                            <a href="jewelry.html?type=band">Band</a>
+                            <a href="jewelry.html?type=bracelet">Bracelet</a>
+                            <a href="jewelry.html?type=cuff-links">Cuff Links</a>
+                            <a href="jewelry.html?type=earring">Earring</a>
+                            <a href="jewelry.html?type=necklace">Necklace</a>
+                            <a href="jewelry.html?type=pendant">Pendant</a>
+                            <a href="jewelry.html?type=ring">Ring</a>
+                            <a href="jewelry.html?type=watch">Watch</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gd-nav-item">
+                    <a href="../custom-jewelry.html" class="gd-nav-link">Design Your Own</a>
+                </div>
+                
+                <div class="gd-nav-item">
+                    <a href="../stock.html" class="gd-nav-link">Stock</a>
+                </div>
+                <div class="gd-nav-item">
+                    <a href="../about-us.html" class="gd-nav-link">About</a>
+                </div>
+            </nav>
+
+            <!-- Header Right Section -->
+            <div class="gd-nav-right">
+                <!-- Lab Grown vs Natural Switcher -->
+                <div class="gd-type-switcher">
+                    <button type="button" class="gd-type-btn is-active" data-type="lab-grown">
+                        <span class="gd-type-btn__dot"></span>
+                        <span>Lab Grown</span>
+                    </button>
+                    <button type="button" class="gd-type-btn" data-type="natural">
+                        <span class="gd-type-btn__dot"></span>
+                        <span>Natural</span>
+                    </button>
+                </div>
+
+                <button type="button" class="gd-search-toggle" aria-label="Search by stock number" data-gd-search-toggle>
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <circle cx="11" cy="11" r="7" />
+                        <path d="M21 21l-4.3-4.3" stroke-linecap="round" />
+                    </svg>
+                </button>
+
+                <a href="../admin/index.html" class="gd-nav-login" title="Admin Portal" aria-label="Admin Portal" style="background:#0f172a; color:#fbbf24; border:1px solid #334155; padding:7px 11px; border-radius:8px; font-size:16px; display:inline-flex; align-items:center; justify-content:center; text-decoration:none; transition:all 0.2s ease;">🛡️</a>
+                <a href="../signin.html" class="gd-nav-login">Login</a>
+                <a href="../book-appointment.html" class="gd-btn">Book Appointment</a>
+
+                <div class="gd-nav-search" id="header-search-wrapper">
+                    <div class="gd-search-field">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                            <circle cx="11" cy="11" r="7" />
+                            <path d="M21 21l-4.3-4.3" stroke-linecap="round" />
+                        </svg>
+                        <input type="text" id="header-search-input" placeholder="Search by stock #" autocomplete="off">
+                    </div>
+                    <div id="header-search-results" class="gd-search-results"></div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Drawer Menu -->
+    <div class="gd-drawer" id="gd-drawer" role="dialog" aria-modal="true" aria-label="Site menu">
+        <div class="gd-drawer-scrim" data-gd-drawer-close></div>
+        <div class="gd-drawer-panel">
+            <div class="gd-drawer-head">
+                <img src="../images/logo/melee-logo.png" alt="Melee Diamonds" style="height:44px; width:auto; object-fit:contain; border-radius:4px;">
+                <button type="button" class="gd-drawer-close" aria-label="Close menu" data-gd-drawer-close>
+                    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+                        <path d="M6 6l12 12M18 6 6 18" stroke-linecap="round" />
+                    </svg>
+                </button>
+            </div>
+            
+            <div style="padding: 12px 20px;">
+                <div class="gd-type-switcher gd-type-switcher--light" style="width: 100%; justify-content: space-around;">
+                    <button type="button" class="gd-type-btn is-active" data-type="lab-grown" style="flex:1; justify-content:center;">
+                        <span class="gd-type-btn__dot"></span>
+                        <span>Lab Grown</span>
+                    </button>
+                    <button type="button" class="gd-type-btn" data-type="natural" style="flex:1; justify-content:center;">
+                        <span class="gd-type-btn__dot"></span>
+                        <span>Natural</span>
+                    </button>
+                </div>
+            </div>
+
+            <nav class="gd-drawer-nav" aria-label="Mobile">
+                <div class="gd-drawer-row">
+                    <button type="button" aria-expanded="false" aria-controls="gd-drawer-sub-0" data-gd-accordion>
+                        Diamonds
+                        <svg class="gd-nav-caret" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+                            <path d="m3 4.5 3 3 3-3" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </button>
+                    <div class="gd-drawer-sub" id="gd-drawer-sub-0" hidden>
+                        <a href="lab-grown.html">All Lab Grown</a>
+                        <a href="lab-grown.html?cat=certified">Certified Diamonds</a>
+                        <a href="lab-grown.html?cat=fancy-color">Fancy Color Certified Diamonds</a>
+                        <a href="lab-grown.html?cat=matching-pairs">Matching Pairs</a>
+                        <a href="lab-grown.html?cat=round-melee">Round Melee &amp; Pointers</a>
+                        <a href="lab-grown.html?cat=fancy-loose">Fancy Loose &amp; Layouts</a>
+                        <a href="lab-grown.html?cat=exotic-shapes">Exotic Fancy Shapes</a>
+                    </div>
+                </div>
+                <div class="gd-drawer-row">
+                    <button type="button" aria-expanded="false" aria-controls="gd-drawer-sub-1" data-gd-accordion>
+                        Jewelry
+                        <svg class="gd-nav-caret" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+                            <path d="m3 4.5 3 3 3-3" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </button>
+                    <div class="gd-drawer-sub" id="gd-drawer-sub-1" hidden>
+                        <a href="jewelry.html">All Jewelry</a>
+                        <a href="jewelry.html?type=band">Band</a>
+                        <a href="jewelry.html?type=bracelet">Bracelet</a>
+                        <a href="jewelry.html?type=earring">Earring</a>
+                        <a href="jewelry.html?type=necklace">Necklace</a>
+                        <a href="jewelry.html?type=ring">Ring</a>
+                    </div>
+                </div>
+                <div class="gd-drawer-row"><a href="../custom-jewelry.html">Design Your Own</a></div>
+                
+                <div class="gd-drawer-row"><a href="../stock.html">Stock</a></div>
+                <div class="gd-drawer-row"><a href="../about-us.html">About</a></div>
+                <div class="gd-drawer-row"><a href="../signin.html">Login</a></div>
+            </nav>
+            <div class="gd-drawer-foot">
+                <a href="../book-appointment.html" class="gd-btn">Book Appointment</a>
+            </div>
+            <div class="gd-drawer-contact">
+                <a href="tel:+13478122006">+1 (347) 812-2006</a>
+                <a href="mailto:info@meleediamonds.com">info@meleediamonds.com</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hero Banner -->
+    <div class="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white py-10 px-4 sm:px-6 lg:px-8 border-b border-amber-500/20">
+        <div class="max-w-7xl mx-auto text-center">
+            <span class="inline-block px-3 py-1 bg-amber-400/10 text-amber-300 rounded-full text-xs font-bold uppercase tracking-widest mb-3 border border-amber-400/30">
+                HeyMan Certified Stone Engine Integration
+            </span>
+            <h1 class="text-3xl sm:text-4xl font-serif font-bold text-white tracking-tight mb-2">
+                Certified Loose Diamond Search
+            </h1>
+            <p class="text-slate-300 text-sm max-w-2xl mx-auto leading-relaxed">
+                Search authentic IGI & GIA certified loose diamonds extracted directly from US stock inventory, shipped same-day from NYC & LA.
+            </p>
+        </div>
+    </div>
+
+    <!-- HEYMAN CERTIFIED STONE EXACT INTERFACE SECTION -->
+    <section class="gd-certified-diamonds-section heyman-exact-wrapper">
+        <div class="gd-wrap max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="gd-cd-container bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-xl">
+
+                <!-- Top Header & Reset -->
+                <div class="gd-cd-header flex flex-wrap items-center justify-between border-b border-slate-200 pb-4 mb-6 gap-4">
+                    <div>
+                        <span class="gd-cd-sub text-xs font-bold uppercase tracking-wider text-amber-600 block mb-1">Live Wholesale Desk</span>
+                        <h2 class="gd-cd-title text-2xl font-serif font-bold text-slate-900">Certified Stone Inventory</h2>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <div class="gd-type-switcher gd-type-switcher--light flex items-center bg-slate-100 p-1 rounded-xl border border-slate-200">
+                            <button type="button" class="gd-type-btn is-active px-3 py-1.5 text-xs font-bold rounded-lg bg-slate-900 text-white shadow-sm flex items-center gap-1.5" data-type="lab-grown">
+                                <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                                <span>Lab Grown</span>
+                            </button>
+                            <button type="button" class="gd-type-btn px-3 py-1.5 text-xs font-bold rounded-lg text-slate-600 hover:text-slate-900 flex items-center gap-1.5" data-type="natural">
+                                <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+                                <span>Natural Diamonds</span>
+                            </button>
+                        </div>
+                        <button type="button" name="reset" id="reset-btn" class="gd-btn-reset px-4 py-2 text-xs font-bold rounded-xl border border-rose-300 bg-rose-50 text-rose-700 hover:bg-rose-100 transition-colors">
+                            <i class="fa-solid fa-rotate-left mr-1"></i> Reset Selection
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 1. SHAPES SECTION -->
+                <section class="shape-section padding mb-6">
+                    <h3 class="text-xs font-bold uppercase text-slate-600 mb-3 tracking-wider flex items-center gap-2">
+                        <span>💎 Shape Selector</span>
+                        <span class="text-[10px] text-amber-600 bg-amber-50 px-2 py-0.5 rounded border border-amber-200">17 Shapes</span>
+                    </h3>
+                    <div class="row shapes-row shapes-row-certified gd-cd-shapes-grid" id="cd-shape-selector">
+                        <div class="col_custom color_new gd-cd-shape-btn" data-slug="br" data-shape="Round">
+                            <a href="javascript:void(0);" alt="Round" class="flex flex-col items-center">
+                                <svg viewBox="0 0 24 24" class="w-6 h-6 stroke-current fill-none"><circle cx="12" cy="12" r="9" stroke-width="1.8"/><polygon points="12,3 15,9 21,12 15,15 12,21 9,15 3,12 9,9" stroke-width="1.2"/></svg>
+                                <p class="shape-title text-xs font-bold mt-1">Round</p>
+                            </a>
+                        </div>
+                        <div class="col_custom color_new gd-cd-shape-btn" data-slug="ov" data-shape="Oval">
+                            <a href="javascript:void(0);" alt="Oval" class="flex flex-col items-center">
+                                <svg viewBox="0 0 24 24" class="w-6 h-6 stroke-current fill-none"><ellipse cx="12" cy="12" rx="10" ry="6" stroke-width="1.8"/></svg>
+                                <p class="shape-title text-xs font-bold mt-1">Oval</p>
+                            </a>
+                        </div>
+                        <div class="col_custom color_new gd-cd-shape-btn" data-slug="pr" data-shape="Princess">
+                            <a href="javascript:void(0);" alt="Princess" class="flex flex-col items-center">
+                                <svg viewBox="0 0 24 24" class="w-6 h-6 stroke-current fill-none"><rect x="4" y="4" width="16" height="16" rx="1" stroke-width="1.8"/></svg>
+                                <p class="shape-title text-xs font-bold mt-1">Princess</p>
+                            </a>
+                        </div>
+                        <div class="col_custom color_new gd-cd-shape-btn" data-slug="em" data-shape="Emerald">
+                            <a href="javascript:void(0);" alt="Emerald" class="flex flex-col items-center">
+                                <svg viewBox="0 0 24 24" class="w-6 h-6 stroke-current fill-none"><rect x="4" y="3" width="16" height="18" rx="2" stroke-width="1.8"/><rect x="7" y="6" width="10" height="12" stroke-width="1"/></svg>
+                                <p class="shape-title text-xs font-bold mt-1">Emerald</p>
+                            </a>
+                        </div>
+                        <div class="col_custom color_new gd-cd-shape-btn" data-slug="ps" data-shape="Pear">
+                            <a href="javascript:void(0);" alt="Pear" class="flex flex-col items-center">
+                                <svg viewBox="0 0 24 24" class="w-6 h-6 stroke-current fill-none"><path d="M12 3 C12 3, 4 12, 4 16 A 8 8 0 0 0 20 16 C20 12, 12 3, 12 3 Z" stroke-width="1.8"/></svg>
+                                <p class="shape-title text-xs font-bold mt-1">Pear</p>
+                            </a>
+                        </div>
+                        <div class="col_custom color_new gd-cd-shape-btn" data-slug="ra" data-shape="Radiant">
+                            <a href="javascript:void(0);" alt="Radiant" class="flex flex-col items-center">
+                                <svg viewBox="0 0 24 24" class="w-6 h-6 stroke-current fill-none"><polygon points="7,3 17,3 21,7 21,17 17,21 7,21 3,17 3,7" stroke-width="1.8"/></svg>
+                                <p class="shape-title text-xs font-bold mt-1">Radiant</p>
+                            </a>
+                        </div>
+                        <div class="col_custom color_new gd-cd-shape-btn" data-slug="cu" data-shape="Cushion">
+                            <a href="javascript:void(0);" alt="Cushion" class="flex flex-col items-center">
+                                <svg viewBox="0 0 24 24" class="w-6 h-6 stroke-current fill-none"><rect x="3" y="3" width="18" height="18" rx="5" stroke-width="1.8"/></svg>
+                                <p class="shape-title text-xs font-bold mt-1">Cushion</p>
+                            </a>
+                        </div>
+                        <div class="col_custom color_new gd-cd-shape-btn" data-slug="as" data-shape="Asscher">
+                            <a href="javascript:void(0);" alt="Asscher" class="flex flex-col items-center">
+                                <svg viewBox="0 0 24 24" class="w-6 h-6 stroke-current fill-none"><polygon points="6,3 18,3 21,6 21,18 18,21 6,21 3,18 3,6" stroke-width="1.8"/><rect x="7" y="7" width="10" height="10" stroke-width="1"/></svg>
+                                <p class="shape-title text-xs font-bold mt-1">Asscher</p>
+                            </a>
+                        </div>
+                        <div class="col_custom color_new gd-cd-shape-btn" data-slug="ht" data-shape="Heart">
+                            <a href="javascript:void(0);" alt="Heart" class="flex flex-col items-center">
+                                <svg viewBox="0 0 24 24" class="w-6 h-6 stroke-current fill-none"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" stroke-width="1.8"/></svg>
+                                <p class="shape-title text-xs font-bold mt-1">Heart</p>
+                            </a>
+                        </div>
+                        <div class="col_custom color_new gd-cd-shape-btn" data-slug="kt" data-shape="Kite">
+                            <a href="javascript:void(0);" alt="Kite" class="flex flex-col items-center">
+                                <svg viewBox="0 0 24 24" class="w-6 h-6 stroke-current fill-none"><polygon points="12,2 21,9 12,22 3,9" stroke-width="1.8"/></svg>
+                                <p class="shape-title text-xs font-bold mt-1">Kite</p>
+                            </a>
+                        </div>
+                        <div class="col_custom color_new gd-cd-shape-btn" data-slug="mq" data-shape="Marquise">
+                            <a href="javascript:void(0);" alt="Marquise" class="flex flex-col items-center">
+                                <svg viewBox="0 0 24 24" class="w-6 h-6 stroke-current fill-none"><path d="M12 2 C5 12, 5 12, 12 22 C19 12, 19 12, 12 2 Z" stroke-width="1.8"/></svg>
+                                <p class="shape-title text-xs font-bold mt-1">Marquise</p>
+                            </a>
+                        </div>
+                        <div class="col_custom color_new gd-cd-shape-btn" data-slug="sqra" data-shape="Square Radiant">
+                            <a href="javascript:void(0);" alt="Square Radiant" class="flex flex-col items-center">
+                                <svg viewBox="0 0 24 24" class="w-6 h-6 stroke-current fill-none"><polygon points="6,3 18,3 21,6 21,18 18,21 6,21 3,18 3,6" stroke-width="1.8"/></svg>
+                                <p class="shape-title text-xs font-bold mt-1">Square Radiant</p>
+                            </a>
+                        </div>
+                        <div class="col_custom color_new gd-cd-shape-btn" data-slug="tb" data-shape="Tapered Bullet">
+                            <a href="javascript:void(0);" alt="Tapered Bullet" class="flex flex-col items-center">
+                                <svg viewBox="0 0 24 24" class="w-6 h-6 stroke-current fill-none"><polygon points="6,3 18,3 18,14 12,21 6,14" stroke-width="1.8"/></svg>
+                                <p class="shape-title text-xs font-bold mt-1">Tapered Bullet</p>
+                            </a>
+                        </div>
+                        <div class="col_custom color_new gd-cd-shape-btn" data-slug="tr" data-shape="Triangle">
+                            <a href="javascript:void(0);" alt="Triangle" class="flex flex-col items-center">
+                                <svg viewBox="0 0 24 24" class="w-6 h-6 stroke-current fill-none"><polygon points="12,3 21,20 3,20" stroke-width="1.8"/></svg>
+                                <p class="shape-title text-xs font-bold mt-1">Triangle</p>
+                            </a>
+                        </div>
+                        <div class="col_custom color_new gd-cd-shape-btn" data-slug="tl" data-shape="Trilliant">
+                            <a href="javascript:void(0);" alt="Trilliant" class="flex flex-col items-center">
+                                <svg viewBox="0 0 24 24" class="w-6 h-6 stroke-current fill-none"><path d="M12 3 L21 20 C14 20, 10 20, 3 20 Z" stroke-width="1.8"/></svg>
+                                <p class="shape-title text-xs font-bold mt-1">Trilliant</p>
+                            </a>
+                        </div>
+                        <div class="col_custom color_new gd-cd-shape-btn" data-slug="bg" data-shape="Baguette">
+                            <a href="javascript:void(0);" alt="Baguette" class="flex flex-col items-center">
+                                <svg viewBox="0 0 24 24" class="w-6 h-6 stroke-current fill-none"><rect x="3" y="6" width="18" height="12" stroke-width="1.8"/></svg>
+                                <p class="shape-title text-xs font-bold mt-1">Baguette</p>
+                            </a>
+                        </div>
+                        <div class="col_custom color_new gd-cd-shape-btn" data-slug="tbg" data-shape="Tapered Baguette">
+                            <a href="javascript:void(0);" alt="Tapered Baguette" class="flex flex-col items-center">
+                                <svg viewBox="0 0 24 24" class="w-6 h-6 stroke-current fill-none"><polygon points="4,6 20,4 18,18 6,20" stroke-width="1.8"/></svg>
+                                <p class="shape-title text-xs font-bold mt-1">Tapered Baguette</p>
+                            </a>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 2. COLOR SECTION -->
+                <section class="clarity-color-section padding mb-6">
+                    <h3 class="text-xs font-bold uppercase text-slate-600 mb-3 tracking-wider">Color Grade</h3>
+                    <div class="gd-cd-pills" id="cd-color-selector">
+                        <div class="col_custom_color gd-cd-pill" data-slug="d" data-val="D"><p>D</p></div>
+                        <div class="col_custom_color gd-cd-pill" data-slug="e" data-val="E"><p>E</p></div>
+                        <div class="col_custom_color gd-cd-pill" data-slug="f" data-val="F"><p>F</p></div>
+                        <div class="col_custom_color gd-cd-pill" data-slug="g" data-val="G"><p>G</p></div>
+                        <div class="col_custom_color gd-cd-pill" data-slug="h" data-val="H"><p>H</p></div>
+                        <div class="col_custom_color gd-cd-pill" data-slug="i" data-val="I"><p>I</p></div>
+                        <div class="col_custom_color gd-cd-pill" data-slug="j" data-val="J"><p>J</p></div>
+                        <div class="col_custom_color gd-cd-pill" data-slug="k" data-val="K"><p>K</p></div>
+                        <div class="col_custom_color gd-cd-pill" data-slug="l" data-val="L"><p>L</p></div>
+                        <div class="col_custom_color gd-cd-pill" data-slug="fancy" data-val="Fancy"><p>Fancy Colors</p></div>
+                    </div>
+                </section>
+
+                <!-- 3. CARAT SECTION -->
+                <section class="clarity-color-section padding mb-6">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div>
+                            <h3 class="text-xs font-bold uppercase text-slate-600 mb-2 tracking-wider">Carat Range</h3>
+                            <div class="flex items-center gap-2">
+                                <input type="text" name="caratmin" placeholder="From" id="caratmin" class="form-control gd-cd-input w-full" value="">
+                                <span class="text-slate-400 font-bold">-</span>
+                                <input type="text" name="caratmax" placeholder="To" id="caratmax" class="form-control gd-cd-input w-full" value="">
+                            </div>
+                        </div>
+                        <div class="md:col-span-2">
+                            <h3 class="text-xs font-bold uppercase text-slate-600 mb-2 tracking-wider">Quick Presets</h3>
+                            <div class="gd-cd-pills gd-cd-presets" id="cd-carat-presets">
+                                <div class="col_custom_carat gd-cd-preset" data-slug="0.30" data-carat="0.30"><p>0.30</p></div>
+                                <div class="col_custom_carat gd-cd-preset" data-slug="0.40" data-carat="0.40"><p>0.40</p></div>
+                                <div class="col_custom_carat gd-cd-preset" data-slug="0.50" data-carat="0.50"><p>0.50</p></div>
+                                <div class="col_custom_carat gd-cd-preset" data-slug="0.60" data-carat="0.60"><p>0.60</p></div>
+                                <div class="col_custom_carat gd-cd-preset" data-slug="0.70" data-carat="0.70"><p>0.70</p></div>
+                                <div class="col_custom_carat gd-cd-preset" data-slug="0.80" data-carat="0.80"><p>0.80</p></div>
+                                <div class="col_custom_carat gd-cd-preset" data-slug="0.90" data-carat="0.90"><p>0.90</p></div>
+                                <div class="col_custom_carat gd-cd-preset" data-slug="1.00" data-carat="1.00"><p>1.00</p></div>
+                                <div class="col_custom_carat gd-cd-preset" data-slug="1.50" data-carat="1.50"><p>1.50</p></div>
+                                <div class="col_custom_carat gd-cd-preset" data-slug="2.00" data-carat="2.00"><p>2.00</p></div>
+                                <div class="col_custom_carat gd-cd-preset" data-slug="2.50" data-carat="2.50"><p>2.50</p></div>
+                                <div class="col_custom_carat gd-cd-preset" data-slug="3.00" data-carat="3.00"><p>3.00</p></div>
+                                <div class="col_custom_carat gd-cd-preset" data-slug="4.00" data-carat="4.00"><p>4.00</p></div>
+                                <div class="col_custom_carat gd-cd-preset" data-slug="5" data-carat="5.00"><p>5+</p></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 4. PRICE ($) SECTION -->
+                <section class="clarity-color-section padding mb-6">
+                    <h3 class="text-xs font-bold uppercase text-slate-600 mb-2 tracking-wider">Price ($)</h3>
+                    <div class="flex items-center gap-3 max-w-sm">
+                        <input type="text" name="pricemin" placeholder="From $" id="pricemin" class="form-control gd-cd-input w-full" value="">
+                        <span class="text-slate-400 font-bold">-</span>
+                        <input type="text" name="pricemax" placeholder="To $" id="pricemax" class="form-control gd-cd-input w-full" value="">
+                    </div>
+                </section>
+
+                <!-- 5. CLARITY & LAB SECTION -->
+                <section class="clarity-color-section padding mb-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <h3 class="text-xs font-bold uppercase text-slate-600 mb-2 tracking-wider">Clarity Grade</h3>
+                            <div class="gd-cd-pills" id="cd-clarity-selector">
+                                <div class="col_custom_clarity gd-cd-pill" data-slug="fl" data-val="FL"><p>FL</p></div>
+                                <div class="col_custom_clarity gd-cd-pill" data-slug="if" data-val="IF"><p>IF</p></div>
+                                <div class="col_custom_clarity gd-cd-pill" data-slug="vvs1" data-val="VVS1"><p>VVS1</p></div>
+                                <div class="col_custom_clarity gd-cd-pill" data-slug="vvs2" data-val="VVS2"><p>VVS2</p></div>
+                                <div class="col_custom_clarity gd-cd-pill" data-slug="vs1" data-val="VS1"><p>VS1</p></div>
+                                <div class="col_custom_clarity gd-cd-pill" data-slug="vs2" data-val="VS2"><p>VS2</p></div>
+                                <div class="col_custom_clarity gd-cd-pill" data-slug="si1" data-val="SI1"><p>SI1</p></div>
+                                <div class="col_custom_clarity gd-cd-pill" data-slug="si2" data-val="SI2"><p>SI2</p></div>
+                                <div class="col_custom_clarity gd-cd-pill" data-slug="i1" data-val="I1"><p>I1</p></div>
+                            </div>
+                        </div>
+                        <div>
+                            <h3 class="text-xs font-bold uppercase text-slate-600 mb-2 tracking-wider">Lab Grading</h3>
+                            <div class="gd-cd-pills" id="cd-lab-selector">
+                                <div class="col_custom_lab gd-cd-pill" data-slug="igi" data-val="IGI"><p>IGI</p></div>
+                                <div class="col_custom_lab gd-cd-pill" data-slug="gia" data-val="GIA"><p>GIA</p></div>
+                                <div class="col_custom_lab gd-cd-pill" data-slug="gcal" data-val="GCAL"><p>GCAL</p></div>
+                                <div class="col_custom_lab gd-cd-pill" data-slug="sgl" data-val="SGL"><p>SGL</p></div>
+                                <div class="col_custom_lab gd-cd-pill" data-slug="gsi" data-val="GSI"><p>GSI</p></div>
+                                <div class="col_custom_lab gd-cd-pill" data-slug="none" data-val="NONE"><p>None</p></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 6. CUT / POLISH / SYMMETRY / QUALITY RADIO BUTTONS -->
+                <section class="clarity-color-section padding mb-6">
+                    <h3 class="text-xs font-bold uppercase text-slate-600 mb-3 tracking-wider">Cut / Polish / Symmetry</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                        <div>
+                            <h4 class="text-xs font-bold uppercase text-slate-500 mb-2">Cut</h4>
+                            <div class="gd-cd-pills" id="cd-cut-selector">
+                                <div class="col_custom_cut gd-cd-pill" data-slug="id" data-val="ID"><p>ID</p></div>
+                                <div class="col_custom_cut gd-cd-pill" data-slug="ex" data-val="EX"><p>EX</p></div>
+                                <div class="col_custom_cut gd-cd-pill" data-slug="vg" data-val="VG"><p>VG</p></div>
+                                <div class="col_custom_cut gd-cd-pill" data-slug="g" data-val="G"><p>G</p></div>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="text-xs font-bold uppercase text-slate-500 mb-2">Polish</h4>
+                            <div class="gd-cd-pills" id="cd-polish-selector">
+                                <div class="col_custom_polish gd-cd-pill" data-slug="ex" data-val="EX"><p>EX</p></div>
+                                <div class="col_custom_polish gd-cd-pill" data-slug="vg" data-val="VG"><p>VG</p></div>
+                                <div class="col_custom_polish gd-cd-pill" data-slug="g" data-val="G"><p>G</p></div>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="text-xs font-bold uppercase text-slate-500 mb-2">Symmetry</h4>
+                            <div class="gd-cd-pills" id="cd-sym-selector">
+                                <div class="col_custom_symmetry gd-cd-pill" data-slug="ex" data-val="EX"><p>EX</p></div>
+                                <div class="col_custom_symmetry gd-cd-pill" data-slug="vg" data-val="VG"><p>VG</p></div>
+                                <div class="col_custom_symmetry gd-cd-pill" data-slug="g" data-val="G"><p>G</p></div>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="text-xs font-bold uppercase text-slate-500 mb-2">Cut Badges</h4>
+                            <div class="flex items-center gap-4 pt-1">
+                                <label class="flex items-center gap-1.5 text-xs font-bold text-slate-700 cursor-pointer">
+                                    <input type="radio" name="cut_pol_sym" id="id_cut" value="idcut">
+                                    <span>ID Cut</span>
+                                </label>
+                                <label class="flex items-center gap-1.5 text-xs font-bold text-slate-700 cursor-pointer">
+                                    <input type="radio" name="cut_pol_sym" id="id_3EX" value="id3EX">
+                                    <span>3EX</span>
+                                </label>
+                                <label class="flex items-center gap-1.5 text-xs font-bold text-slate-700 cursor-pointer">
+                                    <input type="radio" name="cut_pol_sym" id="id_3VG" value="id3VG">
+                                    <span>3VG+</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 7. DEPTH & TABLE PROPORTIONS -->
+                <section class="clarity-color-section padding mb-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <h3 class="text-xs font-bold uppercase text-slate-600 mb-2 tracking-wider">Depth (%)</h3>
+                            <div class="flex items-center gap-2">
+                                <input type="text" name="depthmin" placeholder="From 55%" id="depthmin" class="form-control gd-cd-input w-full" value="">
+                                <span class="text-slate-400 font-bold">-</span>
+                                <input type="text" name="depthmax" placeholder="To 70%" id="depthmax" class="form-control gd-cd-input w-full" value="">
+                            </div>
+                        </div>
+                        <div>
+                            <h3 class="text-xs font-bold uppercase text-slate-600 mb-2 tracking-wider">Table (%)</h3>
+                            <div class="flex items-center gap-2">
+                                <input type="text" name="tablemin" placeholder="From 50%" id="tablemin" class="form-control gd-cd-input w-full" value="">
+                                <span class="text-slate-400 font-bold">-</span>
+                                <input type="text" name="tablemax" placeholder="To 68%" id="tablemax" class="form-control gd-cd-input w-full" value="">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 8. ACTION BAR (Search Button, Reset Button, Results Counter, Grid/List Nav) -->
+                <div class="flex items-center justify-between border-t border-slate-200 pt-4 mt-6 flex-wrap gap-4">
+                    <div class="flex items-center gap-6">
+                        <nav class="grid_list_nav_cs flex items-center gap-3">
+                            <button type="button" class="px-3 py-1.5 text-sm font-bold rounded-lg border border-slate-300 bg-slate-100 text-slate-700 hover:bg-slate-200 transition-colors" onclick="showgrid();" title="Grid View">
+                                📊 Grid View
+                            </button>
+                            <button type="button" class="px-3 py-1.5 text-sm font-bold rounded-lg border border-slate-300 bg-slate-100 text-slate-700 hover:bg-slate-200 transition-colors" onclick="showlist();" title="Table View">
+                                📋 Table View
+                            </button>
+                        </nav>
+                        <div id="productcount" class="text-base font-bold text-slate-900">
+                            Loading inventory...
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <button type="button" name="reset" id="reset-btn-bottom" class="px-5 py-2.5 text-xs font-bold rounded-xl border border-rose-300 bg-rose-50 text-rose-700 hover:bg-rose-100 transition-colors">
+                            <i class="fa-solid fa-rotate-left mr-1"></i> Reset Selection
+                        </button>
+                        <button type="button" name="search" id="search-btn" class="px-6 py-2.5 text-xs font-bold rounded-xl bg-slate-900 text-amber-300 hover:bg-slate-800 shadow-md transition-all">
+                            <i class="fa-solid fa-magnifying-glass mr-1"></i> Search Diamonds
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ACTIVE FILTERS BAR -->
+    <div id="cd-active-chips" class="gd-cd-toolbar-section max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4 hidden">
+        <div class="bg-amber-50/70 border border-amber-200/80 rounded-xl p-3 flex items-center justify-between flex-wrap gap-2">
+            <div class="flex items-center gap-2 flex-wrap" id="active-chips-list">
+                <span class="text-xs font-bold text-amber-900">Active Filters:</span>
+            </div>
+            <button type="button" id="clear-all-chips" class="text-xs font-bold text-rose-700 hover:underline">Clear All Filters</button>
+        </div>
+    </div>
+
+    <!-- RESULTS TOOLBAR -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">
+        <div class="bg-white border border-slate-200 rounded-xl p-4 flex items-center justify-between flex-wrap gap-4 shadow-sm">
+            <div class="flex items-center gap-2">
+                <span class="text-xs font-bold text-slate-600 uppercase tracking-wider">Sort Inventory:</span>
+                <select id="cd-sort-select" class="px-3 py-1.5 border border-slate-300 rounded-lg text-xs font-bold text-slate-800 focus:outline-none focus:border-amber-500">
+                    <option value="price-asc">Price: Low to High</option>
+                    <option value="price-desc">Price: High to Low</option>
+                    <option value="carat-desc">Carat: High to Low</option>
+                    <option value="carat-asc">Carat: Low to High</option>
+                </select>
+            </div>
+            <div id="cd-results-badge" class="text-xs font-bold text-slate-700 bg-slate-100 px-3 py-1.5 rounded-lg border border-slate-200">
+                Showing 0 Diamonds
+            </div>
+        </div>
+    </div>
+
+    <!-- INVENTORY CONTAINER (GRID / TABLE) -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div id="cd-inventory-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            <!-- Dynamically populated stock items -->
+        </div>
+        <div id="cd-inventory-table-container" class="hidden overflow-x-auto bg-white border border-slate-200 rounded-2xl shadow-sm">
+            <table class="w-full text-left text-xs border-collapse">
+                <thead class="bg-slate-900 text-amber-300 uppercase tracking-wider font-extrabold">
+                    <tr>
+                        <th class="p-3">Stock ID</th>
+                        <th class="p-3">Shape</th>
+                        <th class="p-3">Carat</th>
+                        <th class="p-3">Color</th>
+                        <th class="p-3">Clarity</th>
+                        <th class="p-3">Cut</th>
+                        <th class="p-3">Polish</th>
+                        <th class="p-3">Sym</th>
+                        <th class="p-3">Lab</th>
+                        <th class="p-3">MM Size</th>
+                        <th class="p-3">Depth %</th>
+                        <th class="p-3">Table %</th>
+                        <th class="p-3 text-right">Price</th>
+                        <th class="p-3 text-center">Action</th>
+                    </tr>
+                </thead>
+                <tbody id="cd-inventory-table-body" class="divide-y divide-slate-200">
+                    <!-- Dynamically populated table rows -->
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <!-- FOOTER SECTION -->
+    <footer class="bg-slate-900 text-slate-300 border-t border-slate-800 mt-16 pt-12 pb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 pb-8 border-b border-slate-800">
+                <!-- Brand Info -->
+                <div>
+                    <h3 class="font-serif text-xl font-bold text-white mb-3">MELEE DIAMONDS</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed mb-4">
+                        Premier B2B wholesale diamond dealer supplying loose melee diamonds and IGI & GIA certified stones to fine jewelers across the US & UK.
+                    </p>
+                </div>
+                <!-- US Office -->
+                <div>
+                    <h4 class="text-xs font-bold uppercase tracking-wider text-amber-400 mb-2">US Office Address</h4>
+                    <p class="text-xs text-slate-300 leading-relaxed">
+                        36 West 47th Street, Suite 509<br>
+                        New York, NY 10036<br>
+                        <span class="text-amber-400 font-bold">Contact: +1 (332) 279-0323</span>
+                    </p>
+                </div>
+                <!-- UK Office -->
+                <div>
+                    <h4 class="text-xs font-bold uppercase tracking-wider text-amber-400 mb-2">UK Office Address</h4>
+                    <p class="text-xs text-slate-300 leading-relaxed">
+                        Suite 4.1, 6/7 Hatton Garden<br>
+                        London EC1N 8AD<br>
+                        <span class="text-amber-400 font-bold">Contact: +1 (332) 279-0323</span>
+                    </p>
+                </div>
+            </div>
+            <div class="pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500">
+                <p>&copy; 2026 Melee Diamonds. All rights reserved.</p>
+                <div class="flex items-center gap-4 mt-4 sm:mt-0">
+                    <a href="../index.html" class="hover:text-slate-300">Home</a>
+                    <a href="lab-grown.html" class="hover:text-slate-300">Certified Diamonds</a>
+                    <a href="../wholesale-hub.html" class="hover:text-amber-400 font-semibold">Trade Tools</a>
+                    </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- App Scripts -->
+    <script src="../js/app.js"></script>
+</body>
+</html>

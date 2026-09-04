@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Trade Tools &amp; API | Melee Diamonds Wholesale Hub</title>
+    <link rel="icon" href="images/logo/melee-logo.png" type="image/png">
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="js/app.js" defer></script>
+    <style>
+        .gd-page-head { padding: 120px 0 40px; background: var(--gd-hero-deep); color: #ffffff; }
+    </style>
+</head>
+<body>
+    <!-- Global Loader -->
+    <div id="global-loader" class="global-loader" aria-hidden="true">
+        <div class="global-loader__spinner" role="status" aria-label="Loading">
+            <img src="images/loader-diamond.gif" alt="Loading" width="180" height="180">
+        </div>
+    </div>
+
+    <!-- Site Header -->
+    <header id="site-header" class="site-header site-header--overlay is-solid">
+        <div class="gd-nav-inner">
+
+            <!-- Mobile Burger -->
+            <button type="button" class="gd-burger" aria-label="Open menu" aria-expanded="false" data-gd-drawer-open>
+                <span></span><span></span><span></span>
+            </button>
+
+            <a href="index.html" class="gd-nav-logo" aria-label="Melee Diamonds home">
+                <img src="images/logo/melee-logo.png" alt="Melee Diamonds">
+            </a>
+
+            <!-- Primary Navigation Links -->
+            <nav class="gd-nav-links" aria-label="Primary">
+                <div class="gd-nav-item">
+                    <a href="category/lab-grown.html" class="gd-nav-link">
+                        Diamonds
+                        <svg class="gd-nav-caret" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+                            <path d="m3 4.5 3 3 3-3" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </a>
+                    <div class="gd-nav-panel">
+                        <div class="gd-nav-panel-inner">
+                            <a href="category/lab-grown.html?cat=certified">Certified Diamonds</a>
+                            <a href="category/lab-grown.html?cat=fancy-color">Fancy Color Certified Diamonds</a>
+                            <a href="category/lab-grown.html?cat=matching-pairs">Matching Pairs</a>
+                            <a href="category/lab-grown.html?cat=round-melee">Round Melee &amp; Pointers</a>
+                            <a href="category/lab-grown.html?cat=fancy-loose">Fancy Loose &amp; Layouts</a>
+                            <a href="category/lab-grown.html?cat=exotic-shapes">Exotic Fancy Shapes</a>
+                            <a href="category/lab-grown.html?cat=fancy-color-melee">Fancy Color Melee's</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gd-nav-item">
+                    <a href="category/jewelry.html" class="gd-nav-link">
+                        Jewelry
+                        <svg class="gd-nav-caret" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+                            <path d="m3 4.5 3 3 3-3" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </a>
+                    <div class="gd-nav-panel">
+                        <div class="gd-nav-panel-inner">
+                            <a href="category/jewelry.html?type=band">Band</a>
+                            <a href="category/jewelry.html?type=bracelet">Bracelet</a>
+                            <a href="category/jewelry.html?type=cuff-links">Cuff Links</a>
+                            <a href="category/jewelry.html?type=earring">Earring</a>
+                            <a href="category/jewelry.html?type=necklace">Necklace</a>
+                            <a href="category/jewelry.html?type=pendant">Pendant</a>
+                            <a href="category/jewelry.html?type=ring">Ring</a>
+                            <a href="category/jewelry.html?type=watch">Watch</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gd-nav-item">
+                    <a href="custom-jewelry.html" class="gd-nav-link">Design Your Own</a>
+                </div>
+                
+                <div class="gd-nav-item">
+                    <a href="stock.html" class="gd-nav-link">Stock</a>
+                </div>
+                <div class="gd-nav-item">
+                    <a href="about-us.html" class="gd-nav-link">About</a>
+                </div>
+            </nav>
+
+            <!-- Header Right Section -->
+            <div class="gd-nav-right">
+                <!-- Lab Grown vs Natural Switcher -->
+                <div class="gd-type-switcher">
+                    <button type="button" class="gd-type-btn is-active" data-type="lab-grown">
+                        <span class="gd-type-btn__dot"></span>
+                        <span>Lab Grown</span>
+                    </button>
+                    <button type="button" class="gd-type-btn" data-type="natural">
+                        <span class="gd-type-btn__dot"></span>
+                        <span>Natural</span>
+                    </button>
+                </div>
+
+                <button type="button" class="gd-search-toggle" aria-label="Search by stock number" data-gd-search-toggle>
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <circle cx="11" cy="11" r="7" />
+                        <path d="M21 21l-4.3-4.3" stroke-linecap="round" />
+                    </svg>
+                </button>
+
+                <a href="admin/index.html" class="gd-nav-login" title="Admin Portal" aria-label="Admin Portal" style="background:#0f172a; color:#fbbf24; border:1px solid #334155; padding:7px 11px; border-radius:8px; font-size:16px; display:inline-flex; align-items:center; justify-content:center; text-decoration:none; transition:all 0.2s ease;">🛡️</a>
+                <a href="signin.html" class="gd-nav-login">Login</a>
+                <a href="book-appointment.html" class="gd-btn">Book Appointment</a>
+
+                <div class="gd-nav-search" id="header-search-wrapper">
+                    <div class="gd-search-field">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                            <circle cx="11" cy="11" r="7" />
+                            <path d="M21 21l-4.3-4.3" stroke-linecap="round" />
+                        </svg>
+                        <input type="text" id="header-search-input" placeholder="Search by stock #" autocomplete="off">
+                    </div>
+                    <div id="header-search-results" class="gd-search-results"></div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Drawer Menu -->
+    <div class="gd-drawer" id="gd-drawer" role="dialog" aria-modal="true" aria-label="Site menu">
+        <div class="gd-drawer-scrim" data-gd-drawer-close></div>
+        <div class="gd-drawer-panel">
+            <div class="gd-drawer-head">
+                <img src="images/logo/melee-logo.png" alt="Melee Diamonds" style="height:44px; width:auto; object-fit:contain; border-radius:4px;">
+                <button type="button" class="gd-drawer-close" aria-label="Close menu" data-gd-drawer-close>
+                    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+                        <path d="M6 6l12 12M18 6 6 18" stroke-linecap="round" />
+                    </svg>
+                </button>
+            </div>
+            
+            <div style="padding: 12px 20px;">
+                <div class="gd-type-switcher gd-type-switcher--light" style="width: 100%; justify-content: space-around;">
+                    <button type="button" class="gd-type-btn is-active" data-type="lab-grown" style="flex:1; justify-content:center;">
+                        <span class="gd-type-btn__dot"></span>
+                        <span>Lab Grown</span>
+                    </button>
+                    <button type="button" class="gd-type-btn" data-type="natural" style="flex:1; justify-content:center;">
+                        <span class="gd-type-btn__dot"></span>
+                        <span>Natural</span>
+                    </button>
+                </div>
+            </div>
+
+            <nav class="gd-drawer-nav" aria-label="Mobile">
+                <div class="gd-drawer-row">
+                    <button type="button" aria-expanded="false" aria-controls="gd-drawer-sub-0" data-gd-accordion>
+                        Diamonds
+                        <svg class="gd-nav-caret" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+                            <path d="m3 4.5 3 3 3-3" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </button>
+                    <div class="gd-drawer-sub" id="gd-drawer-sub-0" hidden>
+                        <a href="category/lab-grown.html">All Lab Grown</a>
+                        <a href="category/lab-grown.html?cat=certified">Certified Diamonds</a>
+                        <a href="category/lab-grown.html?cat=fancy-color">Fancy Color Certified Diamonds</a>
+                        <a href="category/lab-grown.html?cat=matching-pairs">Matching Pairs</a>
+                        <a href="category/lab-grown.html?cat=round-melee">Round Melee &amp; Pointers</a>
+                        <a href="category/lab-grown.html?cat=fancy-loose">Fancy Loose &amp; Layouts</a>
+                        <a href="category/lab-grown.html?cat=exotic-shapes">Exotic Fancy Shapes</a>
+                    </div>
+                </div>
+                <div class="gd-drawer-row">
+                    <button type="button" aria-expanded="false" aria-controls="gd-drawer-sub-1" data-gd-accordion>
+                        Jewelry
+                        <svg class="gd-nav-caret" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+                            <path d="m3 4.5 3 3 3-3" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </button>
+                    <div class="gd-drawer-sub" id="gd-drawer-sub-1" hidden>
+                        <a href="category/jewelry.html">All Jewelry</a>
+                        <a href="category/jewelry.html?type=band">Band</a>
+                        <a href="category/jewelry.html?type=bracelet">Bracelet</a>
+                        <a href="category/jewelry.html?type=earring">Earring</a>
+                        <a href="category/jewelry.html?type=necklace">Necklace</a>
+                        <a href="category/jewelry.html?type=ring">Ring</a>
+                    </div>
+                </div>
+                <div class="gd-drawer-row"><a href="custom-jewelry.html">Design Your Own</a></div>
+                
+                <div class="gd-drawer-row"><a href="stock.html">Stock</a></div>
+                <div class="gd-drawer-row"><a href="about-us.html">About</a></div>
+                <div class="gd-drawer-row"><a href="signin.html">Login</a></div>
+            </nav>
+            <div class="gd-drawer-foot">
+                <a href="book-appointment.html" class="gd-btn">Book Appointment</a>
+            </div>
+            <div class="gd-drawer-contact">
+                <a href="tel:+13478122006">+1 (347) 812-2006</a>
+                <a href="mailto:info@meleediamonds.com">info@meleediamonds.com</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="gd-page-head">
+        <div class="gd-wrap">
+            <span class="gd-sec-index" style="color:var(--jck-gold-bright);">Wholesale Hub</span>
+            <h1 class="gd-h2" style="color:#ffffff;">Trade Tools &amp; Live Stock Integration</h1>
+            <p class="gd-lede" style="color:var(--gd-hero-text-72);">
+                Real-time API feeds, downloadable CSV inventory lists, and WhatsApp daily stock notifications for verified trade partners across Lab-Grown and Natural Diamonds.
+            </p>
+        </div>
+    </div>
+
+    <section class="gd-section">
+        <div class="gd-wrap">
+            <div class="gd-util-strip" style="grid-template-columns: repeat(2, 1fr); gap: 24px;">
+                <div class="gd-util" style="padding: 32px;">
+                    <svg class="ui" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M8 6 3 12l5 6M16 6l5 6-5 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    <div class="ut" style="font-size: 18px;">REST API &amp; RapNet / VDB Feed</div>
+                    <div class="ud" style="font-size: 14px;">Integrate our live Lab-Grown &amp; Natural Diamond inventory directly into your e-commerce storefront or ERP system with auto-updating pricing and 360 loupe video links.</div>
+                    <a href="signin.html?mode=api" class="gd-btn-solid" style="margin-top: 16px; width: fit-content;">Request API Key &rarr;</a>
+                </div>
+
+                <div class="gd-util" style="padding: 32px;">
+                    <svg class="ui" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 19h16" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    <div class="ut" style="font-size: 18px;">Download Full Stock CSV / Excel</div>
+                    <div class="ud" style="font-size: 14px;">Instant download of our complete loose diamond inventory with complete IGI/GIA grading specs, color, clarity, carat weight, measurements, and wholesale trade pricing.</div>
+                    <a href="signin.html" class="gd-btn-ghost" style="margin-top: 16px; width: fit-content;">Login to Download CSV &rarr;</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="gd-footer">
+            <div class="gd-wrap">
+                <div class="gd-foot-bottom">
+                    <span class="gd-copy">&copy; 2026 Melee Diamonds. B2B wholesale only.</span>
+                    <div style="display:flex; gap:16px; align-items:center;">
+                        <a href="wholesale-hub.html" style="color:var(--jck-gold-bright);">Trade Tools &rarr;</a>
+                        <a href="index.html" style="color:var(--jck-gold-bright);">Return to Homepage &rarr;</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
