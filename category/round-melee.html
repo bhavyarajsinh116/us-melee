@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Round Melee & Pointers Wholesale Hub | Melee Diamonds</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../css/styles.css">
+
+    <style>
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        /* Custom highlight for select options */
+        select#filter-mm option:checked {
+            background-color: #f59e0b !important;
+            color: #fff !important;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900 font-sans antialiased">
+
+    <!-- Top Announcement Bar -->
+    <div class="bg-slate-900 text-amber-300 text-xs py-2 px-4 text-center font-medium tracking-wide border-b border-amber-500/20">
+        <span class="inline-flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            LIVE WHOLESALE DESK — USA NYC (Suite 509) & UK London (Hatton Garden) Direct Stock
+        </span>
+    </div>
+
+    <!-- Site Header -->
+    <header id="site-header" class="site-header site-header--overlay is-solid">
+        <div class="gd-nav-inner">
+
+            <!-- Mobile Burger -->
+            <button type="button" class="gd-burger" aria-label="Open menu" aria-expanded="false" data-gd-drawer-open>
+                <span></span><span></span><span></span>
+            </button>
+
+            <a href="../index.html" class="gd-nav-logo" aria-label="Melee Diamonds home">
+                <img src="../images/logo/melee-logo.png" alt="Melee Diamonds">
+            </a>
+
+            <!-- Primary Navigation Links -->
+            <nav class="gd-nav-links" aria-label="Primary">
+                <div class="gd-nav-item">
+                    <a href="lab-grown.html" class="gd-nav-link">
+                        Diamonds
+                        <svg class="gd-nav-caret" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+                            <path d="m3 4.5 3 3 3-3" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </a>
+                    <div class="gd-nav-panel">
+                        <div class="gd-nav-panel-inner">
+                            <a href="lab-grown.html?cat=certified">Certified Diamonds</a>
+                            <a href="lab-grown.html?cat=fancy-color">Fancy Color Certified Diamonds</a>
+                            <a href="matching-pairs.html">Matching Pairs</a>
+                            <a href="round-melee.html">Round Melee &amp; Pointers</a>
+                            <a href="fancy-loose.html">Fancy Loose &amp; Layouts</a>
+                            <a href="lab-grown.html?cat=exotic-shapes">Exotic Fancy Shapes</a>
+                            <a href="lab-grown.html?cat=fancy-color-melee">Fancy Color Melee's</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gd-nav-item">
+                    <a href="jewelry.html" class="gd-nav-link">
+                        Jewelry
+                        <svg class="gd-nav-caret" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+                            <path d="m3 4.5 3 3 3-3" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </a>
+                    <div class="gd-nav-panel">
+                        <div class="gd-nav-panel-inner">
+                            <a href="jewelry.html?type=band">Band</a>
+                            <a href="jewelry.html?type=bracelet">Bracelet</a>
+                            <a href="jewelry.html?type=cuff-links">Cuff Links</a>
+                            <a href="jewelry.html?type=earring">Earring</a>
+                            <a href="jewelry.html?type=necklace">Necklace</a>
+                            <a href="jewelry.html?type=pendant">Pendant</a>
+                            <a href="jewelry.html?type=ring">Ring</a>
+                            <a href="jewelry.html?type=watch">Watch</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gd-nav-item">
+                    <a href="../custom-jewelry.html" class="gd-nav-link">Design Your Own</a>
+                </div>
+                
+                <div class="gd-nav-item">
+                    <a href="../stock.html" class="gd-nav-link">Stock</a>
+                </div>
+                <div class="gd-nav-item">
+                    <a href="../about-us.html" class="gd-nav-link">About</a>
+                </div>
+            </nav>
+
+            <!-- Header Right Section -->
+            <div class="gd-nav-right">
+                <div class="gd-type-switcher">
+                    <a href="../index.html" class="gd-type-btn is-active">Lab-Grown</a>
+                    <a href="../index.html" class="gd-type-btn">Natural</a>
+                </div>
+                <a href="shopping-cart.html" class="gd-cart-link" id="gd-cart-link" style="position:relative;display:inline-flex;align-items:center;margin-right:8px;color:#f59e0b;text-decoration:none;padding:6px;" aria-label="Shopping Cart">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+                        <span id="cart-badge" style="position:absolute;top:0;right:0;background:#f59e0b;color:#0f172a;font-size:9px;font-weight:800;min-width:16px;height:16px;border-radius:50%;display:none;align-items:center;justify-content:center;line-height:1;">0</span>
+                    </a>
+                    <a href="../signin.html" class="px-4 py-2 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs rounded-xl transition">Trade Sign In</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="relative bg-slate-900 text-white pt-24 pb-12 overflow-hidden border-b border-amber-500/20">
+        <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#d4af37_1px,transparent_1px)] [background-size:16px_16px]"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="flex items-center gap-2 text-xs font-semibold text-amber-400 uppercase tracking-widest mb-3">
+                <a href="../index.html" class="hover:underline">Home</a> &gt; <span>Category</span> &gt; <span class="text-white">Round Melee &amp; Pointers</span>
+            </div>
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+                <div>
+                    <h1 class="text-3xl sm:text-4xl lg:text-5xl font-serif font-extrabold text-white tracking-tight mb-3">
+                        ROUND MELEE <span class="text-amber-400">&amp; POINTERS</span> HUB
+                    </h1>
+                    <p class="text-slate-300 text-sm sm:text-base max-w-2xl leading-relaxed">
+                        Calibrated round melee (0.70mm to 3.80mm / +000 to +14 sieve) &amp; calibrated pointers (10pt to 60pt).
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MAIN FILTERS & RESULTS SECTION -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+        
+        <!-- Filter Section (Heyman Layout) -->
+        <div class="bg-slate-900 rounded-3xl border border-amber-500/30 shadow-2xl p-6 sm:p-10 text-white relative">
+            <div class="flex items-center justify-between mb-8">
+                <h2 class="text-xl font-bold text-amber-400 uppercase tracking-widest">Filter by Specification</h2>
+                
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+                <!-- MM Size (Multiple Select) -->
+                <div class="flex flex-col items-center">
+                    <label class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">MM Size (Scrollable)</label>
+                    <div class="w-full bg-white rounded-lg overflow-hidden border-r-4 border-amber-500 shadow-inner p-1">
+                        <select id="filter-mm" multiple class="w-full h-64 px-2 py-2 bg-white text-slate-800 text-xs focus:outline-none overflow-y-auto custom-scrollbar">
+                            <option value="" disabled class="text-slate-400 italic mb-1 font-bold">-- Select Size(s) (Hold Ctrl/Cmd to Multi-select) --</option>
+                            <!-- Grouped Sieve Ranges -->
+                            <optgroup label="Sieve Ranges" class="font-bold text-amber-700">
+                                <option value="0.80 - 1.25" class="py-1 px-2 hover:bg-amber-50 cursor-pointer rounded">0.80 - 1.25 mm (+000 to +2)</option>
+                                <option value="1.30 - 1.80" class="py-1 px-2 hover:bg-amber-50 cursor-pointer rounded">1.30 - 1.80 mm (+3 to +6)</option>
+                                <option value="1.90 - 2.40" class="py-1 px-2 hover:bg-amber-50 cursor-pointer rounded">1.90 - 2.40 mm (+7 to +9)</option>
+                                <option value="2.50 - 2.80" class="py-1 px-2 hover:bg-amber-50 cursor-pointer rounded">2.50 - 2.80 mm (+10 to +11)</option>
+                                <option value="2.90 - 3.20" class="py-1 px-2 hover:bg-amber-50 cursor-pointer rounded">2.90 - 3.20 mm (+12 to +14)</option>
+                            </optgroup>
+                            <!-- Individual Sizes from PDF Pricelist -->
+                            <optgroup label="Calibrated Sizes (-000 to +14)" class="font-bold text-slate-900">
+                                <option value="0.80" class="py-1 px-2 hover:bg-amber-50 cursor-pointer">0.80 mm (-000 / 0.2-25 pts)</option>
+                                <option value="0.90" class="py-1 px-2 hover:bg-amber-50 cursor-pointer">0.90 mm (-000 / 0.3-0.45 pts)</option>
+                                <option value="1.00" class="py-1 px-2 hover:bg-amber-50 cursor-pointer">1.00 mm (00-0 / 0.50 pt)</option>
+                                <option value="1.10" class="py-1 px-2 hover:bg-amber-50 cursor-pointer">1.10 mm (+0-1 / 0.65 pt)</option>
+                                <option value="1.20" class="py-1 px-2 hover:bg-amber-50 cursor-pointer">1.20 mm (+1-2 / 0.75 pt)</option>
+                                <option value="1.30" class="py-1 px-2 hover:bg-amber-50 cursor-pointer">1.30 mm (+2-3.5 / 1.00 pt)</option>
+                                <option value="1.40" class="py-1 px-2 hover:bg-amber-50 cursor-pointer">1.40 mm (+3.5-4.5 / 1.25 pt)</option>
+                                <option value="1.50" class="py-1 px-2 hover:bg-amber-50 cursor-pointer">1.50 mm (+4.5-5.5 / 1.50 pt)</option>
+                                <option value="1.60" class="py-1 px-2 hover:bg-amber-50 cursor-pointer">1.60 mm (+5.5-6 / 1.75 pt)</option>
+                                <option value="1.70" class="py-1 px-2 hover:bg-amber-50 cursor-pointer">1.70 mm (+6-6.5 / 2.00 pt)</option>
+                                <option value="1.80" class="py-1 px-2 hover:bg-amber-50 cursor-pointer">1.80 mm (+6.5-7 / 2.50 pt)</option>
+                                <option value="1.90" class="py-1 px-2 hover:bg-amber-50 cursor-pointer">1.90 mm (+7-7.5 / 3.00 pt)</option>
+                                <option value="2.00" class="py-1 px-2 hover:bg-amber-50 cursor-pointer">2.00 mm (+7.5-8 / 3.50 pt)</option>
+                                <option value="2.10" class="py-1 px-2 hover:bg-amber-50 cursor-pointer">2.10 mm (+8-8.5 / 4.00 pt)</option>
+                                <option value="2.20" class="py-1 px-2 hover:bg-amber-50 cursor-pointer">2.20 mm (+8.5-9 / 4.50 pt)</option>
+                                <option value="2.30" class="py-1 px-2 hover:bg-amber-50 cursor-pointer">2.30 mm (+9-9.5 / 5.00 pt)</option>
+                                <option value="2.40" class="py-1 px-2 hover:bg-amber-50 cursor-pointer">2.40 mm (+9.5-10 / 5.50 pt)</option>
+                                <option value="2.50" class="py-1 px-2 hover:bg-amber-50 cursor-pointer">2.50 mm (+10-10.5 / 6.00 pt)</option>
+                                <option value="2.60" class="py-1 px-2 hover:bg-amber-50 cursor-pointer">2.60 mm (+10.5-11 / 7.00 pt)</option>
+                                <option value="2.70" class="py-1 px-2 hover:bg-amber-50 cursor-pointer">2.70 mm (+11-11.5 / 8.00 pt)</option>
+                                <option value="2.80" class="py-1 px-2 hover:bg-amber-50 cursor-pointer">2.80 mm (+11.5-12 / 9.00 pt)</option>
+                                <option value="2.90" class="py-1 px-2 hover:bg-amber-50 cursor-pointer">2.90 mm (+12-12.5 / 10.00 pt)</option>
+                                <option value="3.00" class="py-1 px-2 hover:bg-amber-50 cursor-pointer">3.00 mm (+12.5-13 / 11.00 pt)</option>
+                                <option value="3.10" class="py-1 px-2 hover:bg-amber-50 cursor-pointer">3.10 mm (+13-13.5 / 12.00 pt)</option>
+                                <option value="3.20" class="py-1 px-2 hover:bg-amber-50 cursor-pointer">3.20 mm (+13.5-14 / 13.00 pt)</option>
+                            </optgroup>
+                            <!-- Pointer Sizes (+14 & Up) -->
+                            <optgroup label="Calibrated Pointers (+14 Sieve &amp; Up)" class="font-bold text-amber-700">
+                                <option value="3.3 - 3.6" class="py-1 px-2 hover:bg-amber-50 cursor-pointer">3.30 - 3.60 mm (+14 / 14-17 PTS)</option>
+                                <option value="3.7 - 3.8" class="py-1 px-2 hover:bg-amber-50 cursor-pointer">3.70 - 3.80 mm (20 PTS)</option>
+                                <option value="3.9 - 4.1" class="py-1 px-2 hover:bg-amber-50 cursor-pointer">3.90 - 4.10 mm (25 PTS)</option>
+                                <option value="4.2 - 4.4" class="py-1 px-2 hover:bg-amber-50 cursor-pointer">4.20 - 4.40 mm (30 PTS)</option>
+                                <option value="4.5" class="py-1 px-2 hover:bg-amber-50 cursor-pointer">4.50 mm (35 PTS)</option>
+                                <option value="4.6" class="py-1 px-2 hover:bg-amber-50 cursor-pointer">4.60 mm (40 PTS)</option>
+                                <option value="4.7 - 4.8" class="py-1 px-2 hover:bg-amber-50 cursor-pointer">4.70 - 4.80 mm (45 PTS)</option>
+                                <option value="4.9 - 5.2" class="py-1 px-2 hover:bg-amber-50 cursor-pointer">4.90 - 5.20 mm (50 PTS)</option>
+                                <option value="5.50" class="py-1 px-2 hover:bg-amber-50 cursor-pointer">5.50 mm (60 PTS)</option>
+                                <option value="5.75" class="py-1 px-2 hover:bg-amber-50 cursor-pointer">5.75 mm (75 PTS)</option>
+                                <option value="6.00" class="py-1 px-2 hover:bg-amber-50 cursor-pointer">6.00 mm (90 PTS)</option>
+                                <option value="1.0" class="py-1 px-2 hover:bg-amber-50 cursor-pointer">1.00 ct (Non-cert)</option>
+                                <option value="1.5" class="py-1 px-2 hover:bg-amber-50 cursor-pointer">1.50 ct (Non-cert)</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                </div>
+                
+                <!-- Color & Clarity Segmented Controls -->
+                <div class="col-span-1 md:col-span-2 flex flex-col justify-center space-y-10 pl-0 md:pl-10">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">White Color</label>
+                        <div class="inline-flex rounded-lg border border-amber-500/50 p-1 bg-slate-950 shadow-inner w-full sm:w-auto" id="filter-color-group">
+                            <button data-color="E-F" class="flex-1 sm:flex-none px-6 py-2.5 text-xs font-bold uppercase rounded-md text-slate-400 hover:text-amber-300 transition">E - F</button>
+                            <button data-color="F-G" class="flex-1 sm:flex-none px-6 py-2.5 text-xs font-bold uppercase rounded-md text-slate-400 hover:text-amber-300 transition">F - G</button>
+                            <button data-color="G-H" class="flex-1 sm:flex-none px-6 py-2.5 text-xs font-bold uppercase rounded-md text-slate-400 hover:text-amber-300 transition">G - H</button>
+                            <button data-color="H-I" class="flex-1 sm:flex-none px-6 py-2.5 text-xs font-bold uppercase rounded-md text-slate-400 hover:text-amber-300 transition">H - I</button>
+                            <button data-color="I-J" class="flex-1 sm:flex-none px-6 py-2.5 text-xs font-bold uppercase rounded-md text-slate-400 hover:text-amber-300 transition">I - J</button>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">Clarity</label>
+                        <div class="inline-flex rounded-lg border border-amber-500/50 p-1 bg-slate-950 shadow-inner w-full sm:w-auto" id="filter-clarity-group">
+                            <button data-clarity="VVS" class="flex-1 sm:flex-none px-10 py-2.5 text-xs font-bold uppercase rounded-md text-slate-400 hover:text-amber-300 transition">VVS</button>
+                            <button data-clarity="VS" class="flex-1 sm:flex-none px-10 py-2.5 text-xs font-bold uppercase rounded-md text-slate-400 hover:text-amber-300 transition">VS</button>
+                            <button data-clarity="SI" class="flex-1 sm:flex-none px-10 py-2.5 text-xs font-bold uppercase rounded-md text-slate-400 hover:text-amber-300 transition">SI</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Bottom Actions -->
+            <div class="flex items-center justify-between mt-10 pt-6 border-t border-slate-800">
+                <div class="text-xs text-slate-500"><i class="fa-solid fa-list mr-2"></i> Select your specifications above to view live inventory</div>
+                <div class="flex gap-4">
+                    <button id="btn-reset-filters" class="px-6 py-2 text-xs font-bold text-slate-400 bg-slate-800 rounded-lg hover:text-white transition uppercase shadow-inner">Reset Selection</button>
+                    <button id="btn-search-melee" class="px-8 py-2 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs rounded-lg transition shadow-lg uppercase">Search</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Inventory Matrix Table -->
+        <div id="results-container" class="bg-white rounded-3xl border border-slate-200 shadow-xl overflow-hidden hidden">
+            <div class="p-5 border-b border-slate-100 flex items-center justify-between flex-wrap gap-4 bg-slate-50">
+                <div>
+                    <h3 class="font-bold text-slate-900 text-lg">Search Results</h3>
+                    <p class="text-xs text-slate-500">Matching Melee Parcels & Pointers</p>
+                </div>
+                <div class="flex items-center gap-3">
+                    <span id="rm-items-count" class="text-xs font-bold text-slate-700 bg-white px-3 py-1.5 rounded-xl border border-slate-200">Loading...</span>
+                </div>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-xs">
+                    <thead class="bg-slate-900 text-amber-300 font-semibold uppercase tracking-wider text-[11px]">
+                        <tr>
+                            <th class="p-3.5">#</th>
+                            <th class="p-3.5">Source PDF Sheet</th>
+                            <th class="p-3.5">Shape / Category</th>
+                            <th class="p-3.5">MM Size / Spec</th>
+                            <th class="p-3.5">Color</th>
+                            <th class="p-3.5">Clarity</th>
+                            <th class="p-3.5">Point / Sieve Size</th>
+                            <th class="p-3.5">Wholesale Price / CT (CVD/HPHT)</th>
+                            <th class="p-3.5">Availability</th>
+                            <th class="p-3.5 text-right">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="rm-table-body" class="divide-y divide-slate-100 text-slate-800 font-medium">
+                        <!-- Dynamically populated matrix rows -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- FOOTER SECTION -->
+    <footer class="bg-slate-900 text-slate-300 border-t border-slate-800 mt-16 pt-12 pb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 pb-8 border-b border-slate-800">
+                <div>
+                    <h3 class="font-serif text-xl font-bold text-white mb-3">MELEE DIAMONDS</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        Premier B2B wholesale diamond dealer supplying calibrated round melee, matching pairs, and certified diamonds to fine jewelers across the US &amp; UK.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="text-xs font-bold uppercase tracking-wider text-amber-400 mb-2">US Office Address</h4>
+                    <p class="text-xs text-slate-300 leading-relaxed">
+                        36 West 47th Street, Suite 509<br>
+                        New York, NY 10036<br>
+                        <span class="text-amber-400 font-bold">Tel: +1 (332) 279-0323</span>
+                    </p>
+                </div>
+                <div>
+                    <h4 class="text-xs font-bold uppercase tracking-wider text-amber-400 mb-2">UK Office Address</h4>
+                    <p class="text-xs text-slate-300 leading-relaxed">
+                        Suite 4.1, 6/7 Hatton Garden<br>
+                        London EC1N 8AD<br>
+                        <span class="text-amber-400 font-bold">Tel: +1 (332) 279-0323</span>
+                    </p>
+                </div>
+            </div>
+            <div class="pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500">
+                <p>&copy; 2026 Melee Diamonds. All rights reserved.</p>
+                <div class="flex items-center gap-4 mt-4 sm:mt-0">
+                    <a href="../index.html" class="hover:text-slate-300">Home</a>
+                    <a href="matching-pairs.html" class="hover:text-slate-300">Matching Pairs</a>
+                    <a href="round-melee.html" class="hover:text-amber-400 font-semibold">Round Melee</a>
+                    <a href="fancy-loose.html" class="hover:text-slate-300">Fancy Loose &amp; Layout</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- App Scripts -->
+    <script src="../js/adminDataStore.js"></script>
+    <script src="../js/stockData.js"></script>
+    <script src="../js/app.js"></script>
+    <script src="../js/roundMelee.js"></script>
+
+    <script>
+    (function updateCartBadge() {
+        const badge = document.getElementById('cart-badge');
+        if (badge) {
+            const cart = JSON.parse(localStorage.getItem('itd_cart') || '[]');
+            const count = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+            badge.textContent = count;
+            badge.style.display = count > 0 ? 'flex' : 'none';
+        }
+    })();
+    </script>
+</body>
+</html>
