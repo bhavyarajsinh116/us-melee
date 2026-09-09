@@ -176,14 +176,11 @@
                     </a>
                     <div class="gd-nav-panel">
                         <div class="gd-nav-panel-inner">
-                            <a href="lab-grown.html?cat=certified">Certified Diamonds</a>
-                            <a href="lab-grown.html?cat=fancy-color">Fancy Color Certified Diamonds</a>
-                            <a href="lab-grown.html?cat=matching-pairs">Matching Pairs</a>
-                            <a href="lab-grown.html?cat=round-melee">Round Melee &amp; Pointers</a>
-                            <a href="lab-grown.html?cat=fancy-loose">Fancy Loose &amp; Layouts</a>
-                            <a href="lab-grown.html?cat=exotic-shapes">Exotic Fancy Shapes</a>
-                            <a href="lab-grown.html?cat=fancy-color-melee">Fancy Color Melee's</a>
-                        </div>
+                              <a href="lab-grown.html">Certified Diamonds</a>
+                              <a href="matching-pairs.html">Matching Pairs</a>
+                              <a href="round-melee.html">Round Melee &amp; Pointers</a>
+                              <a href="fancy-loose.html">Fancy Loose &amp; Layout</a>
+                          </div>
                     </div>
                 </div>
 
@@ -242,6 +239,10 @@
                 </button>
 
                 <a href="../admin/index.html" class="gd-nav-login" title="Admin Portal" aria-label="Admin Portal" style="background:#0f172a; color:#fbbf24; border:1px solid #334155; padding:7px 11px; border-radius:8px; font-size:16px; display:inline-flex; align-items:center; justify-content:center; text-decoration:none; transition:all 0.2s ease;">🛡️</a>
+                <a href="shopping-cart.html" class="gd-cart-link" id="gd-cart-link" style="position:relative;display:inline-flex;align-items:center;margin-right:8px;color:#f59e0b;text-decoration:none;padding:6px;" aria-label="Shopping Cart">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+                        <span id="cart-badge" style="position:absolute;top:0;right:0;background:#f59e0b;color:#0f172a;font-size:9px;font-weight:800;min-width:16px;height:16px;border-radius:50%;display:none;align-items:center;justify-content:center;line-height:1;">0</span>
+                    </a>
                 <a href="../signin.html" class="gd-nav-login">Login</a>
                 <a href="../book-appointment.html" class="gd-btn">Book Appointment</a>
 
@@ -296,11 +297,9 @@
                     <div class="gd-drawer-sub" id="gd-drawer-sub-0" hidden>
                         <a href="lab-grown.html">All Lab Grown</a>
                         <a href="lab-grown.html?cat=certified">Certified Diamonds</a>
-                        <a href="lab-grown.html?cat=fancy-color">Fancy Color Certified Diamonds</a>
                         <a href="lab-grown.html?cat=matching-pairs">Matching Pairs</a>
                         <a href="lab-grown.html?cat=round-melee">Round Melee &amp; Pointers</a>
                         <a href="lab-grown.html?cat=fancy-loose">Fancy Loose &amp; Layouts</a>
-                        <a href="lab-grown.html?cat=exotic-shapes">Exotic Fancy Shapes</a>
                     </div>
                 </div>
                 <div class="gd-drawer-row">
@@ -977,5 +976,20 @@
             });
         });
     </script>
+
+<script>
+(function updateCartBadge() {
+    var badge = document.getElementById('cart-badge');
+    if (badge) {
+        try {
+            var cart = JSON.parse(localStorage.getItem('itd_cart') || '[]');
+            var count = 0;
+            for (var i = 0; i < cart.length; i++) { count += (cart[i].quantity || 1); }
+            badge.textContent = count;
+            badge.style.display = count > 0 ? 'flex' : 'none';
+        } catch(e) {}
+    }
+})();
+</script>
 </body>
 </html>

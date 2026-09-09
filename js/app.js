@@ -2865,6 +2865,27 @@
 
   function initCertifiedDiamondsUI() {
 
+    const urlParams = new URLSearchParams(window.location.search);
+    const cat = urlParams.get('cat');
+    const isFancyLoosePage = cat === 'fancy-loose' || window.location.pathname.includes('fancy-loose');
+
+    if (isFancyLoosePage) {
+      const heroKicker = document.getElementById('gd-hero-kicker');
+      if (heroKicker) heroKicker.textContent = 'HOME > CATEGORY > FANCY LOOSE & LAYOUT';
+
+      const heroTitle = document.getElementById('gd-hero-main-title');
+      if (heroTitle) heroTitle.textContent = 'FANCY LOOSE & LAYOUT SUITES';
+
+      const heroDesc = document.getElementById('gd-hero-main-desc');
+      if (heroDesc) heroDesc.textContent = 'Calibrated fancy shape loose diamonds & pre-matched custom jewelry layout suites. Emerald, Oval, Radiant, Cushion, Princess, Marquise, Asscher, and Baguette cuts.';
+
+      const cdTitle = document.querySelector('.gd-cd-title');
+      if (cdTitle) cdTitle.textContent = 'Calibrated Fancy Loose Stock Sheet';
+
+      const cdSub = document.querySelector('.gd-cd-sub');
+      if (cdSub) cdSub.textContent = 'Live Inventory from 1. Blank Layout Stock Sheet';
+    }
+
     // Dual ID Event Bindings for HeyMan Diamond exact inputs
     const idsMap = [
       { idMin: 'caratmin', idMax: 'caratmax', propMin: 'caratMin', propMax: 'caratMax' },
@@ -2921,11 +2942,13 @@
     shapeBtns.forEach(btn => {
       btn.addEventListener('click', function () {
         const shp = this.getAttribute('data-shape');
-        if (cdState.selectedShapes.has(shp)) {
-          cdState.selectedShapes.delete(shp);
-          this.classList.remove('is-active');
+        if (cdState.selectedShapes.has(shp) && cdState.selectedShapes.size === 1) {
+          cdState.selectedShapes.clear();
+          shapeBtns.forEach(b => b.classList.remove('is-active'));
         } else {
+          cdState.selectedShapes.clear();
           cdState.selectedShapes.add(shp);
+          shapeBtns.forEach(b => b.classList.remove('is-active'));
           this.classList.add('is-active');
         }
         renderInventoryGrid();
