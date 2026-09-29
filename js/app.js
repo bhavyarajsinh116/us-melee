@@ -3140,12 +3140,10 @@
         userPill.className = 'gd-nav-user-wrapper';
         userPill.style.cssText = 'position:relative; display:inline-block; margin-left:8px;';
         userPill.innerHTML = `
-          <button type="button" class="gd-user-pill-btn" onclick="window.toggleUserMenu(event)" style="background:#1b1464; color:#ffffff; border:none; padding:7px 16px; border-radius:20px; font-size:13px; font-weight:600; display:inline-flex; align-items:center; gap:6px; cursor:pointer; font-family:inherit; box-shadow:0 2px 8px rgba(27,20,100,0.15);">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-            <span>${displayName}</span>
-            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"></path></svg>
+          <button type="button" class="gd-user-pill-btn" onclick="window.toggleUserMenu(event)" title="Account: ${displayName}" aria-label="Account Profile" style="background:#1b1464; color:#ffffff; border:1.5px solid rgba(255,255,255,0.25); width:38px; height:38px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; cursor:pointer; font-family:inherit; box-shadow:0 2px 10px rgba(0,0,0,0.25); transition:transform 0.15s ease;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
           </button>
-          <div class="gd-user-dropdown-menu" style="display:none; position:absolute; right:0; top:calc(100% + 8px); background:#ffffff; border:1px solid #e2e8f0; border-radius:12px; box-shadow:0 12px 28px -4px rgba(0,0,0,0.18); min-width:200px; z-index:99999; padding:6px 0; text-align:left;">
+          <div class="gd-user-dropdown-menu" style="display:none; position:absolute; right:0; top:calc(100% + 10px); background:#ffffff; border:1px solid #e2e8f0; border-radius:12px; box-shadow:0 12px 28px -4px rgba(0,0,0,0.18); min-width:210px; z-index:99999; padding:6px 0; text-align:left;">
             <div style="padding:10px 16px; border-bottom:1px solid #f1f5f9; font-size:12px; color:#64748b;">
               Signed in as<br><strong style="color:#0f172a; font-size:13px; word-break:break-all;">${userEmail}</strong>
             </div>
