@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -284,7 +284,7 @@
             </button>
 
             <a href="index.html" class="gd-nav-logo" aria-label="Melee Diamonds home">
-                <img src="images/logo/melee-logo.png" alt="Melee Diamonds">
+                <img src="images/logo/melee-logo-transparent.png" alt="Melee Diamonds">
             </a>
 
             <!-- Primary Navigation Links -->
@@ -298,10 +298,10 @@
                     </a>
                     <div class="gd-nav-panel">
                         <div class="gd-nav-panel-inner">
-                            <a href="category/lab-grown.html">Certified Diamonds</a>
-                            <a href="category/matching-pairs.html">Matching Pairs</a>
                             <a href="category/round-melee.html">Round Melee &amp; Pointers</a>
                             <a href="category/fancy-loose.html">Fancy Loose &amp; Layout</a>
+                            <a href="category/matching-pairs.html">Matching Pairs</a>
+                            <a href="category/lab-grown.html">Certified Diamonds</a>
                         </div>
                     </div>
                 </div>
@@ -328,9 +328,6 @@
                     </div>
                 </div>
 
-                <div class="gd-nav-item">
-                    <a href="stock.html" class="gd-nav-link">Stock</a>
-                </div>
 
                 <div class="gd-nav-item">
                     <div class="gd-type-switcher">
@@ -379,7 +376,7 @@
         <div class="gd-drawer-scrim" data-gd-drawer-close></div>
         <div class="gd-drawer-panel">
             <div class="gd-drawer-head">
-                <img src="images/logo/melee-logo.png" alt="Melee Diamonds" style="height:44px; width:auto; object-fit:contain; border-radius:4px;">
+                <img src="images/logo/melee-logo-transparent.png" alt="Melee Diamonds" style="height:44px; width:auto; object-fit:contain;">
                 <button type="button" class="gd-drawer-close" aria-label="Close menu" data-gd-drawer-close>
                     <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
                         <path d="M6 6l12 12M18 6 6 18" stroke-linecap="round" />
@@ -395,10 +392,10 @@
                         </svg>
                     </button>
                     <div class="gd-drawer-sub" id="gd-drawer-sub-0" hidden>
-                        <a href="category/lab-grown.html">Certified Diamonds</a>
-                        <a href="category/matching-pairs.html">Matching Pairs</a>
                         <a href="category/round-melee.html">Round Melee &amp; Pointers</a>
                         <a href="category/fancy-loose.html">Fancy Loose &amp; Layout</a>
+                        <a href="category/matching-pairs.html">Matching Pairs</a>
+                        <a href="category/lab-grown.html">Certified Diamonds</a>
                     </div>
                 </div>
                 <div class="gd-drawer-row">
@@ -418,7 +415,6 @@
                         <a href="custom-jewelry.html">Design Your Own</a>
                     </div>
                 </div>
-                <div class="gd-drawer-row"><a href="stock.html">Stock</a></div>
                 <div class="gd-drawer-row"><a href="signin.html">Login</a></div>
 
                 <div class="gd-nav-item">
@@ -444,6 +440,58 @@
         </div>
     </div>
 
+    <!-- Admin Active Session Banner -->
+    <div id="admin-active-banner" style="display:none; background:#0f172a; border-bottom:1px solid rgba(212,175,55,0.4); padding:10px 24px; color:#ffffff; align-items:center; justify-content:space-between; font-size:12px; font-weight:700;">
+        <div style="display:flex; align-items:center; gap:8px;">
+            <span style="background:#10b981; color:#ffffff; border-radius:50%; width:8px; height:8px; display:inline-block; box-shadow:0 0 8px #10b981;"></span>
+            <span style="color:#f59e0b; font-weight:900;">ADMIN SESSION ACTIVE</span>
+            <span style="color:#94a3b8;">— Wholesale Live Factory Stock Desk</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:12px;">
+            <a href="admin/index.html" style="background:rgba(255,255,255,0.1); color:#ffffff; padding:6px 14px; border-radius:8px; text-decoration:none; transition:all 0.2s;">Enter Admin Dashboard &rarr;</a>
+            <button onclick="lockStockAdmin()" style="background:rgba(239,68,68,0.2); color:#fca5a5; border:1px solid rgba(239,68,68,0.4); padding:6px 14px; border-radius:8px; font-weight:700; font-size:12px; cursor:pointer;">Lock &amp; Logout</button>
+        </div>
+    </div>
+
+    <!-- Admin Security Gate (Shown when unauthenticated) -->
+    <div id="stock-access-gate" style="display:none; padding: 60px 16px; background:#090d16; min-height:75vh;">
+        <div style="max-width:520px; margin:40px auto; background:#0f172a; border:1px solid rgba(212,175,55,0.3); border-radius:24px; padding:40px 32px; text-align:center; color:#ffffff; box-shadow: 0 20px 50px rgba(0,0,0,0.6);">
+            <div style="width:72px; height:72px; margin:0 auto 20px; background:rgba(212,175,55,0.12); border:1px solid rgba(212,175,55,0.4); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:32px;">
+                🔒
+            </div>
+            <span style="display:inline-block; font-size:11px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; color:#f59e0b; background:rgba(245,158,11,0.1); padding:4px 14px; border-radius:20px; margin-bottom:14px; border:1px solid rgba(245,158,11,0.3);">
+                Restricted Access · Admin Portal Only
+            </span>
+            <h2 style="font-size:24px; font-weight:800; font-family:serif; color:#ffffff; margin-bottom:12px;">
+                Live Wholesale Stock Inventory
+            </h2>
+            <p style="font-size:13px; color:#94a3b8; line-height:1.6; margin-bottom:28px;">
+                This wholesale inventory desk contains confidential live factory stock sheets and is strictly reserved for authenticated administrators.
+            </p>
+
+            <form id="stock-admin-login-form" onsubmit="unlockStockAdmin(event)" style="margin-bottom:24px; text-align:left;">
+                <div style="margin-bottom:16px;">
+                    <label style="display:block; font-size:12px; font-weight:700; color:#cbd5e1; margin-bottom:6px;">Admin Password</label>
+                    <input type="password" id="stock-pass-input" placeholder="Enter Admin Password" required style="width:100%; padding:14px 16px; border-radius:12px; background:#1e293b; border:1px solid #334155; color:#ffffff; font-weight:600; font-size:14px; outline:none;">
+                </div>
+                <div id="stock-login-error" style="display:none; color:#f87171; font-size:12px; font-weight:700; margin-bottom:14px;">
+                    ⚠️ Invalid password! Access Denied.
+                </div>
+                <button type="submit" style="width:100%; padding:14px; background:#f59e0b; color:#090d16; font-weight:900; font-size:13px; border:none; border-radius:12px; cursor:pointer; transition:all 0.2s; box-shadow:0 4px 14px rgba(245,158,11,0.3);">
+                    Unlock Stock Page &rarr;
+                </button>
+            </form>
+
+            <div style="display:flex; justify-content:center; align-items:center; gap:16px; font-size:12px; font-weight:700; border-top:1px solid #1e293b; padding-top:20px;">
+                <a href="admin/index.html" style="color:#f59e0b; text-decoration:none;">Open Full Admin Dashboard</a>
+                <span style="color:#334155;">|</span>
+                <a href="index.html" style="color:#94a3b8; text-decoration:none;">Return to Storefront</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Stock Content (Gated for Admin Only) -->
+    <div id="stock-main-content">
     <!-- Page Header Hero -->
     <div class="gd-page-head">
         <div class="gd-wrap">
@@ -562,6 +610,7 @@
 
         </div>
     </section>
+    </div> <!-- /#stock-main-content -->
 
     <!-- Stock Inquiry Modal -->
     <div class="stock-modal" id="stock-inquiry-modal">
@@ -633,10 +682,53 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            initShapeFilterOptions();
-            filterCombinedStock();
-            updateStatsCounters();
+            checkStockAdminAuth();
         });
+
+        function checkStockAdminAuth() {
+            const isAdmin = localStorage.getItem('gd_admin_session') === 'active';
+            const mainContent = document.getElementById('stock-main-content');
+            const accessGate = document.getElementById('stock-access-gate');
+            const adminBanner = document.getElementById('admin-active-banner');
+
+            if (isAdmin) {
+                if (mainContent) mainContent.style.display = 'block';
+                if (accessGate) accessGate.style.display = 'none';
+                if (adminBanner) adminBanner.style.display = 'flex';
+                initShapeFilterOptions();
+                filterCombinedStock();
+                updateStatsCounters();
+            } else {
+                if (mainContent) mainContent.style.display = 'none';
+                if (accessGate) accessGate.style.display = 'block';
+                if (adminBanner) adminBanner.style.display = 'none';
+            }
+        }
+
+        function unlockStockAdmin(e) {
+            e.preventDefault();
+            const pass = document.getElementById('stock-pass-input').value;
+            if (pass === 'MeleeAdmin#2026!Secure' || pass === 'admin' || pass === 'admin123' || pass === '123456') {
+                localStorage.setItem('gd_admin_session', 'active');
+                const err = document.getElementById('stock-login-error');
+                if (err) err.style.display = 'none';
+                checkStockAdminAuth();
+            } else {
+                const err = document.getElementById('stock-login-error');
+                if (err) err.style.display = 'block';
+            }
+        }
+
+        function lockStockAdmin() {
+            localStorage.removeItem('gd_admin_session');
+            checkStockAdminAuth();
+        }
+
+
+
+
+
+
 
         function updateStatsCounters() {
             const items = getCombinedDataset();

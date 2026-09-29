@@ -520,12 +520,12 @@
         const s = this.getAttribute('data-mp-shape');
         if (state.shapes.has(s)) {
           state.shapes.delete(s);
-          this.classList.remove('bg-amber-500', 'text-slate-950', 'border-amber-500');
-          this.classList.add('bg-white', 'text-slate-700', 'border-slate-200');
+          this.classList.remove('bg-amber-400', 'border-amber-500', 'ring-2', 'ring-amber-400/50', 'shadow-md', 'scale-105', 'active');
+          this.classList.add('bg-white', 'border-slate-200');
         } else {
           state.shapes.add(s);
-          this.classList.remove('bg-white', 'text-slate-700', 'border-slate-200');
-          this.classList.add('bg-amber-500', 'text-slate-950', 'border-amber-500');
+          this.classList.remove('bg-white', 'border-slate-200');
+          this.classList.add('bg-amber-400', 'border-amber-500', 'ring-2', 'ring-amber-400/50', 'shadow-md', 'scale-105', 'active');
         }
         renderPairs();
       });
@@ -591,8 +591,8 @@
     state.searchQuery = '';
 
     document.querySelectorAll('[data-mp-shape]').forEach(b => {
-      b.classList.remove('bg-amber-500', 'text-slate-950', 'border-amber-500');
-      b.classList.add('bg-white', 'text-slate-700', 'border-slate-200');
+      b.classList.remove('bg-amber-400', 'border-amber-500', 'ring-2', 'ring-amber-400/50', 'shadow-md', 'scale-105', 'active');
+      b.classList.add('bg-white', 'border-slate-200');
     });
 
     ['mp-carat-min', 'mp-carat-max', 'mp-price-min', 'mp-price-max', 'mp-search-input'].forEach(id => {
@@ -686,16 +686,52 @@
 
           <!-- Trade Inquiry / Order Form -->
           <div class="bg-amber-50 border border-amber-200 rounded-2xl p-5">
-            <h4 class="font-bold text-amber-950 text-sm mb-2"><i class="fa-solid fa-paper-plane text-amber-600"></i> Reserve / Hold Pair Request</h4>
-            <p class="text-xs text-amber-800 mb-4">Request 24-hour hold or wholesale checkout quote for Pair ${pair.id}.</p>
-            
+            <h4 class="font-bold text-amber-950 text-sm mb-2"><i class="fa-solid fa-cart-shopping text-amber-600"></i> Add to Cart / Reserve Pair</h4>
+            <p class="text-xs text-amber-800 mb-4">Set quantity by Carats and/or Pieces, then add to cart or submit a hold request for Pair ${pair.id}.</p>
+
+            <div id="mp-success-msg" style="display:none;color:#059669;font-weight:700;font-size:13px;margin-bottom:10px;">
+              <i class="fa-solid fa-circle-check" style="margin-right:4px;"></i> Added to cart successfully
+            </div>
+
+            <!-- Carats stepper -->
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px;">
+              <span style="font-size:13px;font-weight:700;color:#0f172a;min-width:56px;">CARATS:</span>
+              <div style="display:flex;align-items:center;">
+                <button type="button" onclick="const q=document.getElementById('mp-modal-carats'); q.value=Math.max(0,(parseFloat(q.value)||0)-0.01).toFixed(2)" style="width:36px;height:36px;background:#f59e0b;color:white;border:none;font-size:18px;font-weight:bold;cursor:pointer;border-radius:4px 0 0 4px;">&#8722;</button>
+                <input type="number" id="mp-modal-carats" value="0.00" min="0" step="0.01" style="width:60px;text-align:center;height:36px;border:1px solid #e2e8f0;border-left:none;border-right:none;font-size:14px;font-weight:bold;outline:none;">
+                <button type="button" onclick="const q=document.getElementById('mp-modal-carats'); q.value=(parseFloat(q.value)+0.01).toFixed(2)" style="width:36px;height:36px;background:#f59e0b;color:white;border:none;font-size:18px;font-weight:bold;cursor:pointer;border-radius:0 4px 4px 0;">&#43;</button>
+              </div>
+              <span style="font-size:11px;color:#64748b;">ct</span>
+            </div>
+
+            <!-- Pieces stepper -->
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
+              <span style="font-size:13px;font-weight:700;color:#0f172a;min-width:56px;">PIECES:</span>
+              <div style="display:flex;align-items:center;">
+                <button type="button" onclick="const q=document.getElementById('mp-modal-pieces'); if(parseInt(q.value)>0) q.value=parseInt(q.value)-1" style="width:36px;height:36px;background:#0f172a;color:white;border:none;font-size:18px;font-weight:bold;cursor:pointer;border-radius:4px 0 0 4px;">&#8722;</button>
+                <input type="number" id="mp-modal-pieces" value="2" min="0" style="width:60px;text-align:center;height:36px;border:1px solid #e2e8f0;border-left:none;border-right:none;font-size:14px;font-weight:bold;outline:none;">
+                <button type="button" onclick="const q=document.getElementById('mp-modal-pieces'); q.value=parseInt(q.value)+1" style="width:36px;height:36px;background:#0f172a;color:white;border:none;font-size:18px;font-weight:bold;cursor:pointer;border-radius:0 4px 4px 0;">&#43;</button>
+              </div>
+              <span style="font-size:11px;color:#64748b;">pcs</span>
+            </div>
+
+            <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:14px;">
+              <button type="button" onclick="window.MatchingPairsEngine.addToCartPair('${pair.id}')" style="display:inline-flex;align-items:center;gap:6px;padding:10px 20px;background:#0f172a;color:white;border:none;font-weight:bold;font-size:12px;border-radius:6px;cursor:pointer;transition:background 0.2s;text-transform:uppercase;" onmouseover="this.style.background='#f59e0b';this.style.color='#0f172a'" onmouseout="this.style.background='#0f172a';this.style.color='white'">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+                ADD TO CART
+              </button>
+            </div>
+
+            <hr style="border-color:#fde68a;margin-bottom:14px;">
+            <p class="text-xs text-amber-700 font-semibold mb-3">Or submit a 24-hour hold / quote request:</p>
+
             <form id="pair-inquiry-form" onsubmit="window.MatchingPairsEngine.handlePairInquiry(event)" class="grid grid-cols-1 md:grid-cols-2 gap-3">
               <input type="text" id="mp-cust-name" placeholder="Your Name *" required class="px-3 py-2 text-xs rounded-xl border border-amber-300 bg-white focus:outline-none focus:ring-2 focus:ring-amber-500">
               <input type="text" id="mp-cust-company" placeholder="Company Name *" required class="px-3 py-2 text-xs rounded-xl border border-amber-300 bg-white focus:outline-none focus:ring-2 focus:ring-amber-500">
               <input type="email" id="mp-cust-email" placeholder="Email Address *" required class="px-3 py-2 text-xs rounded-xl border border-amber-300 bg-white focus:outline-none focus:ring-2 focus:ring-amber-500">
               <input type="tel" id="mp-cust-phone" placeholder="Mobile / WhatsApp *" required class="px-3 py-2 text-xs rounded-xl border border-amber-300 bg-white focus:outline-none focus:ring-2 focus:ring-amber-500">
               <textarea id="mp-cust-notes" placeholder="Custom notes or delivery timeline..." class="col-span-full px-3 py-2 text-xs rounded-xl border border-amber-300 bg-white focus:outline-none focus:ring-2 focus:ring-amber-500 h-16"></textarea>
-              
+
               <div class="col-span-full flex items-center justify-between pt-2">
                 <div>
                   <span class="text-xs text-slate-500 block">Total Pair Price:</span>
@@ -710,6 +746,47 @@
         </div>
       </div>
     `;
+  }
+
+  function addToCartPair(pairId) {
+    const carats = parseFloat(document.getElementById('mp-modal-carats').value) || 0;
+    const pieces = parseInt(document.getElementById('mp-modal-pieces').value) || 0;
+
+    if (carats === 0 && pieces === 0) {
+      alert('Please enter at least a Carats or Pieces quantity before adding to cart.');
+      return;
+    }
+
+    const pair = state.activePair;
+    if (!pair) return;
+
+    let cart = JSON.parse(localStorage.getItem('itd_cart') || '[]');
+    cart.push({
+      id: pair.id,
+      mmSize: pair.stoneA ? pair.stoneA.mm : '',
+      shape: pair.shape || 'Round',
+      color: pair.stoneA ? pair.stoneA.color : '',
+      clarity: pair.stoneA ? pair.stoneA.clarity : '',
+      price: pair.totalPrice || 0,
+      carats: carats,
+      pieces: pieces,
+      quantity: pieces || 2,
+      source: 'Matching Pairs',
+      title: pair.title,
+      addedAt: new Date().getTime()
+    });
+    localStorage.setItem('itd_cart', JSON.stringify(cart));
+
+    const successMsg = document.getElementById('mp-success-msg');
+    if (successMsg) successMsg.style.display = 'block';
+
+    // Update cart badge
+    const badge = document.getElementById('cart-badge');
+    if (badge) {
+      const count = cart.reduce((s, i) => s + (i.pieces || i.quantity || 1), 0);
+      badge.textContent = count;
+      badge.style.display = count > 0 ? 'flex' : 'none';
+    }
   }
 
   function handlePairInquiry(e) {
@@ -752,6 +829,7 @@
   window.MatchingPairsEngine = {
     init: init,
     openPairModal: openPairModal,
+    addToCartPair: addToCartPair,
     handlePairInquiry: handlePairInquiry,
     resetFilters: resetFilters
   };

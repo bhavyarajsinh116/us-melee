@@ -78,7 +78,7 @@
                     <header class="bg-[#0F172A] border-b border-amber-500/40 px-6 py-4 flex items-center justify-between sticky top-0 z-50 shadow-xl">
                         <div class="flex items-center gap-4">
                             <a href="../index.html" class="flex items-center gap-2">
-                                <img src="../images/logo/melee-logo.png" alt="Melee Diamonds" class="h-10 w-auto">
+                                <img src="../images/logo/melee-logo-transparent.png" alt="Melee Diamonds" class="h-10 w-auto">
                             </a>
                             <div class="h-7 w-px bg-slate-700"></div>
                             <div>
@@ -129,7 +129,7 @@
                     <div class="min-h-screen flex items-center justify-center p-4 bg-[#0F172A]">
                         <div class="bg-white rounded-3xl p-8 max-w-md w-full shadow-2xl space-y-6 border border-amber-500/40">
                             <div class="text-center space-y-2">
-                                <img src="../images/logo/melee-logo.png" alt="Melee Diamonds" class="h-12 w-auto mx-auto mb-2">
+                                <img src="../images/logo/melee-logo-transparent.png" alt="Melee Diamonds" class="h-12 w-auto mx-auto mb-2">
                                 <h2 class="text-2xl font-serif font-extrabold text-[#0F172A]">MELEE <span class="text-[#D4AF37]">DIAMONDS</span></h2>
                                 <p class="text-xs text-slate-500 font-bold uppercase tracking-widest">Enterprise Admin Control Portal</p>
                             </div>
@@ -1285,23 +1285,116 @@
                 renderApp();
             };
 
+            window.closeAdminCustomModal = function () {
+                const modalContainer = document.getElementById('admin-custom-modal');
+                if (modalContainer) modalContainer.remove();
+            };
+
             window.showCreateGroupModal = function () {
-                const name = prompt('Enter Group Name:', 'Boutique Trade');
+                let existingModal = document.getElementById('admin-custom-modal');
+                if (existingModal) existingModal.remove();
+
+                const modalContainer = document.createElement('div');
+                modalContainer.id = 'admin-custom-modal';
+                modalContainer.className = 'fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md transition-all duration-300 animate-fadeIn';
+                
+                modalContainer.innerHTML = `
+                    <div class="bg-[#0F172A] border border-amber-500/40 rounded-3xl p-6 sm:p-8 max-w-lg w-full shadow-2xl space-y-6 text-white transform transition-all scale-100 relative">
+                        <button type="button" onclick="closeAdminCustomModal()" class="absolute top-5 right-5 text-slate-400 hover:text-white text-xl font-bold transition w-8 h-8 rounded-full flex items-center justify-center bg-slate-800/60 hover:bg-slate-800 cursor-pointer">&times;</button>
+                        
+                        <div class="flex items-center gap-3 border-b border-slate-800 pb-4">
+                            <div class="w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-2xl text-amber-400 shadow-inner flex-shrink-0">
+                                🏷️
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-serif font-extrabold text-white">Create Tier Group</h3>
+                                <p class="text-xs text-slate-400 font-medium">Add a new customer discount group &amp; pricing tier</p>
+                            </div>
+                        </div>
+
+                        <form id="create-group-form" onsubmit="submitCreateGroupForm(event)" class="space-y-4">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1.5">Group / Tier Name <span class="text-amber-400">*</span></label>
+                                <input type="text" id="grp-modal-name" required placeholder="e.g. Boutique Trade Partners" value="Boutique Trade" class="w-full px-4 py-3 rounded-xl bg-slate-900 border border-slate-700 text-white font-semibold text-sm outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400/50 transition">
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1.5">Default Wholesale Discount (%) <span class="text-amber-400">*</span></label>
+                                <div class="relative">
+                                    <input type="number" id="grp-modal-discount" min="0" max="90" step="1" required placeholder="e.g. 18" value="18" class="w-full px-4 py-3 rounded-xl bg-slate-900 border border-slate-700 text-white font-bold text-sm outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400/50 transition pr-10">
+                                    <span class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-sm">%</span>
+                                </div>
+                                <p class="text-[11px] text-slate-400 mt-1 font-medium">Applied automatically to all member accounts assigned to this tier group.</p>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1.5">Description / Eligibility Criteria</label>
+                                <textarea id="grp-modal-desc" rows="3" placeholder="e.g. Preferred boutique trade accounts with minimum annual volume." class="w-full px-4 py-3 rounded-xl bg-slate-900 border border-slate-700 text-white font-medium text-xs outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400/50 transition resize-none">Custom Created Trade Group</textarea>
+                            </div>
+
+                            <div class="flex items-center justify-end gap-3 pt-4 border-t border-slate-800">
+                                <button type="button" onclick="closeAdminCustomModal()" class="px-5 py-2.5 rounded-xl border border-slate-700 text-slate-300 hover:text-white hover:bg-slate-800 text-xs font-bold transition cursor-pointer">
+                                    Cancel
+                                </button>
+                                <button type="submit" class="px-6 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 text-xs font-extrabold shadow-lg shadow-amber-500/20 transition cursor-pointer flex items-center gap-2">
+                                    <span>✨ Create Tier Group</span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                `;
+
+                document.body.appendChild(modalContainer);
+                setTimeout(() => {
+                    const input = document.getElementById('grp-modal-name');
+                    if (input) input.focus();
+                }, 50);
+            };
+
+            window.submitCreateGroupForm = function (e) {
+                e.preventDefault();
+                const name = document.getElementById('grp-modal-name').value.trim();
+                const discount = parseInt(document.getElementById('grp-modal-discount').value, 10) || 0;
+                const desc = document.getElementById('grp-modal-desc').value.trim() || 'Custom Created Trade Group';
+
                 if (!name) return;
-                const discount = parseInt(prompt('Enter Default Discount %:', '18'), 10) || 18;
 
                 const newGroup = {
                     id: 'grp_' + Date.now(),
                     name: name,
                     defaultDiscountPercent: discount,
-                    description: 'Custom Created Trade Group',
+                    description: desc,
                     memberCount: 0
                 };
 
                 STORE.saveRecord('customerGroups', newGroup);
-                showToast(`Customer Group ${name} created!`);
+                STORE.logAudit('Created Discount Tier Group', 'admin@meleediamonds.com', `Created Group ${name} (${discount}%)`);
+                showToast(`Customer Group "${name}" created successfully!`);
+                closeAdminCustomModal();
                 renderApp();
             };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
             // Init App
             document.addEventListener('DOMContentLoaded', renderApp);

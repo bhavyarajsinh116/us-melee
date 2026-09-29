@@ -364,6 +364,7 @@
   }
 
   function openInquiryModal(id, shape, mm) {
+    state.currentFancyItem = { id, shape, mm };
     let modal = document.getElementById('fl-inq-modal');
     if (!modal) {
       modal = document.createElement('div');
@@ -373,30 +374,95 @@
     }
 
     modal.innerHTML = `
-      <div class="bg-white rounded-3xl max-w-md w-full border border-amber-500/30 shadow-2xl overflow-hidden my-8 animate-in fade-in zoom-in duration-200">
-        <div class="bg-slate-900 p-5 text-white flex items-center justify-between border-b border-amber-500/20">
-          <div>
-            <span class="text-xs text-amber-300 font-mono font-bold">FANCY LOOSE INQUIRY</span>
-            <h3 class="text-base font-bold text-white">${shape} (${mm} mm)</h3>
-          </div>
-          <button onclick="document.getElementById('fl-inq-modal').remove()" class="w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center text-sm transition">
-            <i class="fa-solid fa-xmark"></i>
-          </button>
+      <div class="bg-white rounded-xl max-w-md w-full shadow-2xl overflow-hidden my-8 relative">
+        <button onclick="document.getElementById('fl-inq-modal').remove()" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-slate-200 hover:bg-slate-300 text-slate-600 flex items-center justify-center text-sm transition z-10" style="font-size:18px;">&times;</button>
+
+        <div style="background:#111;display:flex;align-items:center;justify-content:center;min-height:160px;overflow:hidden;">
+          <img src="../images/melee-hero.jpg" alt="Diamond" style="width:100%;height:160px;object-fit:cover;" onerror="this.style.display='none';this.parentElement.innerHTML='<i class=\'fa-regular fa-gem\' style=\'font-size:50px;color:#555;\'></i>'">
         </div>
 
-        <form onsubmit="window.FancyLooseEngine.submitInquiry(event, '${id}', '${shape}', '${mm}')" class="p-6 space-y-3">
-          <input type="text" id="fli-name" placeholder="Your Name *" required class="w-full px-3 py-2 text-xs rounded-xl border border-slate-300 focus:ring-2 focus:ring-amber-500">
-          <input type="text" id="fli-company" placeholder="Company Name *" required class="w-full px-3 py-2 text-xs rounded-xl border border-slate-300 focus:ring-2 focus:ring-amber-500">
-          <input type="email" id="fli-email" placeholder="Email Address *" required class="w-full px-3 py-2 text-xs rounded-xl border border-slate-300 focus:ring-2 focus:ring-amber-500">
-          <input type="tel" id="fli-phone" placeholder="Mobile / WhatsApp *" required class="w-full px-3 py-2 text-xs rounded-xl border border-slate-300 focus:ring-2 focus:ring-amber-500">
-          <textarea id="fli-notes" placeholder="Specific carat, color, or quantity request..." class="w-full px-3 py-2 text-xs rounded-xl border border-slate-300 focus:ring-2 focus:ring-amber-500 h-20"></textarea>
+        <div style="padding:24px 28px;">
+          <h3 style="font-size:18px;font-weight:800;color:#0f172a;margin:0 0 4px;">${shape}</h3>
+          <p style="font-size:13px;color:#475569;margin:0 0 14px;">${mm} mm</p>
 
-          <button type="submit" class="w-full py-3 bg-slate-900 text-amber-300 hover:bg-amber-500 hover:text-slate-950 font-bold text-xs rounded-xl transition shadow-lg flex items-center justify-center gap-2">
-            <i class="fa-solid fa-paper-plane"></i> Submit Inquiry to Wholesale Desk
+          <div id="fl-success-msg" style="display:none;color:#059669;font-weight:700;font-size:13px;margin-bottom:10px;">
+            <i class="fa-solid fa-circle-check" style="margin-right:4px;"></i> Added to cart successfully
+          </div>
+
+          <div style="margin-bottom:14px;">
+            <label style="display:block;font-size:13px;color:#0f172a;font-weight:700;margin-bottom:6px;">Special Instructions:</label>
+            <textarea id="fl-modal-instructions" style="width:100%;border:1px solid #cbd5e1;border-radius:6px;padding:8px 10px;font-size:13px;resize:vertical;min-height:60px;outline:none;" placeholder=""></textarea>
+          </div>
+
+          <!-- Carats stepper -->
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px;">
+            <span style="font-size:13px;font-weight:700;color:#0f172a;min-width:56px;">CARATS:</span>
+            <div style="display:flex;align-items:center;">
+              <button type="button" onclick="const q=document.getElementById('fl-modal-carats'); q.value=Math.max(0,(parseFloat(q.value)||0)-0.01).toFixed(2)" style="width:36px;height:36px;background:#f59e0b;color:white;border:none;font-size:18px;font-weight:bold;cursor:pointer;border-radius:4px 0 0 4px;">&#8722;</button>
+              <input type="number" id="fl-modal-carats" value="0.00" min="0" step="0.01" style="width:60px;text-align:center;height:36px;border:1px solid #e2e8f0;border-left:none;border-right:none;font-size:14px;font-weight:bold;outline:none;">
+              <button type="button" onclick="const q=document.getElementById('fl-modal-carats'); q.value=(parseFloat(q.value)+0.01).toFixed(2)" style="width:36px;height:36px;background:#f59e0b;color:white;border:none;font-size:18px;font-weight:bold;cursor:pointer;border-radius:0 4px 4px 0;">&#43;</button>
+            </div>
+            <span style="font-size:11px;color:#64748b;">ct</span>
+          </div>
+
+          <!-- Pieces stepper -->
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;">
+            <span style="font-size:13px;font-weight:700;color:#0f172a;min-width:56px;">PIECES:</span>
+            <div style="display:flex;align-items:center;">
+              <button type="button" onclick="const q=document.getElementById('fl-modal-pieces'); if(parseInt(q.value)>0) q.value=parseInt(q.value)-1" style="width:36px;height:36px;background:#0f172a;color:white;border:none;font-size:18px;font-weight:bold;cursor:pointer;border-radius:4px 0 0 4px;">&#8722;</button>
+              <input type="number" id="fl-modal-pieces" value="1" min="0" style="width:60px;text-align:center;height:36px;border:1px solid #e2e8f0;border-left:none;border-right:none;font-size:14px;font-weight:bold;outline:none;">
+              <button type="button" onclick="const q=document.getElementById('fl-modal-pieces'); q.value=parseInt(q.value)+1" style="width:36px;height:36px;background:#0f172a;color:white;border:none;font-size:18px;font-weight:bold;cursor:pointer;border-radius:0 4px 4px 0;">&#43;</button>
+            </div>
+            <span style="font-size:11px;color:#64748b;">pcs</span>
+          </div>
+
+          <button type="button" onclick="window.FancyLooseEngine.addToCartFancy()" style="display:inline-flex;align-items:center;gap:6px;padding:10px 24px;background:#0f172a;color:white;border:none;font-weight:bold;font-size:13px;border-radius:6px;cursor:pointer;transition:background 0.2s;text-transform:uppercase;" onmouseover="this.style.background='#f59e0b';this.style.color='#0f172a'" onmouseout="this.style.background='#0f172a';this.style.color='white'">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+            ADD TO CART
           </button>
-        </form>
+        </div>
       </div>
     `;
+  }
+
+  function addToCartFancy() {
+    const carats = parseFloat(document.getElementById('fl-modal-carats').value) || 0;
+    const pieces = parseInt(document.getElementById('fl-modal-pieces').value) || 0;
+    const inst = document.getElementById('fl-modal-instructions').value;
+    const item = state.currentFancyItem || {};
+
+    if (carats === 0 && pieces === 0) {
+      alert('Please enter at least a Carats or Pieces quantity before adding to cart.');
+      return;
+    }
+
+    let cart = JSON.parse(localStorage.getItem('itd_cart') || '[]');
+    cart.push({
+      id: item.id || ('fl_' + Date.now()),
+      mmSize: item.mm,
+      shape: item.shape,
+      color: '',
+      clarity: '',
+      price: 0,
+      carats: carats,
+      pieces: pieces,
+      quantity: pieces || 1,
+      instructions: inst,
+      source: 'Fancy Loose',
+      addedAt: new Date().getTime()
+    });
+    localStorage.setItem('itd_cart', JSON.stringify(cart));
+
+    const successMsg = document.getElementById('fl-success-msg');
+    if (successMsg) successMsg.style.display = 'block';
+
+    // Update cart badge
+    const badge = document.getElementById('cart-badge');
+    if (badge) {
+      const count = cart.reduce((s, i) => s + (i.pieces || i.quantity || 1), 0);
+      badge.textContent = count;
+      badge.style.display = count > 0 ? 'flex' : 'none';
+    }
   }
 
   function submitLayoutInquiry(e, suiteId, price) {
@@ -461,6 +527,7 @@
     init: init,
     openLayoutBlueprintModal: openLayoutBlueprintModal,
     openInquiryModal: openInquiryModal,
+    addToCartFancy: addToCartFancy,
     submitLayoutInquiry: submitLayoutInquiry,
     submitInquiry: submitInquiry
   };

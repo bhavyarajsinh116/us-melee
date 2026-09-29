@@ -1006,13 +1006,25 @@
               <textarea id="rm-modal-instructions" style="width:100%;border:1px solid #cbd5e1;border-radius:6px;padding:8px 10px;font-size:13px;resize:vertical;min-height:60px;outline:none;" placeholder=""></textarea>
           </div>
 
-          <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
-              <span style="font-size:13px;font-weight:700;color:#0f172a;">QUANTITY:</span>
+          <!-- Carats stepper -->
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px;">
+              <span style="font-size:13px;font-weight:700;color:#0f172a;min-width:56px;">CARATS:</span>
               <div style="display:flex;align-items:center;">
-                  <button type="button" onclick="const q=document.getElementById('rm-modal-qty'); if(q.value>1) q.value--" style="width:36px;height:36px;background:#f59e0b;color:white;border:none;font-size:18px;font-weight:bold;cursor:pointer;border-radius:4px 0 0 4px;">-</button>
-                  <input type="number" id="rm-modal-qty" value="1" min="1" style="width:40px;text-align:center;height:36px;border:1px solid #e2e8f0;border-left:none;border-right:none;font-size:14px;font-weight:bold;outline:none;" readonly>
-                  <button type="button" onclick="const q=document.getElementById('rm-modal-qty'); q.value++" style="width:36px;height:36px;background:#f59e0b;color:white;border:none;font-size:18px;font-weight:bold;cursor:pointer;border-radius:0 4px 4px 0;">+</button>
+                  <button type="button" onclick="const q=document.getElementById('rm-modal-carats'); q.value=Math.max(0,(parseFloat(q.value)||0)-0.01).toFixed(2)" style="width:36px;height:36px;background:#f59e0b;color:white;border:none;font-size:18px;font-weight:bold;cursor:pointer;border-radius:4px 0 0 4px;">&#8722;</button>
+                  <input type="number" id="rm-modal-carats" value="0.00" min="0" step="0.01" style="width:60px;text-align:center;height:36px;border:1px solid #e2e8f0;border-left:none;border-right:none;font-size:14px;font-weight:bold;outline:none;">
+                  <button type="button" onclick="const q=document.getElementById('rm-modal-carats'); q.value=(parseFloat(q.value)||0+0.01).toFixed(2); q.value=(parseFloat(q.value)+0.01).toFixed(2)" style="width:36px;height:36px;background:#f59e0b;color:white;border:none;font-size:18px;font-weight:bold;cursor:pointer;border-radius:0 4px 4px 0;">&#43;</button>
               </div>
+              <span style="font-size:11px;color:#64748b;">ct</span>
+          </div>
+          <!-- Pieces stepper -->
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
+              <span style="font-size:13px;font-weight:700;color:#0f172a;min-width:56px;">PIECES:</span>
+              <div style="display:flex;align-items:center;">
+                  <button type="button" onclick="const q=document.getElementById('rm-modal-pieces'); if(parseInt(q.value)>0) q.value=parseInt(q.value)-1" style="width:36px;height:36px;background:#0f172a;color:white;border:none;font-size:18px;font-weight:bold;cursor:pointer;border-radius:4px 0 0 4px;">&#8722;</button>
+                  <input type="number" id="rm-modal-pieces" value="1" min="0" style="width:60px;text-align:center;height:36px;border:1px solid #e2e8f0;border-left:none;border-right:none;font-size:14px;font-weight:bold;outline:none;">
+                  <button type="button" onclick="const q=document.getElementById('rm-modal-pieces'); q.value=parseInt(q.value)+1" style="width:36px;height:36px;background:#0f172a;color:white;border:none;font-size:18px;font-weight:bold;cursor:pointer;border-radius:0 4px 4px 0;">&#43;</button>
+              </div>
+              <span style="font-size:11px;color:#64748b;">pcs</span>
           </div>
 
           <button type="button" onclick="window.RoundMeleeEngine.addToCart()" style="display:inline-flex;align-items:center;gap:6px;padding:10px 24px;background:#0f172a;color:white;border:none;font-weight:bold;font-size:13px;border-radius:6px;cursor:pointer;transition:background 0.2s;text-transform:uppercase;" onmouseover="this.style.background='#f59e0b';this.style.color='#0f172a'" onmouseout="this.style.background='#0f172a';this.style.color='white'">
@@ -1025,31 +1037,40 @@
   }
 
   function addToCart() {
-      const qty = parseInt(document.getElementById('rm-modal-qty').value) || 1;
+      const carats = parseFloat(document.getElementById('rm-modal-carats').value) || 0;
+      const pieces = parseInt(document.getElementById('rm-modal-pieces').value) || 0;
       const inst = document.getElementById('rm-modal-instructions').value;
-      
+
+      if (carats === 0 && pieces === 0) {
+          alert('Please enter at least a Carats or Pieces quantity before adding to cart.');
+          return;
+      }
+
       let cart = JSON.parse(localStorage.getItem('itd_cart') || '[]');
-      
+
       const newItem = {
           id: state.currentOrder.id,
           mmSize: state.currentOrder.mmSize,
           color: state.currentOrder.color,
           clarity: state.currentOrder.clarity,
           price: parseFloat(state.currentOrder.price) || 0,
-          quantity: qty,
+          carats: carats,
+          pieces: pieces,
+          quantity: pieces || 1,
           instructions: inst,
+          source: 'Round Melee',
           addedAt: new Date().getTime()
       };
-      
+
       cart.push(newItem);
       localStorage.setItem('itd_cart', JSON.stringify(cart));
-      
-      // Show success message instead of redirecting
+
+      // Show success message
       const successMsg = document.getElementById('rm-success-msg');
       if (successMsg) {
           successMsg.style.display = 'block';
       }
-      
+
       // Update cart badge
       updateCartBadge();
   }

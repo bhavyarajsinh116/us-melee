@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -57,7 +57,7 @@
             </button>
 
             <a href="../index.html" class="gd-nav-logo" aria-label="Melee Diamonds home">
-                <img src="../images/logo/melee-logo.png" alt="Melee Diamonds">
+                <img src="../images/logo/melee-logo-transparent.png" alt="Melee Diamonds">
             </a>
 
             <!-- Primary Navigation Links -->
@@ -71,10 +71,10 @@
                     </a>
                     <div class="gd-nav-panel">
                         <div class="gd-nav-panel-inner">
-                            <a href="lab-grown.html">Certified Diamonds</a>
-                            <a href="matching-pairs.html">Matching Pairs</a>
                             <a href="round-melee.html">Round Melee &amp; Pointers</a>
                             <a href="fancy-loose.html">Fancy Loose &amp; Layout</a>
+                            <a href="matching-pairs.html">Matching Pairs</a>
+                            <a href="lab-grown.html">Certified Diamonds</a>
                         </div>
                     </div>
                 </div>
@@ -101,9 +101,6 @@
                     </div>
                 </div>
 
-                <div class="gd-nav-item">
-                    <a href="../stock.html" class="gd-nav-link">Stock</a>
-                </div>
 
                 <div class="gd-nav-item">
                     <div class="gd-type-switcher">
@@ -179,8 +176,8 @@
                             <th style="padding:14px 12px;text-align:left;font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:1px;width:40px;"></th>
                             <th style="padding:14px 12px;text-align:left;font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:1px;">Product</th>
                             <th style="padding:14px 12px;text-align:left;font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:1px;">Description</th>
-                            <th style="padding:14px 12px;text-align:left;font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:1px;">Price</th>
-                            <th style="padding:14px 12px;text-align:center;font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:1px;">Quantity</th>
+                            <th style="padding:14px 12px;text-align:left;font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:1px;">Price / ct</th>
+                            <th style="padding:14px 12px;text-align:center;font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:1px;">Carats &amp; Pieces</th>
                             <th style="padding:14px 12px;text-align:right;font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:1px;">Subtotal</th>
                         </tr>
                     </thead>
@@ -197,7 +194,7 @@
                     <span style="font-size:13px;font-weight:700;color:#0f172a;">Coupon:</span>
                     <button style="padding:10px 20px;background:#0f172a;color:white;border:none;font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:1px;border-radius:4px;cursor:pointer;">Apply Coupon</button>
                 </div>
-                <button onclick="window.ShoppingCart.refreshCart()" style="padding:10px 20px;background:#475569;color:white;border:none;font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:1px;border-radius:4px;cursor:pointer;">Update Cart</button>
+                <button id="update-cart-btn" onclick="window.ShoppingCart.updateCart()" style="padding:10px 20px;background:#475569;color:white;border:none;font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:1px;border-radius:4px;cursor:pointer;">Update Cart</button>
             </div>
 
             <!-- Cart Totals -->
