@@ -583,7 +583,7 @@ img {
   background-size: cover;
   background-position: center center;
   opacity: 0;
-  filter: blur(12px) brightness(0.5) saturate(1.1);
+  filter: blur(6px) brightness(0.5) saturate(1.1);
   transform: scale(1.05);
   transition: opacity 1.2s ease-in-out, transform 1.2s ease-in-out;
 }
