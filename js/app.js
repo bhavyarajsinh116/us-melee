@@ -2776,14 +2776,24 @@
     }
 
     const titleEl = document.getElementById('gd-360-title-text');
-    const iframeEl = document.getElementById('gd-360-iframe-player');
+    const iframeWrap = document.querySelector('#gd-360-interactive-modal .gd-360-iframe-wrap');
     const certBtn = document.getElementById('gd-360-cert-btn');
     const actionArea = document.getElementById('gd-360-action-area');
 
     if (titleEl) titleEl.textContent = title || 'Diamond 360° HD Inspection';
 
-    const finalSpinUrl = spinUrl || 'https://video.meleediamonds.com/video.html?d=GD360-16CA';
-    if (iframeEl) iframeEl.src = finalSpinUrl;
+    // If URL is missing or uses dummy placeholder domain video.meleediamonds.com, use Interactive Fallback Spinner!
+    const isPlaceholderUrl = !spinUrl || spinUrl.includes('video.meleediamonds.com');
+
+    if (isPlaceholderUrl) {
+      if (iframeWrap) {
+        window.renderFallback360Viewer(iframeWrap, imgUrl, title);
+      }
+    } else {
+      if (iframeWrap) {
+        iframeWrap.innerHTML = `<iframe id="gd-360-iframe-player" src="${spinUrl}" allowfullscreen title="360 Diamond Spin"></iframe>`;
+      }
+    }
 
     if (certBtn) {
       certBtn.href = certUrl || 'https://www.igi.org/';
@@ -2806,27 +2816,132 @@
     document.body.style.overflow = 'hidden';
   };
 
+  // --------------------------------------------------------------------------
+  // Interactive Fallback 360° Diamond Spinner Render Engine
+  // --------------------------------------------------------------------------
+  window.renderFallback360Viewer = function (container, imgUrl, title) {
+    const basePath = window.location.pathname.includes('/category/') ? '../' : '';
+    let safeImg = imgUrl && !imgUrl.includes('undefined') ? imgUrl : 'images/stones/stone-1042410.jpg';
+    if (!safeImg.startsWith('http') && !safeImg.startsWith('../') && basePath) {
+      safeImg = basePath + safeImg;
+    }
+
+    container.innerHTML = `
+      <div class="gd-fallback-360-stage" style="position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; background:radial-gradient(circle at center, #ffffff 30%, #f1f5f9 100%); user-select:none; overflow:hidden;">
+        <div id="gd-360-spin-box" style="position:relative; width:340px; height:340px; display:flex; align-items:center; justify-content:center; cursor:grab;">
+          <img id="gd-360-spin-img" src="${safeImg}" alt="${title || 'Diamond'}" style="max-width:88%; max-height:88%; object-fit:contain; filter:drop-shadow(0 15px 35px rgba(0,0,0,0.2)); pointer-events:none; transition:transform 0.06s ease-out;">
+          <div style="position:absolute; bottom:10px; background:rgba(15,23,42,0.85); color:#fbbf24; padding:6px 14px; border-radius:20px; font-size:12px; font-weight:700; pointer-events:none; display:flex; align-items:center; gap:6px; backdrop-filter:blur(4px); box-shadow:0 4px 12px rgba(0,0,0,0.15);">
+            <span>🔄 Drag or Touch to Spin 360°</span>
+          </div>
+        </div>
+        <div style="margin-top:14px; display:flex; align-items:center; gap:10px;">
+          <button type="button" onclick="window.start360AutoSpin()" class="gd-360-ctrl-btn">▶ Auto Spin</button>
+          <button type="button" onclick="window.stop360AutoSpin()" class="gd-360-ctrl-btn">⏸ Pause</button>
+          <button type="button" onclick="window.reset360SpinView()" class="gd-360-ctrl-btn">↺ Reset View</button>
+        </div>
+      </div>
+    `;
+
+    let rotationDeg = 0;
+    let autoSpinInterval = null;
+    let isDragging = false;
+    let startX = 0;
+
+    const imgEl = document.getElementById('gd-360-spin-img');
+    const boxEl = document.getElementById('gd-360-spin-box');
+
+    window.updateSpinAngle = function (delta) {
+      rotationDeg = (rotationDeg + delta) % 360;
+      if (imgEl) {
+        const rad = rotationDeg * Math.PI / 180;
+        imgEl.style.transform = `rotateY(${rotationDeg}deg) rotateZ(${Math.sin(rad) * 6}deg) scale(${1 + Math.abs(Math.sin(rad)) * 0.08})`;
+      }
+    };
+
+    window.start360AutoSpin = function () {
+      if (autoSpinInterval) clearInterval(autoSpinInterval);
+      autoSpinInterval = setInterval(() => window.updateSpinAngle(0.6), 40);
+    };
+
+    window.stop360AutoSpin = function () {
+      if (autoSpinInterval) clearInterval(autoSpinInterval);
+      autoSpinInterval = null;
+    };
+
+    window.reset360SpinView = function () {
+      window.stop360AutoSpin();
+      rotationDeg = 0;
+      if (imgEl) imgEl.style.transform = 'rotateY(0deg) scale(1)';
+    };
+
+    if (boxEl) {
+      boxEl.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        startX = e.clientX;
+        window.stop360AutoSpin();
+        boxEl.style.cursor = 'grabbing';
+      });
+
+      window.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+        const diffX = e.clientX - startX;
+        startX = e.clientX;
+        window.updateSpinAngle(diffX * 1.5);
+      });
+
+      window.addEventListener('mouseup', () => {
+        if (isDragging) {
+          isDragging = false;
+          if (boxEl) boxEl.style.cursor = 'grab';
+        }
+      });
+
+      boxEl.addEventListener('touchstart', (e) => {
+        if (e.touches.length === 1) {
+          isDragging = true;
+          startX = e.touches[0].clientX;
+          window.stop360AutoSpin();
+        }
+      });
+
+      window.addEventListener('touchmove', (e) => {
+        if (!isDragging || !e.touches.length) return;
+        const diffX = e.touches[0].clientX - startX;
+        startX = e.touches[0].clientX;
+        window.updateSpinAngle(diffX * 1.5);
+      });
+
+      window.addEventListener('touchend', () => {
+        isDragging = false;
+      });
+    }
+
+    window.start360AutoSpin();
+  };
+
   window.close360Modal = function () {
     const modalEl = document.getElementById('gd-360-interactive-modal');
     if (modalEl) {
       modalEl.style.display = 'none';
-      const iframeEl = document.getElementById('gd-360-iframe-player');
-      if (iframeEl) iframeEl.src = 'about:blank';
+      if (typeof window.stop360AutoSpin === 'function') window.stop360AutoSpin();
     }
     document.body.style.overflow = '';
   };
 
   window.reload360Player = function () {
-    const iframeEl = document.getElementById('gd-360-iframe-player');
-    if (iframeEl && iframeEl.src) {
-      const src = iframeEl.src;
-      iframeEl.src = 'about:blank';
-      setTimeout(() => iframeEl.src = src, 100);
+    if (typeof window.reset360SpinView === 'function') {
+      window.reset360SpinView();
+      window.start360AutoSpin();
     }
   };
 
   window.toggle360Zoom = function () {
+    const imgEl = document.getElementById('gd-360-spin-img');
     const iframeEl = document.getElementById('gd-360-iframe-player');
+    if (imgEl) {
+      const isZoomed = imgEl.style.scale === '1.35';
+      imgEl.style.scale = isZoomed ? '1' : '1.35';
+    }
     if (iframeEl) {
       iframeEl.classList.toggle('is-zoomed');
     }
