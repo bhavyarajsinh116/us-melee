@@ -215,8 +215,13 @@
 
         <!-- Hero Section -->
         <section class="gd-hero" id="hero">
-            <div class="gd-hero-bg" aria-hidden="true">
-                <img src="images/homepage/hero/hero-bg.webp" width="1920" height="1080" alt="">
+            <div class="gd-hero-bg" aria-hidden="true" id="hero-bg-carousel">
+                <div class="gd-hero-slide is-active" style="background-image: url('images/homepage/hero/hero-bg.webp');"></div>
+                <div class="gd-hero-slide" style="background-image: url('images/homepage/jewelry/climber-earrings.webp');"></div>
+                <div class="gd-hero-slide" style="background-image: url('images/homepage/jewelry/cushion-solitaire.webp');"></div>
+                <div class="gd-hero-slide" style="background-image: url('images/homepage/jewelry/radiant-eternity.webp');"></div>
+                <div class="gd-hero-slide" style="background-image: url('images/homepage/jewelry/tennis-bracelet.webp');"></div>
+                <div class="gd-hero-slide" style="background-image: url('images/homepage/jewelry/diamond-studs.webp');"></div>
             </div>
             <div class="gd-hero-tint" aria-hidden="true"></div>
             <div class="gd-hero-grain" aria-hidden="true"></div>
@@ -1052,6 +1057,17 @@
     <script src="js/app.js"></script>
 
     <script>
+        (function initHeroBgCarousel() {
+            var slides = document.querySelectorAll('#hero-bg-carousel .gd-hero-slide');
+            if (!slides || slides.length <= 1) return;
+            var currentIdx = 0;
+            setInterval(function() {
+                slides[currentIdx].classList.remove('is-active');
+                currentIdx = (currentIdx + 1) % slides.length;
+                slides[currentIdx].classList.add('is-active');
+            }, 4500);
+        })();
+
         (function updateCartBadge() {
             var badge = document.getElementById('cart-badge');
             if (badge) {
