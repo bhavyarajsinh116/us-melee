@@ -3118,8 +3118,8 @@
 
     const isLoggedIn = !!(user || isAdmin);
 
-    // 1. Update Header Login Links Across All Pages
-    const loginLinks = document.querySelectorAll('.gd-nav-login, a[href*="signin.html"]');
+    // 1. Update Header Login Links Across All Pages (Strictly target signin.html links)
+    const loginLinks = document.querySelectorAll('a[href*="signin.html"]');
     loginLinks.forEach(link => {
       if (
         link.classList.contains('gd-link-forgot') ||
@@ -3145,7 +3145,7 @@
             <span>${displayName}</span>
             <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"></path></svg>
           </button>
-          <div id="gd-user-menu-dropdown" style="display:none; position:absolute; right:0; top:calc(100% + 8px); background:#ffffff; border:1px solid #e2e8f0; border-radius:12px; box-shadow:0 12px 28px -4px rgba(0,0,0,0.18); min-width:200px; z-index:99999; padding:6px 0; text-align:left;">
+          <div class="gd-user-dropdown-menu" style="display:none; position:absolute; right:0; top:calc(100% + 8px); background:#ffffff; border:1px solid #e2e8f0; border-radius:12px; box-shadow:0 12px 28px -4px rgba(0,0,0,0.18); min-width:200px; z-index:99999; padding:6px 0; text-align:left;">
             <div style="padding:10px 16px; border-bottom:1px solid #f1f5f9; font-size:12px; color:#64748b;">
               Signed in as<br><strong style="color:#0f172a; font-size:13px; word-break:break-all;">${userEmail}</strong>
             </div>
@@ -3162,15 +3162,19 @@
     // Toggle Dropdown Function
     window.toggleUserMenu = function (e) {
       if (e) e.stopPropagation();
-      const drop = document.getElementById('gd-user-menu-dropdown');
+      const btn = e.currentTarget;
+      const wrapper = btn.closest('.gd-nav-user-wrapper');
+      if (!wrapper) return;
+      const drop = wrapper.querySelector('.gd-user-dropdown-menu');
       if (drop) {
-        drop.style.display = drop.style.display === 'none' ? 'block' : 'none';
+        const isHidden = drop.style.display === 'none' || !drop.style.display;
+        document.querySelectorAll('.gd-user-dropdown-menu').forEach(d => d.style.display = 'none');
+        drop.style.display = isHidden ? 'block' : 'none';
       }
     };
 
     document.addEventListener('click', function () {
-      const drop = document.getElementById('gd-user-menu-dropdown');
-      if (drop) drop.style.display = 'none';
+      document.querySelectorAll('.gd-user-dropdown-menu').forEach(d => d.style.display = 'none');
     });
 
     // Sign Out Handler
