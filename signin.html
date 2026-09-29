@@ -383,7 +383,12 @@
             }
 
             localStorage.setItem('gd_logged_in_user', JSON.stringify({ email: email, name: userName, role: 'customer' }));
-            window.location.href = 'index.html';
+            const ref = document.referrer;
+            if (ref && !ref.includes('signin.html')) {
+                window.location.href = ref;
+            } else {
+                window.location.href = 'index.html';
+            }
         }
 
         async function handleRegisterSubmit(e) {

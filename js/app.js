@@ -3105,17 +3105,215 @@
     renderInventoryGrid();
   }
 
+  // --------------------------------------------------------------------------
+  // Global Authentication State & Wholesale Price Unlocking Engine
+  // --------------------------------------------------------------------------
+  window.updateGlobalAuthState = function () {
+    let userStr = localStorage.getItem('gd_logged_in_user');
+    let isAdmin = localStorage.getItem('gd_admin_session') === 'active';
+    let user = null;
+    try {
+      if (userStr) user = JSON.parse(userStr);
+    } catch (e) {}
+
+    const isLoggedIn = !!(user || isAdmin);
+
+    // 1. Update Header Login Links Across All Pages
+    const loginLinks = document.querySelectorAll('.gd-nav-login, a[href*="signin.html"]');
+    loginLinks.forEach(link => {
+      if (
+        link.classList.contains('gd-link-forgot') ||
+        link.classList.contains('gd-link-create') ||
+        link.closest('.gd-auth-card') ||
+        link.closest('.gd-outside-footer')
+      ) {
+        return;
+      }
+
+      if (isLoggedIn) {
+        const displayName = user ? (user.name || user.email.split('@')[0]) : 'Admin';
+        const userEmail = user ? user.email : 'admin@meleediamonds.com';
+        const isAdminSession = isAdmin || (user && user.role === 'admin');
+        const adminPath = window.location.pathname.includes('/category/') ? '../admin/index.html' : 'admin/index.html';
+
+        const userPill = document.createElement('div');
+        userPill.className = 'gd-nav-user-wrapper';
+        userPill.style.cssText = 'position:relative; display:inline-block; margin-left:8px;';
+        userPill.innerHTML = `
+          <button type="button" class="gd-user-pill-btn" onclick="window.toggleUserMenu(event)" style="background:#1b1464; color:#ffffff; border:none; padding:7px 16px; border-radius:20px; font-size:13px; font-weight:600; display:inline-flex; align-items:center; gap:6px; cursor:pointer; font-family:inherit; box-shadow:0 2px 8px rgba(27,20,100,0.15);">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+            <span>${displayName}</span>
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"></path></svg>
+          </button>
+          <div id="gd-user-menu-dropdown" style="display:none; position:absolute; right:0; top:calc(100% + 8px); background:#ffffff; border:1px solid #e2e8f0; border-radius:12px; box-shadow:0 12px 28px -4px rgba(0,0,0,0.18); min-width:200px; z-index:99999; padding:6px 0; text-align:left;">
+            <div style="padding:10px 16px; border-bottom:1px solid #f1f5f9; font-size:12px; color:#64748b;">
+              Signed in as<br><strong style="color:#0f172a; font-size:13px; word-break:break-all;">${userEmail}</strong>
+            </div>
+            ${isAdminSession ? `<a href="${adminPath}" style="display:block; padding:9px 16px; font-size:13px; color:#1b1464; font-weight:600; text-decoration:none;">🛡️ Admin Portal</a>` : ''}
+            <a href="javascript:void(0)" onclick="window.handleGlobalLogout()" style="display:block; padding:9px 16px; font-size:13px; color:#ef4444; font-weight:600; text-decoration:none;">Sign Out</a>
+          </div>
+        `;
+        if (link.parentNode) {
+          link.parentNode.replaceChild(userPill, link);
+        }
+      }
+    });
+
+    // Toggle Dropdown Function
+    window.toggleUserMenu = function (e) {
+      if (e) e.stopPropagation();
+      const drop = document.getElementById('gd-user-menu-dropdown');
+      if (drop) {
+        drop.style.display = drop.style.display === 'none' ? 'block' : 'none';
+      }
+    };
+
+    document.addEventListener('click', function () {
+      const drop = document.getElementById('gd-user-menu-dropdown');
+      if (drop) drop.style.display = 'none';
+    });
+
+    // Sign Out Handler
+    window.handleGlobalLogout = function () {
+      localStorage.removeItem('gd_logged_in_user');
+      localStorage.removeItem('gd_admin_session');
+      alert('You have been signed out.');
+      window.location.reload();
+    };
+
+    // 2. Unlock Prices & Add-to-Cart Buttons on Product Cards
+    if (isLoggedIn) {
+      unlockJewelryPrices();
+    }
+  };
+
+  function unlockJewelryPrices() {
+    const productCards = document.querySelectorAll('.gd-product-card');
+    if (!productCards.length) return;
+
+    const jewelryPrices = {
+      "Radiant Eternity Band": 1450,
+      "Emerald Shared-Prong Band": 1280,
+      "French Cut Pavé Band": 890,
+      "Baguette Channel Set Band": 1150,
+      "Marquise & Round Eternity Band": 1320,
+      "Classic Tennis Bracelet": 2450,
+      "Emerald Cut Line Bracelet": 3800,
+      "Diamond Bangle Bracelet": 1650,
+      "Bezel Set Tennis Bracelet": 2100,
+      "Cluster Diamond Flex Bracelet": 1950,
+      "Climber Drop Earrings": 750,
+      "Classic Diamond Studs": 980,
+      "Diamond Halo Drop Earrings": 1120,
+      "In-Out Diamond Huggie Hoops": 850,
+      "Pear Shape Solitaire Earrings": 1400,
+      "Graduated Tennis Necklace": 4200,
+      "Diamond Rivière Necklace": 5900,
+      "Emerald Cut Station Necklace": 2300,
+      "Lariat Diamond Y-Necklace": 1850,
+      "Pavé Collar Choker Necklace": 3100,
+      "Solitaire Diamond Pendant": 890,
+      "Halo Oval Diamond Pendant": 1050,
+      "Floating Heart Diamond Pendant": 720,
+      "Cross Diamond Pendant": 940,
+      "Emerald Cut Bezel Pendant": 1350,
+      "Cushion Solitaire Ring": 1680,
+      "Oval Hidden Halo Ring": 2400,
+      "Three-Stone Emerald Ring": 2850,
+      "Pear Shape Solitaire Ring": 2150,
+      "Toi et Moi Twin Ring": 3200,
+      "Executive Diamond Watch": 4800,
+      "Full Pavé Luxury Watch": 6500,
+      "Baguette Bezel Chronograph": 7200,
+      "Diamond Dial Dress Watch": 2900,
+      "Ice Out Custom Diamond Watch": 8500
+    };
+
+    productCards.forEach((card, idx) => {
+      const titleEl = card.querySelector('.gd-product-title');
+      const title = titleEl ? titleEl.textContent.trim() : '';
+      const price = jewelryPrices[title] || (850 + (idx * 120));
+
+      const priceBtn = card.querySelector('.gd-login-price-btn');
+      const actionBtn = card.querySelector('.gd-product-action-btn');
+
+      if (priceBtn) {
+        priceBtn.outerHTML = `
+          <div class="gd-unlocked-price" style="display:flex; align-items:center; justify-content:space-between; background:#f0fdf4; border:1px solid #bbf7d0; color:#15803d; padding:10px 14px; border-radius:10px; font-size:13px; font-weight:700;">
+            <span>Trade Price:</span>
+            <span style="font-size:16px; color:#166534; font-weight:800;">$${price.toLocaleString()}</span>
+          </div>
+        `;
+      }
+
+      if (actionBtn) {
+        const imgEl = card.querySelector('.gd-product-img-wrap img');
+        const imgSrc = imgEl ? imgEl.getAttribute('src') : '';
+        const metaEl = card.querySelector('.gd-product-meta');
+        const meta = metaEl ? metaEl.textContent.trim() : '';
+        const safeTitle = title.replace(/'/g, "\\'");
+        const safeImg = imgSrc.replace(/'/g, "\\'");
+        const safeMeta = meta.replace(/'/g, "\\'");
+
+        actionBtn.outerHTML = `
+          <button type="button" class="gd-add-cart-btn" onclick="window.addJewelryToCart('${safeTitle}', ${price}, '${safeImg}', '${safeMeta}')" style="display:flex; align-items:center; justify-content:center; gap:8px; background:#1b1464; color:#ffffff; width:100%; border:none; padding:11px; border-radius:10px; font-size:13px; font-weight:700; cursor:pointer; transition:all 0.2s ease;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+            <span>Add to Trade Cart</span>
+          </button>
+        `;
+      }
+    });
+  }
+
+  // Global Add to Cart helper
+  window.addJewelryToCart = function (title, price, imgSrc, meta) {
+    try {
+      let cart = JSON.parse(localStorage.getItem('itd_cart') || '[]');
+      const existingIndex = cart.findIndex(item => item.name === title);
+
+      if (existingIndex > -1) {
+        cart[existingIndex].quantity = (cart[existingIndex].quantity || 1) + 1;
+      } else {
+        cart.push({
+          id: 'jwl_' + Date.now(),
+          name: title,
+          price: price,
+          image: imgSrc,
+          details: meta,
+          quantity: 1,
+          shape: 'Fine Jewelry'
+        });
+      }
+
+      localStorage.setItem('itd_cart', JSON.stringify(cart));
+
+      const badge = document.getElementById('cart-badge');
+      if (badge) {
+        let totalCount = 0;
+        cart.forEach(i => totalCount += (i.quantity || 1));
+        badge.textContent = totalCount;
+        badge.style.display = totalCount > 0 ? 'flex' : 'none';
+      }
+
+      alert('"' + title + '" has been added to your trade cart!');
+    } catch (err) {
+      console.error('Cart error:', err);
+    }
+  };
 
   document.addEventListener('DOMContentLoaded', function () {
     initCertifiedDiamondsUI();
     updateTypeSwitcherUI();
     renderInventoryGrid();
     bindLoupeTriggers();
+    window.updateGlobalAuthState();
   });
 
   updateTypeSwitcherUI();
   renderInventoryGrid();
   bindLoupeTriggers();
+  window.updateGlobalAuthState();
 
 })();
+
 
