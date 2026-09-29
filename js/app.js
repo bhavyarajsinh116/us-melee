@@ -2740,29 +2740,100 @@
   });
 
   // --------------------------------------------------------------------------
-  // 8. 360° Loupe Modal Logic
+  // 8. Interactive Vision360° Diamond Inspection Modal System
   // --------------------------------------------------------------------------
-  const modal = document.getElementById('gd-360-modal');
-  const modalIframe = document.getElementById('gd-modal-iframe');
-  const modalTitle = document.getElementById('gd-modal-title');
-  const modalClose = document.getElementById('gd-modal-close');
-  const modalBackdrop = document.getElementById('gd-modal-backdrop');
+  window.open360Modal = function (spinUrl, title, stockNo, price, imgUrl, certUrl) {
+    let modalEl = document.getElementById('gd-360-interactive-modal');
+    if (!modalEl) {
+      modalEl = document.createElement('div');
+      modalEl.id = 'gd-360-interactive-modal';
+      modalEl.className = 'gd-360-modal-backdrop';
+      modalEl.innerHTML = `
+        <div class="gd-360-modal-dialog">
+          <div class="gd-360-modal-header">
+            <div class="gd-360-modal-title-wrap">
+              <span class="gd-360-tag">VISION 360° HD INSPECTION</span>
+              <h3 id="gd-360-title-text" class="gd-360-title">Diamond 360° View</h3>
+            </div>
+            <button type="button" class="gd-360-close-btn" onclick="window.close360Modal()" aria-label="Close">&times;</button>
+          </div>
+          <div class="gd-360-modal-body">
+            <div class="gd-360-iframe-wrap">
+              <iframe id="gd-360-iframe-player" src="about:blank" allowfullscreen title="360 Diamond Spin"></iframe>
+            </div>
+          </div>
+          <div class="gd-360-modal-footer">
+            <div class="gd-360-controls">
+              <button type="button" class="gd-360-ctrl-btn" onclick="window.reload360Player()" title="Reset / Rotate Spin">🔄 Rotate 360°</button>
+              <button type="button" class="gd-360-ctrl-btn" onclick="window.toggle360Zoom()" title="High Res Inspection">🔍 High Res Loupe</button>
+              <a id="gd-360-cert-btn" href="https://www.igi.org/" target="_blank" class="gd-360-ctrl-btn" style="text-decoration:none;">📜 View Lab Cert</a>
+            </div>
+            <div id="gd-360-action-area" class="gd-360-action-area"></div>
+          </div>
+        </div>
+      `;
+      document.body.appendChild(modalEl);
+    }
 
-  function openLoupeModal(spinUrl, titleText) {
-    if (!modal) return;
-    if (modalTitle) modalTitle.textContent = titleText || '360° Diamond Loupe';
-    if (modalIframe) modalIframe.src = spinUrl;
-    modal.classList.add('is-active');
-  }
+    const titleEl = document.getElementById('gd-360-title-text');
+    const iframeEl = document.getElementById('gd-360-iframe-player');
+    const certBtn = document.getElementById('gd-360-cert-btn');
+    const actionArea = document.getElementById('gd-360-action-area');
 
-  function closeModal() {
-    if (!modal) return;
-    modal.classList.remove('is-active');
-    if (modalIframe) modalIframe.src = 'about:blank';
-  }
+    if (titleEl) titleEl.textContent = title || 'Diamond 360° HD Inspection';
+
+    const finalSpinUrl = spinUrl || 'https://video.meleediamonds.com/video.html?d=GD360-16CA';
+    if (iframeEl) iframeEl.src = finalSpinUrl;
+
+    if (certBtn) {
+      certBtn.href = certUrl || 'https://www.igi.org/';
+    }
+
+    if (actionArea) {
+      if (price) {
+        const safeTitle = (title || 'Certified Diamond').replace(/'/g, "\\'");
+        const safeImg = (imgUrl || '').replace(/'/g, "\\'");
+        actionArea.innerHTML = `
+          <span style="font-size:14px; font-weight:700; color:#15803d; background:#f0fdf4; border:1px solid #bbf7d0; padding:6px 12px; border-radius:8px;">Trade Price: $${Number(price).toLocaleString()}</span>
+          <button type="button" onclick="window.addJewelryToCart('${safeTitle}', ${price}, '${safeImg}', '360 Stock #${stockNo || ''}')" style="background:#1b1464; color:#fff; border:none; padding:8px 16px; border-radius:8px; font-weight:700; font-size:13px; cursor:pointer;">🛒 Add to Cart</button>
+        `;
+      } else {
+        actionArea.innerHTML = `<button type="button" onclick="window.close360Modal()" style="background:#1b1464; color:#fff; border:none; padding:8px 16px; border-radius:8px; font-weight:700; font-size:13px; cursor:pointer;">Close Inspection</button>`;
+      }
+    }
+
+    modalEl.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  };
+
+  window.close360Modal = function () {
+    const modalEl = document.getElementById('gd-360-interactive-modal');
+    if (modalEl) {
+      modalEl.style.display = 'none';
+      const iframeEl = document.getElementById('gd-360-iframe-player');
+      if (iframeEl) iframeEl.src = 'about:blank';
+    }
+    document.body.style.overflow = '';
+  };
+
+  window.reload360Player = function () {
+    const iframeEl = document.getElementById('gd-360-iframe-player');
+    if (iframeEl && iframeEl.src) {
+      const src = iframeEl.src;
+      iframeEl.src = 'about:blank';
+      setTimeout(() => iframeEl.src = src, 100);
+    }
+  };
+
+  window.toggle360Zoom = function () {
+    const iframeEl = document.getElementById('gd-360-iframe-player');
+    if (iframeEl) {
+      iframeEl.classList.toggle('is-zoomed');
+    }
+  };
 
   function bindLoupeTriggers() {
-    document.querySelectorAll('.gd-loupe[data-spin], .gd-loupe-trigger[data-spin]').forEach(trig => {
+    document.querySelectorAll('.gd-loupe[data-spin], .gd-loupe-trigger[data-spin], .gd-360-badge[data-spin]').forEach(trig => {
       trig.removeEventListener('click', handleLoupeClick);
       trig.addEventListener('click', handleLoupeClick);
     });
@@ -2771,13 +2842,17 @@
   function handleLoupeClick(e) {
     e.preventDefault();
     const spinUrl = this.getAttribute('data-spin');
-    const titleText = this.getAttribute('data-title') || this.getAttribute('aria-label');
-    if (spinUrl) openLoupeModal(spinUrl, titleText);
+    const titleText = this.getAttribute('data-title') || this.getAttribute('aria-label') || 'Diamond 360° Inspection';
+    const stockNo = this.getAttribute('data-stock') || '';
+    const price = this.getAttribute('data-price') || null;
+    const imgUrl = this.getAttribute('data-img') || '';
+    const certUrl = this.getAttribute('data-cert') || '';
+    window.open360Modal(spinUrl, titleText, stockNo, price, imgUrl, certUrl);
   }
 
-  if (modalClose) modalClose.addEventListener('click', closeModal);
-  if (modalBackdrop) modalBackdrop.addEventListener('click', closeModal);
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') window.close360Modal();
+  });
 
   // --------------------------------------------------------------------------
   // 9. Custom Jewelry Quote Calculator

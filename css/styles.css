@@ -2781,3 +2781,168 @@ img {
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background: #d97706;
 }
+
+/* Enhanced 360° Vision Diamond Inspection Modal & Badges */
+.gd-360-modal-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background: rgba(12, 9, 31, 0.85);
+  backdrop-filter: blur(10px);
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.gd-360-modal-dialog {
+  background: #ffffff;
+  border-radius: 20px;
+  width: min(880px, 96vw);
+  max-height: 92vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  animation: gdModalPop 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes gdModalPop {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.gd-360-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 24px;
+  background: #0c091f;
+  color: #ffffff;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.gd-360-tag {
+  color: #b89759;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  display: block;
+  margin-bottom: 3px;
+  text-transform: uppercase;
+}
+
+.gd-360-title {
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0;
+  color: #ffffff;
+}
+
+.gd-360-close-btn {
+  background: none;
+  border: none;
+  color: #94a3b8;
+  font-size: 32px;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0 4px;
+  transition: color 0.15s ease;
+}
+
+.gd-360-close-btn:hover {
+  color: #ffffff;
+}
+
+.gd-360-modal-body {
+  flex: 1;
+  background: #f8fafc;
+  position: relative;
+  min-height: 460px;
+}
+
+.gd-360-iframe-wrap {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.gd-360-iframe-wrap iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  transition: transform 0.3s ease;
+}
+
+.gd-360-iframe-wrap iframe.is-zoomed {
+  transform: scale(1.3);
+}
+
+.gd-360-modal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 24px;
+  background: #ffffff;
+  border-top: 1px solid #e2e8f0;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.gd-360-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.gd-360-ctrl-btn {
+  background: #f1f5f9;
+  color: #1e293b;
+  border: 1px solid #cbd5e1;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.gd-360-ctrl-btn:hover {
+  background: #1b1464;
+  color: #ffffff;
+  border-color: #1b1464;
+}
+
+.gd-360-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(15, 23, 42, 0.85);
+  color: #fbbf24;
+  border: 1px solid rgba(251, 191, 36, 0.5);
+  border-radius: 20px;
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  z-index: 10;
+  backdrop-filter: blur(4px);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.gd-360-badge:hover {
+  background: #1b1464;
+  color: #ffffff;
+  border-color: #fbbf24;
+  transform: scale(1.06);
+}
