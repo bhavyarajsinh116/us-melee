@@ -13,7 +13,7 @@
     ],
 
     customers: [
-      { id: 'cust_101', name: 'Eleanor Vance', company: 'VIP Jewelers NYC', email: 'vip.jewelers@Melee Diamonds.com', phone: '+1 (332) 279-0323', status: 'active', groupId: 'grp_vip', customDiscountPercent: null, createdAt: '2026-01-15' },
+      { id: 'cust_101', name: 'Eleanor Vance', company: 'VIP Jewelers NYC', email: 'vip.jewelers@Melee Diamonds.com', phone: '(646)-565-4211', status: 'active', groupId: 'grp_vip', customDiscountPercent: null, createdAt: '2026-01-15' },
       { id: 'cust_102', name: 'Marcus Sterling', company: 'Sterling Wholesale Gems', email: 'wholesale.buyer@Melee Diamonds.com', phone: '+1 (310) 555-0432', status: 'active', groupId: 'grp_wholesale', customDiscountPercent: null, createdAt: '2026-02-01' },
       { id: 'cust_103', name: 'John Custom', company: 'Custom Diamond Craft', email: 'john.custom@Melee Diamonds.com', phone: '+1 (415) 555-0789', status: 'active', groupId: 'grp_premium', customDiscountPercent: 30, createdAt: '2026-03-10' },
       { id: 'cust_104', name: 'Sophia Thorne', company: 'Thorne Fine Jewelry', email: 'sophia@thorne.com', phone: '+1 (312) 555-0112', status: 'active', groupId: 'grp_premium', customDiscountPercent: null, createdAt: '2026-04-18' },
@@ -97,7 +97,7 @@
     ],
 
     appointments: [
-      { id: 'apt_301', name: 'Eleanor Vance', company: 'VIP Jewelers NYC', phone: '+1 (332) 279-0323', email: 'vip.jewelers@Melee Diamonds.com', location: 'New York Office (36 West 47th Street)', diamondType: 'Certified Lab-Grown Diamonds (CVD)', datetime: '2026-09-05T14:00', status: 'Confirmed', notes: 'Interested in 3ct+ Cushion cuts', submittedAt: '2026-08-30' },
+      { id: 'apt_301', name: 'Eleanor Vance', company: 'VIP Jewelers NYC', phone: '(646)-565-4211', email: 'vip.jewelers@Melee Diamonds.com', location: 'New York Office (45 West 47th Street, 500)', diamondType: 'Certified Lab-Grown Diamonds (CVD)', datetime: '2026-09-05T14:00', status: 'Confirmed', notes: 'Interested in 3ct+ Cushion cuts', submittedAt: '2026-08-30' },
       { id: 'apt_302', name: 'Marcus Sterling', company: 'Sterling Wholesale Gems', phone: '+1 (310) 555-0432', email: 'wholesale.buyer@Melee Diamonds.com', location: 'Los Angeles Office (607 S Hill Street)', diamondType: 'Certified Natural Diamonds (GIA)', datetime: '2026-09-08T11:30', status: 'Pending', notes: 'Viewing GIA loose rounds', submittedAt: '2026-09-01' }
     ],
 

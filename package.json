@@ -1,0 +1,17 @@
+{
+  "name": "parth-web",
+  "version": "1.0.0",
+  "description": "Melee Diamonds - Wholesale Lab Grown Diamonds Web Application",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "diamonds",
+    "jewelry",
+    "wholesale"
+  ],
+  "author": "",
+  "license": "ISC"
+}

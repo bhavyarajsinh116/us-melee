@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - HeyMan Diamond / Melee Diamonds</title>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Site Styles -->
+    <link rel="stylesheet" href="css/styles.css">
+
+    <style>
+        :root {
+            --hmd-pink: #c026d3;
+            --hmd-pink-dark: #a21caf;
+            --hmd-border: #71717a;
+            --hmd-border-light: #e2e8f0;
+            --hmd-text: #222222;
+            --hmd-muted: #64748b;
+        }
+
+        body {
+            background-color: #ffffff;
+            color: var(--hmd-text);
+            font-family: 'Montserrat', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.5;
+        }
+
+        .checkout-container {
+            max-width: 1180px;
+            margin: 40px auto 80px;
+            padding: 0 24px;
+            box-sizing: border-box;
+        }
+
+        /* Top Notice Bars */
+        .woocommerce-notice-bar {
+            border-top: 3px solid var(--hmd-pink);
+            background: #fbf8fc;
+            border-left: 1px solid #f5edfa;
+            border-right: 1px solid #f5edfa;
+            border-bottom: 1px solid #f5edfa;
+            padding: 16px 20px 16px 52px;
+            margin-bottom: 20px;
+            position: relative;
+            color: #4b5563;
+            font-size: 13.5px;
+            line-height: 1.5;
+        }
+
+        .woocommerce-notice-bar .notice-icon {
+            position: absolute;
+            left: 20px;
+            top: 17px;
+            color: var(--hmd-pink);
+            font-size: 15px;
+        }
+
+        .woocommerce-notice-bar a {
+            color: #111827;
+            font-weight: 500;
+            text-decoration: none;
+            margin-left: 3px;
+        }
+
+        .woocommerce-notice-bar a:hover {
+            color: var(--hmd-pink);
+            text-decoration: underline;
+        }
+
+        /* Slide-down form boxes */
+        .checkout-toggle-box {
+            display: none;
+            background: #ffffff;
+            border: 1px solid var(--hmd-border-light);
+            border-radius: 4px;
+            padding: 24px;
+            margin: -10px 0 24px;
+            font-size: 13px;
+        }
+
+        /* 2-Column Checkout Layout */
+        .checkout-grid {
+            display: grid;
+            grid-template-columns: 1.15fr 0.85fr;
+            gap: 48px;
+            align-items: start;
+            margin-top: 32px;
+        }
+
+        @media (max-width: 991px) {
+            .checkout-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+        }
+
+        .checkout-heading {
+            font-size: 18px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            color: #222222;
+            margin: 0 0 24px 0;
+            padding-bottom: 0;
+            border: none;
+        }
+
+        /* Form elements */
+        .form-row {
+            margin-bottom: 18px;
+        }
+
+        .form-row-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        @media (max-width: 576px) {
+            .form-row-2col {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .checkout-label {
+            display: block;
+            font-size: 13px;
+            font-weight: 500;
+            color: #222222;
+            margin-bottom: 6px;
+        }
+
+        .checkout-label .required-star {
+            color: var(--hmd-pink);
+            margin-left: 2px;
+            font-weight: bold;
+        }
+
+        .checkout-input,
+        .checkout-select,
+        .checkout-textarea {
+            width: 100%;
+            height: 42px;
+            border: 1px solid var(--hmd-border);
+            border-radius: 4px;
+            padding: 0 14px;
+            font-size: 13px;
+            color: #222222;
+            background-color: #ffffff;
+            outline: none;
+            box-sizing: border-box;
+            transition: border-color 0.15s, box-shadow 0.15s;
+            font-family: inherit;
+        }
+
+        .checkout-textarea {
+            height: auto;
+            padding: 10px 14px;
+            resize: vertical;
+        }
+
+        .checkout-input:focus,
+        .checkout-select:focus,
+        .checkout-textarea:focus {
+            border-color: var(--hmd-pink);
+            box-shadow: 0 0 0 1px var(--hmd-pink);
+        }
+
+        .checkout-select {
+            appearance: none;
+            -webkit-appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%2371717a%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22m6%209%206%206%206-6%22%2F%3E%3C%2Fsvg%3E");
+            background-repeat: no-repeat;
+            background-position: right 14px center;
+            cursor: pointer;
+        }
+
+        .checkout-checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: #333333;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .checkout-checkbox-label input[type="checkbox"] {
+            accent-color: var(--hmd-pink);
+            width: 15px;
+            height: 15px;
+            cursor: pointer;
+        }
+
+        /* Order Review Table */
+        .order-review-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+            margin-bottom: 24px;
+        }
+
+        .order-review-table th.header-th {
+            padding: 12px 0;
+            font-size: 12.5px;
+            font-weight: 600;
+            color: #94a3b8;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            border-bottom: 1px solid var(--hmd-border-light);
+        }
+
+        .order-review-table td.product-total {
+            color: var(--hmd-pink);
+            font-weight: 600;
+            font-size: 13.5px;
+        }
+
+        .order-review-table .subtotal-row th {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--hmd-muted);
+            text-transform: uppercase;
+            padding: 16px 0;
+            border-top: 1px solid var(--hmd-border-light);
+            border-bottom: 1px solid var(--hmd-border-light);
+            text-align: left;
+        }
+
+        .order-review-table .subtotal-row td {
+            font-size: 14.5px;
+            font-weight: 700;
+            color: var(--hmd-pink);
+            padding: 16px 0;
+            border-top: 1px solid var(--hmd-border-light);
+            border-bottom: 1px solid var(--hmd-border-light);
+            text-align: right;
+        }
+
+        .order-review-table .shipping-row th {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--hmd-muted);
+            text-transform: uppercase;
+            padding: 18px 0;
+            border-bottom: 1px solid var(--hmd-border-light);
+            text-align: left;
+            vertical-align: top;
+        }
+
+        .order-review-table .shipping-row td {
+            padding: 18px 0;
+            border-bottom: 1px solid var(--hmd-border-light);
+            text-align: right;
+        }
+
+        .order-review-table .total-row th {
+            font-size: 14px;
+            font-weight: 700;
+            color: #222222;
+            text-transform: uppercase;
+            padding: 18px 0;
+            border-bottom: 1px solid var(--hmd-border-light);
+            text-align: left;
+        }
+
+        .order-review-table .total-row td {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--hmd-pink);
+            padding: 18px 0;
+            border-bottom: 1px solid var(--hmd-border-light);
+            text-align: right;
+        }
+
+        /* Shipping radio items list */
+        .shipping-radios-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            text-align: left;
+            display: inline-block;
+        }
+
+        .shipping-radios-list li {
+            margin-bottom: 12px;
+        }
+
+        .shipping-radios-list li:last-child {
+            margin-bottom: 0;
+        }
+
+        .shipping-radio-label {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            font-size: 13px;
+            color: #4b5563;
+            cursor: pointer;
+            line-height: 1.45;
+        }
+
+        .shipping-radio-label input[type="radio"] {
+            accent-color: #52525b;
+            margin-top: 3px;
+            cursor: pointer;
+        }
+
+        .shipping-radio-label .price-pink {
+            color: var(--hmd-pink);
+            font-weight: 600;
+        }
+
+        /* Payment Section Box */
+        .checkout-payment-box {
+            background: #f8f8f9;
+            border-radius: 4px;
+            padding: 24px;
+            margin-top: 24px;
+        }
+
+        .payment-methods-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 18px;
+        }
+
+        .payment-method-item {
+            margin-bottom: 14px;
+        }
+
+        .payment-method-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            font-size: 13.5px;
+            color: #333333;
+            cursor: pointer;
+        }
+
+        .payment-method-label input[type="radio"] {
+            accent-color: #52525b;
+            cursor: pointer;
+        }
+
+        .payment-method-desc {
+            background: #efefef;
+            border-radius: 4px;
+            padding: 12px 16px;
+            font-size: 12.5px;
+            color: #555555;
+            margin: 10px 0 6px 24px;
+            line-height: 1.5;
+        }
+
+        .payment-privacy-policy {
+            font-size: 12px;
+            color: #71717a;
+            line-height: 1.6;
+            margin: 18px 0 24px;
+        }
+
+        .payment-privacy-policy a {
+            color: var(--hmd-pink);
+            text-decoration: underline;
+        }
+
+        .place-order-wrapper {
+            text-align: right;
+        }
+
+        .btn-place-order {
+            background: #8e8e93;
+            color: #ffffff;
+            font-size: 13px;
+            font-weight: 600;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: background 0.2s;
+            font-family: inherit;
+        }
+
+        .btn-place-order:hover {
+            background: #18181b;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Site Header -->
+    <header id="site-header" class="site-header site-header--overlay is-solid">
+        <div class="gd-nav-inner">
+
+            <!-- Mobile Burger -->
+            <button type="button" class="gd-burger" aria-label="Open menu" aria-expanded="false" data-gd-drawer-open>
+                <span></span><span></span><span></span>
+            </button>
+
+            <a href="index.html" class="gd-nav-logo" aria-label="Melee Diamonds home">
+                <img src="images/logo/melee-logo-transparent.png" alt="Melee Diamonds">
+            </a>
+
+            <!-- Primary Navigation Links -->
+            <nav class="gd-nav-links" aria-label="Primary">
+                <div class="gd-nav-item">
+                    <a href="category/lab-grown.html" class="gd-nav-link">
+                        Diamonds
+                        <svg class="gd-nav-caret" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+                            <path d="m3 4.5 3 3 3-3" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </a>
+                    <div class="gd-nav-panel">
+                        <div class="gd-nav-panel-inner">
+                            <a href="category/round-melee.html">Round Melee &amp; Pointers</a>
+                            <a href="category/fancy-loose.html">Fancy Loose &amp; Layout</a>
+                            <a href="category/matching-pairs.html">Matching Pairs</a>
+                            <a href="category/lab-grown.html">Certified Diamonds</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gd-nav-item">
+                    <a href="category/jewelry.html" class="gd-nav-link">
+                        Jewelry
+                        <svg class="gd-nav-caret" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+                            <path d="m3 4.5 3 3 3-3" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </a>
+                    <div class="gd-nav-panel">
+                        <div class="gd-nav-panel-inner">
+                            <a href="category/jewelry.html?type=band">Band</a>
+                            <a href="category/jewelry.html?type=bracelet">Bracelet</a>
+                            <a href="category/jewelry.html?type=cuff-links">Cuff Links</a>
+                            <a href="category/jewelry.html?type=earring">Earring</a>
+                            <a href="category/jewelry.html?type=necklace">Necklace</a>
+                            <a href="category/jewelry.html?type=pendant">Pendant</a>
+                            <a href="category/jewelry.html?type=ring">Ring</a>
+                            <a href="category/jewelry.html?type=watch">Watch</a>
+                            <a href="custom-jewelry.html">Design Your Own</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gd-nav-item">
+                    <div class="gd-type-switcher">
+                        <button type="button" class="gd-type-btn is-active" data-type="lab-grown">
+                            <span class="gd-type-btn__dot"></span>
+                            <span>Lab Grown</span>
+                        </button>
+                        <button type="button" class="gd-type-btn" data-type="natural">
+                            <span class="gd-type-btn__dot"></span>
+                            <span>Natural</span>
+                        </button>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Header Right Section -->
+            <div class="gd-nav-right">
+                <a href="admin/index.html" class="gd-nav-login" title="Admin Portal" aria-label="Admin Portal">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                </a>
+
+                <a href="category/shopping-cart.html" class="gd-cart-link" id="gd-cart-link" style="position:relative;display:inline-flex;align-items:center;color:#f59e0b;text-decoration:none;padding:6px;" aria-label="Shopping Cart">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+                    <span id="cart-badge" style="position:absolute;top:0;right:0;background:#f59e0b;color:#0f172a;font-size:9px;font-weight:800;min-width:16px;height:16px;border-radius:50%;display:none;align-items:center;justify-content:center;line-height:1;">0</span>
+                </a>
+
+                <a href="signin.html" class="gd-nav-login">Login</a>
+                <a href="book-appointment.html" class="gd-btn">Book Appointment</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Checkout Container -->
+    <main class="checkout-container">
+
+        <!-- Error Notice Banner (Injected on validation error) -->
+        <div id="checkout-error-notice" style="display:none;"></div>
+
+        <!-- Empty Cart Notice -->
+        <div id="checkout-empty-state" style="display:none; text-align:center; padding:60px 20px; background:#fff; border:1px solid #e2e8f0; border-radius:4px;">
+            <div style="font-size:48px; color:#cbd5e1; margin-bottom:16px;">
+                <i class="fa-solid fa-cart-shopping"></i>
+            </div>
+            <h2 style="font-size:22px; font-weight:700; color:#1e293b; margin:0 0 10px;">Your cart is currently empty.</h2>
+            <p style="color:#64748b; font-size:14px; max-width:460px; margin:0 auto 24px;">Before proceeding to checkout, you must add some diamond parcels or jewelry items to your shopping cart.</p>
+            <a href="category/round-melee.html" style="display:inline-block; padding:12px 28px; background:#1e293b; color:#fff; text-decoration:none; font-weight:600; font-size:13px; border-radius:4px;">Return to Shop</a>
+        </div>
+
+        <!-- Top Notification Notices (WooCommerce style with pink top border) -->
+        <div id="checkout-top-notices">
+            <!-- Notice 1: Returning Customer -->
+            <div class="woocommerce-notice-bar" id="returning-customer-notice">
+                <span class="notice-icon"><i class="fa-regular fa-folder"></i></span>
+                Returning customer? <a href="javascript:void(0)" onclick="window.HeymanCheckout.toggleLoginForm()">Click here to login</a>
+            </div>
+
+            <!-- Collapsible Login Box -->
+            <div id="checkout-login-box" class="checkout-toggle-box">
+                <p style="margin:0 0 16px; color:#64748b;">If you have shopped with us before, please enter your details below. If you are a new customer, please proceed to the Billing section.</p>
+                <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:16px; margin-bottom:16px;">
+                    <div>
+                        <label class="checkout-label">Username or email <span class="required-star">*</span></label>
+                        <input type="text" id="login_username" class="checkout-input" placeholder="e.g. buyer@jeweler.com">
+                    </div>
+                    <div>
+                        <label class="checkout-label">Password <span class="required-star">*</span></label>
+                        <input type="password" id="login_password" class="checkout-input">
+                    </div>
+                </div>
+                <div style="display:flex; align-items:center; gap:16px; flex-wrap:wrap;">
+                    <button type="button" onclick="alert('Demo Login: Please proceed with billing details below or log in via the account portal.');" style="padding:10px 24px; background:#1e293b; color:#fff; border:none; border-radius:3px; font-weight:600; font-size:13px; cursor:pointer;">Login</button>
+                    <label class="checkout-checkbox-label">
+                        <input type="checkbox"> Remember me
+                    </label>
+                    <a href="signin.html" style="font-size:12.5px; color:#64748b; text-decoration:none;">Lost your password?</a>
+                </div>
+            </div>
+
+            <!-- Notice 2: Have a coupon -->
+            <div class="woocommerce-notice-bar">
+                <span class="notice-icon"><i class="fa-regular fa-folder"></i></span>
+                Have a coupon? <a href="javascript:void(0)" onclick="window.HeymanCheckout.toggleCouponForm()">Click here to enter your code</a>
+            </div>
+
+            <!-- Collapsible Coupon Box -->
+            <div id="checkout-coupon-box" class="checkout-toggle-box">
+                <p style="margin:0 0 14px; color:#64748b;">If you have a coupon code, please apply it below.</p>
+                <div style="display:flex; gap:10px; flex-wrap:wrap; max-width:440px;">
+                    <input type="text" id="coupon_code" class="checkout-input" placeholder="Coupon code (e.g. WHOLESALE10)" style="flex:1; min-width:180px;">
+                    <button type="button" onclick="window.HeymanCheckout.applyCoupon()" style="padding:10px 22px; background:#1e293b; color:#fff; border:none; border-radius:3px; font-weight:600; font-size:13px; cursor:pointer;">Apply coupon</button>
+                </div>
+                <div id="coupon-msg" style="display:none; font-size:12.5px; margin-top:10px; font-weight:600;"></div>
+            </div>
+        </div>
+
+        <!-- Main Form & Order Review Grid -->
+        <div id="checkout-main-content">
+            <div class="checkout-grid">
+
+                <!-- Left Column: BILLING DETAILS -->
+                <div class="checkout-billing-col">
+                    <h3 class="checkout-heading">BILLING DETAILS</h3>
+
+                    <div class="form-row form-row-2col">
+                        <div>
+                            <label class="checkout-label" for="billing_first_name">First name <span class="required-star">*</span></label>
+                            <input type="text" id="billing_first_name" class="checkout-input" required>
+                        </div>
+                        <div>
+                            <label class="checkout-label" for="billing_last_name">Last name <span class="required-star">*</span></label>
+                            <input type="text" id="billing_last_name" class="checkout-input" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <label class="checkout-label" for="billing_company">Company name <span style="font-weight:normal; color:#71717a;">(optional)</span></label>
+                        <input type="text" id="billing_company" class="checkout-input">
+                    </div>
+
+                    <div class="form-row">
+                        <label class="checkout-label" for="billing_country">Country / Region <span class="required-star">*</span></label>
+                        <select id="billing_country" class="checkout-select" required>
+                            <option value="US" selected>United States (US)</option>
+                            <option value="GB">United Kingdom (UK)</option>
+                            <option value="CA">Canada</option>
+                            <option value="AU">Australia</option>
+                            <option value="AE">United Arab Emirates</option>
+                        </select>
+                    </div>
+
+                    <div class="form-row">
+                        <label class="checkout-label" for="billing_address_1">Street address <span class="required-star">*</span></label>
+                        <input type="text" id="billing_address_1" class="checkout-input" placeholder="House number and street name" required>
+                        <input type="text" id="billing_address_2" class="checkout-input" placeholder="Apartment, suite, unit, etc. (optional)" style="margin-top:8px;">
+                    </div>
+
+                    <div class="form-row">
+                        <label class="checkout-label" for="billing_city">Town / City <span class="required-star">*</span></label>
+                        <input type="text" id="billing_city" class="checkout-input" required>
+                    </div>
+
+                    <div class="form-row">
+                        <label class="checkout-label" for="billing_state">State <span class="required-star">*</span></label>
+                        <select id="billing_state" class="checkout-select" required>
+                            <option value="IL" selected>Illinois</option>
+                            <option value="AL">Alabama</option>
+                            <option value="AK">Alaska</option>
+                            <option value="AZ">Arizona</option>
+                            <option value="AR">Arkansas</option>
+                            <option value="CA">California</option>
+                            <option value="CO">Colorado</option>
+                            <option value="CT">Connecticut</option>
+                            <option value="DE">Delaware</option>
+                            <option value="FL">Florida</option>
+                            <option value="GA">Georgia</option>
+                            <option value="HI">Hawaii</option>
+                            <option value="ID">Idaho</option>
+                            <option value="IN">Indiana</option>
+                            <option value="IA">Iowa</option>
+                            <option value="KS">Kansas</option>
+                            <option value="KY">Kentucky</option>
+                            <option value="LA">Louisiana</option>
+                            <option value="ME">Maine</option>
+                            <option value="MD">Maryland</option>
+                            <option value="MA">Massachusetts</option>
+                            <option value="MI">Michigan</option>
+                            <option value="MN">Minnesota</option>
+                            <option value="MS">Mississippi</option>
+                            <option value="MO">Missouri</option>
+                            <option value="MT">Montana</option>
+                            <option value="NE">Nebraska</option>
+                            <option value="NV">Nevada</option>
+                            <option value="NH">New Hampshire</option>
+                            <option value="NJ">New Jersey</option>
+                            <option value="NM">New Mexico</option>
+                            <option value="NY">New York</option>
+                            <option value="NC">North Carolina</option>
+                            <option value="ND">North Dakota</option>
+                            <option value="OH">Ohio</option>
+                            <option value="OK">Oklahoma</option>
+                            <option value="OR">Oregon</option>
+                            <option value="PA">Pennsylvania</option>
+                            <option value="RI">Rhode Island</option>
+                            <option value="SC">South Carolina</option>
+                            <option value="SD">South Dakota</option>
+                            <option value="TN">Tennessee</option>
+                            <option value="TX">Texas</option>
+                            <option value="UT">Utah</option>
+                            <option value="VT">Vermont</option>
+                            <option value="VA">Virginia</option>
+                            <option value="WA">Washington</option>
+                            <option value="WV">West Virginia</option>
+                            <option value="WI">Wisconsin</option>
+                            <option value="WY">Wyoming</option>
+                        </select>
+                    </div>
+
+                    <div class="form-row">
+                        <label class="checkout-label" for="billing_postcode">ZIP Code <span class="required-star">*</span></label>
+                        <input type="text" id="billing_postcode" class="checkout-input" required>
+                    </div>
+
+                    <div class="form-row">
+                        <label class="checkout-label" for="billing_phone">Phone <span class="required-star">*</span></label>
+                        <input type="tel" id="billing_phone" class="checkout-input" required>
+                    </div>
+
+                    <div class="form-row">
+                        <label class="checkout-label" for="billing_email">Email address <span class="required-star">*</span></label>
+                        <input type="email" id="billing_email" class="checkout-input" required>
+                    </div>
+
+                    <div class="form-row" style="margin-top:20px;">
+                        <label class="checkout-checkbox-label">
+                            <input type="checkbox" id="createaccount">
+                            Create an account?
+                        </label>
+                    </div>
+
+                    <div class="form-row" style="margin-top:28px;">
+                        <label class="checkout-checkbox-label" style="font-weight:700; text-transform:uppercase; font-size:14px; color:#222;">
+                            <input type="checkbox" id="ship-to-different-address-checkbox">
+                            SHIP TO A DIFFERENT ADDRESS?
+                        </label>
+                    </div>
+
+                    <!-- Collapsible Shipping Fields -->
+                    <div id="shipping-address-fields-box" style="display:none; margin-top:20px; padding:20px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:4px;">
+                        <div class="form-row form-row-2col">
+                            <div>
+                                <label class="checkout-label" for="shipping_first_name">First name <span class="required-star">*</span></label>
+                                <input type="text" id="shipping_first_name" class="checkout-input">
+                            </div>
+                            <div>
+                                <label class="checkout-label" for="shipping_last_name">Last name <span class="required-star">*</span></label>
+                                <input type="text" id="shipping_last_name" class="checkout-input">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <label class="checkout-label" for="shipping_company">Company name <span style="font-weight:normal; color:#71717a;">(optional)</span></label>
+                            <input type="text" id="shipping_company" class="checkout-input">
+                        </div>
+
+                        <div class="form-row">
+                            <label class="checkout-label" for="shipping_country">Country / Region <span class="required-star">*</span></label>
+                            <select id="shipping_country" class="checkout-select">
+                                <option value="US" selected>United States (US)</option>
+                                <option value="GB">United Kingdom (UK)</option>
+                                <option value="CA">Canada</option>
+                            </select>
+                        </div>
+
+                        <div class="form-row">
+                            <label class="checkout-label" for="shipping_address_1">Street address <span class="required-star">*</span></label>
+                            <input type="text" id="shipping_address_1" class="checkout-input" placeholder="House number and street name">
+                            <input type="text" id="shipping_address_2" class="checkout-input" placeholder="Apartment, suite, unit, etc. (optional)" style="margin-top:8px;">
+                        </div>
+
+                        <div class="form-row">
+                            <label class="checkout-label" for="shipping_city">Town / City <span class="required-star">*</span></label>
+                            <input type="text" id="shipping_city" class="checkout-input">
+                        </div>
+
+                        <div class="form-row">
+                            <label class="checkout-label" for="shipping_state">State <span class="required-star">*</span></label>
+                            <input type="text" id="shipping_state" class="checkout-input" placeholder="e.g. Illinois">
+                        </div>
+
+                        <div class="form-row">
+                            <label class="checkout-label" for="shipping_postcode">ZIP Code <span class="required-star">*</span></label>
+                            <input type="text" id="shipping_postcode" class="checkout-input">
+                        </div>
+                    </div>
+
+                    <div class="form-row" style="margin-top:24px;">
+                        <label class="checkout-label" for="order_comments">Order notes <span style="font-weight:normal; color:#71717a;">(optional)</span></label>
+                        <textarea id="order_comments" class="checkout-textarea" rows="3" placeholder="Notes about your order, e.g. special notes for delivery."></textarea>
+                    </div>
+
+                </div>
+
+                <!-- Right Column: YOUR ORDER -->
+                <div class="checkout-order-col">
+                    <h3 class="checkout-heading">YOUR ORDER</h3>
+
+                    <table class="order-review-table">
+                        <thead>
+                            <tr>
+                                <th class="header-th" style="text-align:left;">PRODUCT</th>
+                                <th class="header-th" style="text-align:right;">SUBTOTAL</th>
+                            </tr>
+                        </thead>
+                        <tbody id="checkout-order-items">
+                            <!-- Injected dynamically by checkout.js -->
+                        </tbody>
+                        <tfoot>
+                            <tr class="subtotal-row">
+                                <th>SUBTOTAL</th>
+                                <td id="checkout-subtotal-val">$0.00</td>
+                            </tr>
+                            <tr id="checkout-discount-row" style="display:none; border-bottom:1px solid #e2e8f0;">
+                                <th style="padding:14px 0; text-align:left; font-size:13px; color:#059669; text-transform:uppercase;">Coupon Discount</th>
+                                <td id="checkout-discount-val" style="padding:14px 0; text-align:right; font-size:14px; font-weight:700; color:#059669;">-$0.00</td>
+                            </tr>
+                            <tr class="shipping-row">
+                                <th>SHIPPING</th>
+                                <td>
+                                    <ul class="shipping-radios-list" id="shipping_method_radios">
+                                        <li>
+                                            <label class="shipping-radio-label">
+                                                <input type="radio" name="shipping_method" value="30" checked>
+                                                <span>2-3 Days within USA: <strong class="price-pink">$30.00</strong></span>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="shipping-radio-label">
+                                                <input type="radio" name="shipping_method" value="45">
+                                                <span>Next day within USA: <strong class="price-pink">$45.00</strong></span>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="shipping-radio-label">
+                                                <input type="radio" name="shipping_method" value="0">
+                                                <span>Local pickup</span>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="shipping-radio-label">
+                                                <input type="radio" name="shipping_method" value="0">
+                                                <span>Free Delivery to Diamond District, 47st &amp; 48st Chicago<br><small style="color:#71717a;">(Mention delivery address on next page order notes)</small></span>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="shipping-radio-label">
+                                                <input type="radio" name="shipping_method" value="0">
+                                                <span>Use your own label<br><small style="color:#71717a;">(email label at info@meleediamondinc.com, Mention order number in the subject, Send Fedex or UPS only)</small></span>
+                                            </label>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr class="total-row">
+                                <th>TOTAL</th>
+                                <td id="checkout-total-val">$0.00</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+
+                    <!-- Payment Box -->
+                    <div class="checkout-payment-box">
+                        <ul class="payment-methods-list">
+                            <li class="payment-method-item">
+                                <label class="payment-method-label">
+                                    <input type="radio" name="payment_method" value="cod" checked>
+                                    Cash on delivery
+                                </label>
+                                <div id="payment-method-desc-cod" class="payment-method-desc">
+                                    Pay with cash upon delivery.
+                                </div>
+                            </li>
+                            <li class="payment-method-item">
+                                <label class="payment-method-label">
+                                    <input type="radio" name="payment_method" value="wire">
+                                    Direct bank transfer
+                                </label>
+                                <div id="payment-method-desc-wire" class="payment-method-desc" style="display:none;">
+                                    Make your payment directly into our bank account. Please use your Order ID as the payment reference.
+                                </div>
+                            </li>
+                        </ul>
+
+                        <div class="payment-privacy-policy">
+                            Your personal data will be used to process your order, support your experience throughout this website, and for other purposes described in our <a href="#">privacy policy</a>.
+                        </div>
+
+                        <div class="place-order-wrapper">
+                            <button type="button" id="place_order" class="btn-place-order" onclick="window.HeymanCheckout.placeOrder()">Place order</button>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Order Received View (Injected dynamically upon successful order) -->
+        <div id="checkout-received-view" style="display:none;"></div>
+
+    </main>
+
+        <!-- Footer -->
+    <footer>
+        <div class="gd-footer" role="contentinfo">
+            <div class="gd-wrap">
+                <div class="gd-foot-top">
+                    <div class="gd-foot-brand">
+                        <a href="index.html" class="gd-foot-logo"
+                            style="display:flex; align-items:center; gap:12px; text-decoration:none;"><img
+                                src="images/logo/melee-logo-transparent.png" alt="Melee Diamonds"
+                                style="height:48px; width:auto; object-fit:contain;"><span
+                                style="font-family:var(--font-serif); font-size:22px; font-weight:800; color:#ffffff; letter-spacing:0.5px;">MELEE
+                                DIAMONDS</span></a>
+                        <p class="gd-foot-tag">Sophisticated simplicity for the independent mind.</p>
+                        <ul class="gd-foot-contact">
+                            <li>
+                                <a href="tel:+16465654211">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                                        <path
+                                            d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.4 2.1L8.1 9.9a16 16 0 0 0 6 6l1.4-1.3a2 2 0 0 1 2.1-.5c.9.4 1.8.6 2.7.8a2 2 0 0 1 1.7 2Z" />
+                                    </svg>
+                                    <span>(646)-565-4211</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://wa.me/16465654211" target="_blank" rel="noopener">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                                        <path d="M21 11.5a8.5 8.5 0 0 1-12.5 7.5L3 21l2-5.5A8.5 8.5 0 1 1 21 11.5Z" />
+                                    </svg>
+                                    <span>WhatsApp Us</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="mailto:info@meleediamondinc.com">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                                        <rect x="2.5" y="4.5" width="19" height="15" rx="2.5" />
+                                        <path d="m3 7 9 6 9-6" />
+                                    </svg>
+                                    <span>info@meleediamondinc.com</span>
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="gd-socials">
+                            <a href="https://instagram.com/meleediamondsnyc" target="_blank"
+                                rel="noopener">Instagram</a>
+                            <a href="https://www.facebook.com/meleediamondsnyc" target="_blank"
+                                rel="noopener">Facebook</a>
+                            <a href="https://www.linkedin.com/company/guru-diam" target="_blank"
+                                rel="noopener">LinkedIn</a>
+                        </div>
+                    </div>
+
+                    <div class="gd-foot-col">
+                        <h3>Lab Grown</h3>
+                        <a href="category/lab-grown.html?cat=certified">Certified</a>
+                        <a href="category/lab-grown.html?cat=fancy-color">Fancy Colour</a>
+                        <a href="category/matching-pairs.html">Matching Pairs</a>
+                        <a href="category/round-melee.html">Melee &amp; Pointers</a>
+                        <a href="category/fancy-loose.html">Fancy Loose &amp; Layouts</a>
+                        <a href="category/lab-grown.html?cat=exotic-shapes">Exotic Shapes</a>
+                    </div>
+
+                    <div class="gd-foot-col">
+                        <h3>Jewellery</h3>
+                        <a href="category/jewelry.html?type=band">Band</a>
+                        <a href="category/jewelry.html?type=bracelet">Bracelet</a>
+                        <a href="category/jewelry.html?type=cuff-links">Cuff Links</a>
+                        <a href="category/jewelry.html?type=earring">Earring</a>
+                        <a href="category/jewelry.html?type=necklace">Necklace</a>
+                        <a href="category/jewelry.html?type=pendant">Pendant</a>
+                        <a href="category/jewelry.html?type=ring">Ring</a>
+                        <a href="category/jewelry.html?type=watch">Watch</a>
+                    </div>
+
+                    <div class="gd-foot-col">
+                        <h3>Trade</h3>
+                        <a href="wholesale-hub.html">Trade Tools</a>
+                        <a href="book-appointment.html">Book Appointment</a>
+                    </div>
+
+                    <div class="gd-foot-col">
+                        <h3>Company</h3>
+                        <a href="about-us.html">About</a>
+                        <a href="about-us.html#how-it-works">How It Works</a>
+                        <a href="blog.html">Journal</a>
+                        <a href="about-us.html#faqs">FAQs</a>
+                        <a href="book-appointment.html">Contact</a>
+                    </div>
+                </div>
+
+                <div class="gd-foot-info">
+                    <div class="gd-fi">
+                        <h3>United States (US)</h3>
+                        <p>Melee Diamond Inc.<br>45 West 47th Street, 500<br>New York NY 10036, United States<br><strong>Contact:</strong> (646)-565-4211<br><strong>Email:</strong> info@meleediamondinc.com</p>
+                    </div>
+                    <div class="gd-fi">
+                        <h3>Same-day Dispatch</h3>
+                        <p>Order by 6pm EST (US)<br>Guaranteed delivery</p>
+                    </div>
+                    <div class="gd-fi">
+                        <h3>Accredited</h3>
+                        <div class="gd-accred-foot">
+                            <span>IGI</span><span>GIA</span><span>GCAL</span><span>JBT</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="gd-foot-bottom">
+                    <span class="gd-copy">&copy; 2026 Melee Diamonds. B2B wholesale only.</span>
+                    <nav class="gd-foot-legal" aria-label="Legal">
+                        <a href="wholesale-hub.html">Shipping &amp; Returns</a>
+                        <a href="#">Ring Size Chart</a>
+                        <a href="#">Bank Information</a>
+                        <a href="#">Privacy</a>
+                        <a href="wholesale-hub.html">Terms</a>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Header & Cart Scripts -->
+    <script src="js/main.js"></script>
+    <script src="js/checkout.js?v=3.0"></script>
+</body>
+</html>

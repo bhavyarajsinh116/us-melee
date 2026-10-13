@@ -2562,10 +2562,13 @@
 
 
   function renderInventoryGrid() {
-    const container = document.getElementById('gd-inventory-grid');
-    if (!container) return;
+    const gridContainer = document.getElementById('cd-inventory-grid') || document.getElementById('gd-inventory-grid');
+    const tableBody = document.getElementById('cd-inventory-table-body');
+    const tableContainer = document.getElementById('cd-inventory-table-container');
 
-        const shapeFilter = document.getElementById('filter-shape') ? document.getElementById('filter-shape').value : '';
+    if (!gridContainer && !tableBody) return;
+
+    const shapeFilter = document.getElementById('filter-shape') ? document.getElementById('filter-shape').value : '';
     const mmFilter = document.getElementById('filter-mmsize') ? document.getElementById('filter-mmsize').value : '';
     const colorFilter = document.getElementById('filter-color') ? document.getElementById('filter-color').value : '';
     const clarityFilter = document.getElementById('filter-clarity') ? document.getElementById('filter-clarity').value : '';
@@ -2575,11 +2578,17 @@
 
     const isSubfolder = window.location.pathname.includes('/category/');
     const basePath = isSubfolder ? '../' : '';
+    const isLoggedIn = !!(localStorage.getItem('gd_logged_in_user') || localStorage.getItem('gd_admin_session') === 'active');
 
-    
     const filtered = stockDatabase.filter(item => {
       if (item.type !== currentType) return false;
       if (stockParam && item.stock !== stockParam) return false;
+
+      // Legacy single selects
+      if (shapeFilter && item.shape !== shapeFilter) return false;
+      if (colorFilter && item.color !== colorFilter) return false;
+      if (clarityFilter && item.clarity !== clarityFilter) return false;
+      if (certFilter && item.lab !== certFilter && item.cert !== certFilter) return false;
 
       // 1. Shape Multi-select
       if (cdState.selectedShapes.size > 0) {
@@ -2626,19 +2635,28 @@
       return true;
     });
 
-
-    
     // Apply Sorting
     filtered.sort((a, b) => {
       if (cdSortMode === 'price-asc') return (a.price || 0) - (b.price || 0);
       if (cdSortMode === 'price-desc') return (b.price || 0) - (a.price || 0);
       if (cdSortMode === 'carat-asc') return (a.carat || 0) - (b.carat || 0);
       if (cdSortMode === 'carat-desc') return (b.carat || 0) - (a.carat || 0);
-      if (cdSortMode === 'newest') return (b.stock || 0) - (a.stock || 0);
-      return 0;
+      if (cdSortMode === 'newest') return (b.stock || '').localeCompare(a.stock || '');
+      return (a.price || 0) - (b.price || 0);
     });
 
     renderActiveFilterChips();
+
+    // Update Counter Badges
+    const prodCountEl = document.getElementById('productcount');
+    if (prodCountEl) {
+      prodCountEl.textContent = `${filtered.length} Diamonds Available`;
+    }
+
+    const badgeEl = document.getElementById('cd-results-badge');
+    if (badgeEl) {
+      badgeEl.textContent = `Showing ${filtered.length} Diamonds`;
+    }
 
     const countEl = document.getElementById('gd-result-count');
     if (countEl) {
@@ -2646,57 +2664,21 @@
     }
 
     if (filtered.length === 0) {
-      container.innerHTML = `
+      const emptyHtml = `
         <div style="grid-column: 1 / -1; text-align: center; padding: 60px 20px; background: #fafafa; border-radius: 16px; border: 1px dashed #cbd5e1;">
           <h3 style="color:#0f172a; font-size: 18px; font-weight:700; margin-bottom: 8px;">No matching certified stones found</h3>
           <p style="color:#64748b; font-size: 14px;">Try clearing or adjusting your filter selections to see more wholesale inventory.</p>
           <button onclick="resetAllCertifiedFilters()" class="gd-btn-solid" style="margin-top:16px;">Reset All Filters</button>
         </div>
       `;
+      if (gridContainer) gridContainer.innerHTML = emptyHtml;
+      if (tableBody) tableBody.innerHTML = `<tr><td colspan="14" class="text-center py-8 text-slate-500 font-medium">No matching certified stones found</td></tr>`;
       return;
     }
 
-    if (cdViewMode === 'table') {
-      container.innerHTML = `
-        <div class="gd-cd-table-container" style="grid-column: 1 / -1;">
-          <table class="gd-cd-table">
-            <thead>
-              <tr>
-                <th>Stock #</th>
-                <th>Shape</th>
-                <th>Carat & MM Size</th>
-                <th>Color / Clarity</th>
-                <th>Cut / Pol / Sym</th>
-                <th>Lab & Cert</th>
-                <th>Depth / Table</th>
-                <th>Trade Price</th>
-                <th>360° Loupe</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${filtered.map(s => `
-                <tr>
-                  <td class="font-mono font-bold text-amber-700">№ ${s.stock}</td>
-                  <td><strong>${s.shape}</strong></td>
-                  <td><strong>${s.carat.toFixed(2)} ct</strong> <span style="font-size:11px; color:#64748b; display:block;">${s.mmSize || ''}</span></td>
-                  <td>${s.color} / ${s.clarity}</td>
-                  <td>${s.cut || 'EX'} / ${s.polish || 'EX'} / ${s.sym || 'EX'}</td>
-                  <td><strong style="color:#3730a3;">${s.lab || s.cert}</strong></td>
-                  <td>${s.depth || 62}% / ${s.table || 58}%</td>
-                  <td><strong style="color:#047857; font-size:13px;">${(s.price || 0).toLocaleString()}</strong></td>
-                  <td>
-                    <button type="button" class="gd-stone-link gd-loupe-trigger" data-spin="${s.spin}" data-title="№ ${s.stock} — ${s.shape} ${s.carat}ct (${s.lab || s.cert})">
-                      360° View &rarr;
-                    </button>
-                  </td>
-                </tr>
-              `).join('')}
-            </tbody>
-          </table>
-        </div>
-      `;
-    } else {
-      container.innerHTML = filtered.map(stone => `
+    // Populate Grid View
+    if (gridContainer) {
+      gridContainer.innerHTML = filtered.map(stone => `
         <article class="gd-stone-card">
           <div class="gd-stone-thumb">
             <span class="gd-stone-no">&#8470; ${stone.stock}</span>
@@ -2704,7 +2686,7 @@
               ${stone.type === 'natural' ? 'Natural' : 'Lab-Grown'}
             </span>
             <span class="gd-loupe" data-spin="${stone.spin}" aria-label="View ${stone.shape} ${stone.carat}ct 360 Video">
-              <img src="${basePath}${stone.img}" alt="${stone.shape} ${stone.carat}ct">
+              <img src="${basePath}${stone.img}" alt="${stone.shape} ${stone.carat}ct" loading="lazy">
               <span class="gd-loupe-badge">360&deg;</span>
             </span>
           </div>
@@ -2720,7 +2702,10 @@
               <div class="gd-spec"><span class="sk">Depth/Tab</span><span class="sv">${stone.depth || '62'}%/${stone.table || '58'}%</span></div>
             </div>
             <div class="gd-stone-foot">
-              <a href="${basePath}signin.html" class="gd-price-tag">${(stone.price || 0).toLocaleString()} &middot; Trade Login</a>
+              ${isLoggedIn ?
+                `<span class="gd-price-tag is-unlocked" style="background:#ecfdf5; color:#065f46; border:1px solid #a7f3d0; font-weight:800; padding:5px 12px; border-radius:8px; font-size:12.5px; display:inline-flex; align-items:center;">$${(stone.price || 0).toLocaleString()} &middot; Wholesale</span>` :
+                `<a href="${basePath}signin.html" class="gd-price-tag">$${(stone.price || 0).toLocaleString()} &middot; Trade Login</a>`
+              }
               <button type="button" class="gd-stone-link gd-loupe-trigger" data-spin="${stone.spin}" data-title="№ ${stone.stock} — ${stone.shape} ${stone.carat}ct (${stone.lab || stone.cert})">
                 360° Loupe &rarr;
               </button>
@@ -2730,6 +2715,31 @@
       `).join('');
     }
 
+    // Populate Table View
+    if (tableBody) {
+      tableBody.innerHTML = filtered.map(s => `
+        <tr class="hover:bg-slate-50 transition-colors">
+          <td class="p-3 font-mono font-bold text-amber-700">№ ${s.stock}</td>
+          <td class="p-3 font-bold text-slate-800">${s.shape}</td>
+          <td class="p-3 font-bold">${(s.carat || 0).toFixed(2)} ct</td>
+          <td class="p-3 font-semibold">${s.color}</td>
+          <td class="p-3 font-semibold">${s.clarity}</td>
+          <td class="p-3">${s.cut || 'EX'}</td>
+          <td class="p-3">${s.polish || 'EX'}</td>
+          <td class="p-3">${s.sym || 'EX'}</td>
+          <td class="p-3 font-bold text-indigo-700">${s.lab || s.cert || 'IGI'}</td>
+          <td class="p-3 text-slate-500 font-medium">${s.mmSize || '-'}</td>
+          <td class="p-3">${s.depth || 62}%</td>
+          <td class="p-3">${s.table || 58}%</td>
+          <td class="p-3 text-right font-extrabold text-emerald-700">$${(s.price || 0).toLocaleString()}</td>
+          <td class="p-3 text-center">
+            <button type="button" class="gd-stone-link gd-loupe-trigger px-2.5 py-1 text-xs font-bold bg-slate-900 text-amber-300 rounded hover:bg-slate-800 transition" data-spin="${s.spin}" data-title="№ ${s.stock} — ${s.shape} ${s.carat}ct (${s.lab || s.cert})">
+              360° Loupe &rarr;
+            </button>
+          </td>
+        </tr>
+      `).join('');
+    }
 
     bindLoupeTriggers();
   }
@@ -3308,14 +3318,29 @@
 
     const isLoggedIn = !!(user || isAdmin);
 
-    // 1. Update Header Login Links Across All Pages (Strictly target signin.html links)
-    const loginLinks = document.querySelectorAll('a[href*="signin.html"]');
-    loginLinks.forEach(link => {
+    // 1. Update Header & Mobile Drawer Navigation Login Links (Strictly target header/drawer login links)
+    const navLoginLinks = document.querySelectorAll(
+      '.gd-nav-login, #site-header a[href*="signin.html"], .site-header a[href*="signin.html"], .gd-nav a[href*="signin.html"], .gd-drawer a[href*="signin.html"], .gd-drawer-row a[href*="signin.html"]'
+    );
+
+    navLoginLinks.forEach(link => {
+      // Safety check: NEVER modify product cards, jewelry shop grids, stone cards, auth cards, or footers
       if (
+        link.closest('.gd-product-card') ||
+        link.closest('.gd-product-bottom') ||
+        link.closest('.gd-stone-card') ||
+        link.closest('.gd-auth-card') ||
+        link.closest('.gd-outside-footer') ||
+        link.closest('#jewelry-shop-grid') ||
+        link.closest('.gd-shop-grid') ||
+        link.closest('.gd-inventory') ||
         link.classList.contains('gd-link-forgot') ||
         link.classList.contains('gd-link-create') ||
-        link.closest('.gd-auth-card') ||
-        link.closest('.gd-outside-footer')
+        link.classList.contains('gd-login-price-btn') ||
+        link.classList.contains('gd-product-action-btn') ||
+        link.classList.contains('gd-price-tag') ||
+        link.classList.contains('gd-btn-solid') ||
+        link.classList.contains('gd-btn-ghost')
       ) {
         return;
       }
@@ -3326,6 +3351,26 @@
         const isAdminSession = isAdmin || (user && user.role === 'admin');
         const adminPath = window.location.pathname.includes('/category/') ? '../admin/index.html' : 'admin/index.html';
 
+        // Check if drawer link
+        if (link.closest('.gd-drawer') || link.closest('.gd-drawer-row')) {
+          const drawerItem = document.createElement('div');
+          drawerItem.className = 'gd-drawer-user-box';
+          drawerItem.style.cssText = 'padding:12px 16px; background:rgba(255,255,255,0.08); border-radius:10px; margin:8px 0;';
+          drawerItem.innerHTML = `
+            <div style="font-size:12px; color:#cbd5e1; margin-bottom:4px;">Signed in as:</div>
+            <div style="font-size:14px; font-weight:700; color:#ffffff; margin-bottom:10px; word-break:break-all;">👤 ${displayName}</div>
+            <div style="display:flex; gap:12px; align-items:center;">
+              ${isAdminSession ? `<a href="${adminPath}" style="font-size:12px; color:#fbbf24; font-weight:700; text-decoration:none;">🛡️ Admin</a>` : ''}
+              <a href="javascript:void(0)" onclick="window.handleGlobalLogout()" style="font-size:12px; color:#f87171; font-weight:700; text-decoration:none;">Sign Out</a>
+            </div>
+          `;
+          if (link.parentNode) {
+            link.parentNode.replaceChild(drawerItem, link);
+          }
+          return;
+        }
+
+        // Header Desktop Navigation User Profile Pill
         const userPill = document.createElement('div');
         userPill.className = 'gd-nav-user-wrapper';
         userPill.style.cssText = 'position:relative; display:inline-block; margin-left:8px;';
@@ -3333,12 +3378,15 @@
           <button type="button" class="gd-user-pill-btn" onclick="window.toggleUserMenu(event)" title="Account: ${displayName}" aria-label="Account Profile" style="background:#1b1464; color:#ffffff; border:1.5px solid rgba(255,255,255,0.25); width:38px; height:38px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; cursor:pointer; font-family:inherit; box-shadow:0 2px 10px rgba(0,0,0,0.25); transition:transform 0.15s ease;">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
           </button>
-          <div class="gd-user-dropdown-menu" style="display:none; position:absolute; right:0; top:calc(100% + 10px); background:#ffffff; border:1px solid #e2e8f0; border-radius:12px; box-shadow:0 12px 28px -4px rgba(0,0,0,0.18); min-width:210px; z-index:99999; padding:6px 0; text-align:left;">
+          <div class="gd-user-dropdown-menu" style="display:none; position:absolute; right:0; top:calc(100% + 10px); background:#ffffff; border:1px solid #e2e8f0; border-radius:12px; box-shadow:0 12px 28px -4px rgba(0,0,0,0.18); min-width:220px; z-index:99999; padding:8px 0; text-align:left;">
             <div style="padding:10px 16px; border-bottom:1px solid #f1f5f9; font-size:12px; color:#64748b;">
               Signed in as<br><strong style="color:#0f172a; font-size:13px; word-break:break-all;">${userEmail}</strong>
             </div>
-            ${isAdminSession ? `<a href="${adminPath}" style="display:block; padding:9px 16px; font-size:13px; color:#1b1464; font-weight:600; text-decoration:none;">🛡️ Admin Portal</a>` : ''}
-            <a href="javascript:void(0)" onclick="window.handleGlobalLogout()" style="display:block; padding:9px 16px; font-size:13px; color:#ef4444; font-weight:600; text-decoration:none;">Sign Out</a>
+            ${isAdminSession ? `<a href="${adminPath}" style="display:flex; align-items:center; gap:8px; padding:10px 16px; font-size:13px; color:#1b1464; font-weight:600; text-decoration:none; transition:background 0.15s;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='transparent'">🛡️ Admin Portal</a>` : ''}
+            <a href="javascript:void(0)" onclick="window.handleGlobalLogout()" style="display:flex; align-items:center; gap:8px; padding:10px 16px; font-size:13px; color:#ef4444; font-weight:600; text-decoration:none; border-top:1px solid #f1f5f9; transition:background 0.15s;" onmouseover="this.style.background='#fef2f2'" onmouseout="this.style.background='transparent'">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+              Sign Out
+            </a>
           </div>
         `;
         if (link.parentNode) {
@@ -3361,9 +3409,12 @@
       }
     };
 
-    document.addEventListener('click', function () {
-      document.querySelectorAll('.gd-user-dropdown-menu').forEach(d => d.style.display = 'none');
-    });
+    if (!window._gdUserMenuClickBound) {
+      window._gdUserMenuClickBound = true;
+      document.addEventListener('click', function () {
+        document.querySelectorAll('.gd-user-dropdown-menu').forEach(d => d.style.display = 'none');
+      });
+    }
 
     // Sign Out Handler
     window.handleGlobalLogout = function () {
@@ -3373,10 +3424,12 @@
       window.location.reload();
     };
 
-    // 2. Unlock Prices & Add-to-Cart Buttons on Product Cards
+    // 2. Unlock Prices & Add-to-Cart Buttons on Product and Stone Cards
     if (isLoggedIn) {
       unlockJewelryPrices();
+      unlockIndexStonePrices();
     }
+    window.updateAllCartBadges();
   };
 
   function unlockJewelryPrices() {
@@ -3384,36 +3437,43 @@
     if (!productCards.length) return;
 
     const jewelryPrices = {
+      // Bands
       "Radiant Eternity Band": 1450,
       "Emerald Shared-Prong Band": 1280,
       "French Cut Pavé Band": 890,
       "Baguette Channel Set Band": 1150,
       "Marquise & Round Eternity Band": 1320,
+      // Bracelets
       "Classic Tennis Bracelet": 2450,
       "Emerald Cut Line Bracelet": 3800,
       "Diamond Bangle Bracelet": 1650,
       "Bezel Set Tennis Bracelet": 2100,
       "Cluster Diamond Flex Bracelet": 1950,
+      // Earrings
       "Climber Drop Earrings": 750,
       "Classic Diamond Studs": 980,
       "Diamond Halo Drop Earrings": 1120,
       "In-Out Diamond Huggie Hoops": 850,
       "Pear Shape Solitaire Earrings": 1400,
+      // Necklaces
       "Graduated Tennis Necklace": 4200,
       "Diamond Rivière Necklace": 5900,
       "Emerald Cut Station Necklace": 2300,
       "Lariat Diamond Y-Necklace": 1850,
       "Pavé Collar Choker Necklace": 3100,
+      // Pendants
       "Solitaire Diamond Pendant": 890,
       "Halo Oval Diamond Pendant": 1050,
       "Floating Heart Diamond Pendant": 720,
       "Cross Diamond Pendant": 940,
       "Emerald Cut Bezel Pendant": 1350,
+      // Rings
       "Cushion Solitaire Ring": 1680,
       "Oval Hidden Halo Ring": 2400,
       "Three-Stone Emerald Ring": 2850,
       "Pear Shape Solitaire Ring": 2150,
       "Toi et Moi Twin Ring": 3200,
+      // Watches
       "Executive Diamond Watch": 4800,
       "Full Pavé Luxury Watch": 6500,
       "Baguette Bezel Chronograph": 7200,
@@ -3426,42 +3486,95 @@
       const title = titleEl ? titleEl.textContent.trim() : '';
       const price = jewelryPrices[title] || (850 + (idx * 120));
 
-      const priceBtn = card.querySelector('.gd-login-price-btn');
-      const actionBtn = card.querySelector('.gd-product-action-btn');
+      const bottomEl = card.querySelector('.gd-product-bottom');
+      if (!bottomEl) return;
 
-      if (priceBtn) {
-        priceBtn.outerHTML = `
-          <div class="gd-unlocked-price" style="display:flex; align-items:center; justify-content:space-between; background:#f0fdf4; border:1px solid #bbf7d0; color:#15803d; padding:10px 14px; border-radius:10px; font-size:13px; font-weight:700;">
-            <span>Trade Price:</span>
-            <span style="font-size:16px; color:#166534; font-weight:800;">$${price.toLocaleString()}</span>
+      const imgEl = card.querySelector('.gd-product-img-wrap img');
+      const imgSrc = imgEl ? (imgEl.getAttribute('src') || '') : '';
+      const metaEl = card.querySelector('.gd-product-meta');
+      const meta = metaEl ? metaEl.textContent.trim() : '';
+
+      const safeTitle = title.replace(/'/g, "\\'");
+      const safeImg = imgSrc.replace(/'/g, "\\'");
+      const safeMeta = meta.replace(/'/g, "\\'");
+
+      bottomEl.innerHTML = `
+        <div class="gd-unlocked-price-box" style="display:flex; align-items:center; justify-content:space-between; background:linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%); border:1px solid #e2e8f0; padding:10px 14px; border-radius:10px;">
+          <div style="display:flex; flex-direction:column;">
+            <span style="font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.6px; color:#64748b;">Wholesale Price</span>
+            <span style="font-size:19px; font-weight:800; color:#0f172a; font-family:'Cinzel', Georgia, serif; line-height:1.2;">$${price.toLocaleString()}</span>
           </div>
-        `;
+          <span style="display:inline-flex; align-items:center; gap:5px; font-size:11px; font-weight:700; color:#059669; background:#ecfdf5; padding:4px 9px; border-radius:20px; border:1px solid #a7f3d0;">
+            <span style="width:6px; height:6px; border-radius:50%; background:#10b981; display:inline-block;"></span> In Stock
+          </span>
+        </div>
+        <button type="button" class="gd-product-action-btn" onclick="window.addJewelryToCart(event, '${safeTitle}', ${price}, '${safeImg}', '${safeMeta}')" style="display:flex; align-items:center; justify-content:center; gap:8px; background:#0f172a; color:#ffffff; width:100%; border:none; padding:11px 16px; border-radius:10px; font-size:13px; font-weight:700; cursor:pointer; transition:all 0.2s ease;" onmouseover="this.style.background='#1e293b'; this.style.color='#fbbf24';" onmouseout="this.style.background='#0f172a'; this.style.color='#ffffff';">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+          <span>Add to Cart</span>
+        </button>
+      `;
+    });
+  }
+
+  function unlockIndexStonePrices() {
+    const stoneCards = document.querySelectorAll('.gd-stone-card');
+    if (!stoneCards.length) return;
+
+    const featuredStonePrices = {
+      '106858': 920,
+      '1005905': 3450,
+      '1042410': 1650,
+      '1049916': 5280,
+      '1210754': 1180,
+      '1605290': 2950,
+      '1636973': 6400,
+      '806852': 4800
+    };
+
+    stoneCards.forEach((card, idx) => {
+      const stockNoEl = card.querySelector('.gd-stone-no');
+      let stockNo = '';
+      if (stockNoEl) {
+        stockNo = stockNoEl.textContent.replace(/[^\d]/g, '').trim();
       }
 
-      if (actionBtn) {
-        const imgEl = card.querySelector('.gd-product-img-wrap img');
-        const imgSrc = imgEl ? imgEl.getAttribute('src') : '';
-        const metaEl = card.querySelector('.gd-product-meta');
-        const meta = metaEl ? metaEl.textContent.trim() : '';
-        const safeTitle = title.replace(/'/g, "\\'");
-        const safeImg = imgSrc.replace(/'/g, "\\'");
-        const safeMeta = meta.replace(/'/g, "\\'");
+      const priceTag = card.querySelector('.gd-price-tag');
+      if (!priceTag) return;
 
-        actionBtn.outerHTML = `
-          <button type="button" class="gd-add-cart-btn" onclick="window.addJewelryToCart('${safeTitle}', ${price}, '${safeImg}', '${safeMeta}')" style="display:flex; align-items:center; justify-content:center; gap:8px; background:#1b1464; color:#ffffff; width:100%; border:none; padding:11px; border-radius:10px; font-size:13px; font-weight:700; cursor:pointer; transition:all 0.2s ease;">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
-            <span>Add to Trade Cart</span>
-          </button>
-        `;
+      let price = featuredStonePrices[stockNo];
+      if (!price) {
+        if (typeof stockDatabase !== 'undefined') {
+          const match = stockDatabase.find(s => s.stock === stockNo);
+          if (match && match.price) price = match.price;
+        }
       }
+      if (!price) {
+        price = 1200 + (idx * 350);
+      }
+
+      priceTag.outerHTML = `
+        <span class="gd-price-tag is-unlocked" style="background:#ecfdf5; color:#065f46; border:1px solid #a7f3d0; font-weight:800; padding:5px 12px; border-radius:8px; display:inline-flex; align-items:center; gap:4px; font-size:12px;">
+          $${price.toLocaleString()} &middot; Wholesale
+        </span>
+      `;
     });
   }
 
   // Global Add to Cart helper
-  window.addJewelryToCart = function (title, price, imgSrc, meta) {
+  window.addJewelryToCart = function (event, title, price, imgSrc, meta) {
+    if (event) {
+      if (event.preventDefault) event.preventDefault();
+      if (event.stopPropagation) event.stopPropagation();
+    }
     try {
       let cart = JSON.parse(localStorage.getItem('itd_cart') || '[]');
       const existingIndex = cart.findIndex(item => item.name === title);
+
+      let resolvedImg = imgSrc || '';
+      if (resolvedImg && !resolvedImg.startsWith('http') && !resolvedImg.startsWith('../') && !resolvedImg.startsWith('/')) {
+        const isCategory = window.location.pathname.includes('/category/');
+        resolvedImg = isCategory ? ('../' + resolvedImg) : resolvedImg;
+      }
 
       if (existingIndex > -1) {
         cart[existingIndex].quantity = (cart[existingIndex].quantity || 1) + 1;
@@ -3469,28 +3582,51 @@
         cart.push({
           id: 'jwl_' + Date.now(),
           name: title,
-          price: price,
-          image: imgSrc,
+          title: title,
+          price: Number(price),
+          image: resolvedImg,
           details: meta,
           quantity: 1,
+          type: 'jewelry',
+          source: 'Fine Jewelry',
           shape: 'Fine Jewelry'
         });
       }
 
       localStorage.setItem('itd_cart', JSON.stringify(cart));
 
-      const badge = document.getElementById('cart-badge');
-      if (badge) {
-        let totalCount = 0;
-        cart.forEach(i => totalCount += (i.quantity || 1));
-        badge.textContent = totalCount;
-        badge.style.display = totalCount > 0 ? 'flex' : 'none';
-      }
+      window.updateAllCartBadges();
 
-      alert('"' + title + '" has been added to your trade cart!');
+      const btn = event ? (event.currentTarget || (event.target && event.target.closest('button'))) : null;
+      if (btn) {
+        const origContent = btn.innerHTML;
+        btn.innerHTML = `<span style="display:inline-flex; align-items:center; gap:6px; font-weight:700; color:#ffffff;">✓ Added to Cart!</span>`;
+        btn.style.background = '#059669';
+        btn.style.color = '#ffffff';
+        setTimeout(() => {
+          btn.innerHTML = origContent;
+          btn.style.background = '#0f172a';
+          btn.style.color = '#ffffff';
+        }, 1600);
+      }
     } catch (err) {
       console.error('Cart error:', err);
     }
+  };
+
+  window.updateAllCartBadges = function () {
+    try {
+      const cart = JSON.parse(localStorage.getItem('itd_cart') || '[]');
+      let totalCount = 0;
+      cart.forEach(i => totalCount += (i.quantity || 1));
+
+      const badges = document.querySelectorAll('#cart-badge, .cart-badge, .gd-cart-badge');
+      badges.forEach(b => {
+        b.textContent = totalCount;
+        b.style.display = totalCount > 0 ? 'inline-flex' : 'none';
+      });
+      window.dispatchEvent(new CustomEvent('cartUpdated', { detail: { count: totalCount } }));
+    } catch (e) {}
   };
 
   document.addEventListener('DOMContentLoaded', function () {

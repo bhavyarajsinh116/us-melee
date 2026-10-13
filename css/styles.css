@@ -811,7 +811,7 @@ img {
 
 .gd-proof-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   divide-x: 1px solid rgba(255, 255, 255, 0.1);
 }
 
@@ -1152,7 +1152,7 @@ img {
 /* UTILITY STRIP */
 .gd-util-strip {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 16px;
   margin-top: 20px;
 }
@@ -1194,7 +1194,7 @@ img {
 /* JEWELRY GALLERY */
 .gd-jewel-gallery {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 20px;
   margin-bottom: 32px;
 }
@@ -1733,7 +1733,7 @@ img {
 
 .gd-foot-info {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 24px;
   padding: 36px 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
