@@ -1723,17 +1723,33 @@ img {
 
 .gd-socials {
   display: flex;
-  gap: 14px;
-  margin-top: 8px;
+  align-items: center;
+  gap: 16px;
+  margin-top: 10px;
 }
 
 .gd-socials a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   font-size: 12px;
-  color: var(--gd-hero-text-42);
+  color: var(--gd-hero-text-72);
   transition: color 0.18s;
+  text-decoration: none;
 }
 
 .gd-socials a:hover {
+  color: #ffffff;
+}
+
+.gd-socials svg {
+  width: 16px;
+  height: 16px;
+  color: var(--jck-gold-bright);
+  transition: transform 0.18s, color 0.18s;
+}
+
+.gd-socials a:hover svg {
   color: #ffffff;
 }
 
