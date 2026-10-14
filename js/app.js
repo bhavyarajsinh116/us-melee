@@ -3340,7 +3340,9 @@
         link.classList.contains('gd-product-action-btn') ||
         link.classList.contains('gd-price-tag') ||
         link.classList.contains('gd-btn-solid') ||
-        link.classList.contains('gd-btn-ghost')
+        link.classList.contains('gd-btn-ghost') ||
+        link.classList.contains('gd-nav-admin') ||
+        (link.getAttribute('href') && link.getAttribute('href').includes('admin'))
       ) {
         return;
       }
