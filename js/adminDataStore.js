@@ -133,6 +133,13 @@
       }
 
       let dirty = false;
+      Object.keys(INITIAL_DB).forEach(key => {
+        if (db[key] === undefined || db[key] === null) {
+          db[key] = INITIAL_DB[key];
+          dirty = true;
+        }
+      });
+
       if ((!db.combinedStockData || db.combinedStockData.length === 0 || db.combinedStockData.some(i => i.total_weight === '0.00')) && window.COMBINED_STOCK_DATA) {
         db.combinedStockData = window.COMBINED_STOCK_DATA;
         db.layoutStockData = window.LAYOUT_STOCK_DATA;
@@ -163,9 +170,12 @@
       const db = loadDB();
 
       if (colName === 'combinedStockData' || colName === 'layoutStockData' || colName === 'roundStockData') {
-        const basePDFItems = (colName === 'layoutStockData') ? (window.LAYOUT_STOCK_DATA || []) :
-                             (colName === 'roundStockData') ? (window.ROUND_STOCK_DATA || []) :
-                             (window.COMBINED_STOCK_DATA || []);
+        const allItems = window.COMBINED_STOCK_DATA || [];
+        const basePDFItems = (colName === 'layoutStockData')
+          ? (window.LAYOUT_STOCK_DATA || allItems.filter(item => (item.source && item.source.includes('Layout')) || (item.shape && item.shape !== 'Round Melee')))
+          : (colName === 'roundStockData')
+            ? (window.ROUND_STOCK_DATA || allItems.filter(item => (item.source && (item.source.includes('Round') || item.source.includes('Stock 1'))) || item.shape === 'Round Melee'))
+            : allItems;
 
         const adminAdded = db.adminAddedStock || [];
         const adminDeletedIds = new Set(db.adminDeletedStockIds || []);
@@ -173,8 +183,8 @@
         const activeBaseItems = basePDFItems.filter(item => !adminDeletedIds.has(item.id));
         const activeAdminAdded = adminAdded.filter(item => {
           if (adminDeletedIds.has(item.id)) return false;
-          if (colName === 'layoutStockData') return item.source.includes('Layout');
-          if (colName === 'roundStockData') return item.source.includes('Round');
+          if (colName === 'layoutStockData') return (item.source && item.source.includes('Layout')) || (item.shape && item.shape !== 'Round Melee');
+          if (colName === 'roundStockData') return (item.source && (item.source.includes('Round') || item.source.includes('Stock 1'))) || item.shape === 'Round Melee';
           return true;
         });
 
@@ -268,33 +278,109 @@
     },
 
     exportCSV: function (colName) {
-      const records = this.getCollection(colName);
+      let targetCol = colName;
+      if (colName === 'inventory') targetCol = 'diamonds';
+      if (colName === 'stock') targetCol = 'combinedStockData';
+
+      let records = this.getCollection(targetCol);
+
+      // If empty, check fallback default seed records from INITIAL_DB
       if (!records || records.length === 0) {
-        alert('No data available to export for ' + colName);
-        return;
+        if (INITIAL_DB[targetCol] && INITIAL_DB[targetCol].length > 0) {
+          records = INITIAL_DB[targetCol];
+        }
       }
 
-      const headers = Object.keys(records[0]).filter(k => typeof records[0][k] !== 'object');
-      const csvRows = [];
-      csvRows.push(headers.join(','));
+      // Default fallback headers if absolutely no records exist
+      const defaultHeaderMap = {
+        orders: ['id', 'customerName', 'company', 'email', 'itemsCount', 'subtotalBase', 'discountAmount', 'totalAmount', 'status', 'fulfillmentMethod', 'carrier', 'trackingNumber', 'createdAt'],
+        diamonds: ['id', 'sku', 'title', 'shape', 'shapeCode', 'carat', 'color', 'clarity', 'cut', 'polish', 'symmetry', 'lab', 'certNo', 'growthType', 'location', 'pricePerCarat', 'totalPrice', 'type'],
+        customers: ['id', 'name', 'company', 'email', 'phone', 'status', 'groupId', 'customDiscountPercent', 'createdAt'],
+        appointments: ['id', 'name', 'company', 'phone', 'email', 'location', 'diamondType', 'datetime', 'status', 'notes', 'submittedAt'],
+        inquiries: ['id', 'name', 'company', 'email', 'phone', 'type', 'subject', 'message', 'status', 'notes', 'submittedAt'],
+        customOrders: ['id', 'company', 'email', 'jewelryType', 'diamondType', 'carat', 'metal', 'estPrice', 'notes', 'status', 'submittedAt'],
+        customerApplications: ['id', 'applicationNumber', 'companyName', 'businessType', 'taxRegistrationNumber', 'businessAddress', 'city', 'state', 'country', 'primaryContactName', 'email', 'mobileNumber', 'status', 'submittedAt'],
+        layoutStockData: ['id', 'sku', 'shape', 'mm_size', 'point_size', 'total_weight', 'pieces', 'per_carat_price', 'total_price', 'source'],
+        roundStockData: ['id', 'sku', 'mm_size', 'sieve_pts', 'total_weight', 'pieces', 'per_carat_price', 'total_price', 'source'],
+        combinedStockData: ['id', 'sku', 'shape', 'mm_size', 'point_size', 'sieve_pts', 'total_weight', 'pieces', 'per_carat_price', 'total_price', 'source']
+      };
 
-      records.forEach(row => {
-        const values = headers.map(h => {
-          const val = row[h] === null || row[h] === undefined ? '' : String(row[h]);
-          return `"${val.replace(/"/g, '""')}"`;
+      const fileNameMap = {
+        orders: 'Sales_Orders',
+        diamonds: 'Inventory_Stock_Diamonds',
+        customers: 'Customers',
+        appointments: 'Appointments',
+        inquiries: 'Inquiries',
+        customOrders: 'Custom_CAD_Orders',
+        customerApplications: 'Trade_Applications',
+        layoutStockData: 'Fancy_Shape_Layout_Stock',
+        roundStockData: 'Round_Melee_Stock',
+        combinedStockData: 'Complete_Inventory_Stock'
+      };
+
+      const friendlyName = fileNameMap[targetCol] || targetCol;
+      const dateStr = new Date().toISOString().split('T')[0];
+      const filename = `Melee_Diamonds_${friendlyName}_Export_${dateStr}.csv`;
+
+      let headers = [];
+      if (records && records.length > 0) {
+        const keySet = new Set();
+        records.forEach(r => {
+          if (r && typeof r === 'object') {
+            Object.keys(r).forEach(k => keySet.add(k));
+          }
         });
-        csvRows.push(values.join(','));
-      });
+        headers = Array.from(keySet);
+      } else {
+        headers = defaultHeaderMap[targetCol] || ['id', 'name', 'status', 'createdAt'];
+      }
 
-      const csvString = csvRows.join('\n');
-      const blob = new Blob([csvString], { type: 'text/csv' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `Melee Diamonds_${colName}_Export_${new Date().toISOString().split('T')[0]}.csv`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
+      const csvRows = [];
+      csvRows.push(headers.map(h => `"${String(h).replace(/"/g, '""')}"`).join(','));
+
+      if (records && records.length > 0) {
+        records.forEach(row => {
+          const values = headers.map(h => {
+            let val = row[h];
+            if (val === null || val === undefined) {
+              val = '';
+            } else if (typeof val === 'object') {
+              try {
+                val = JSON.stringify(val);
+              } catch (e) {
+                val = '';
+              }
+            } else {
+              val = String(val);
+            }
+            return `"${val.replace(/"/g, '""')}"`;
+          });
+          csvRows.push(values.join(','));
+        });
+      }
+
+      const csvString = csvRows.join('\r\n');
+      const blob = new Blob(['\uFEFF' + csvString], { type: 'text/csv;charset=utf-8;' });
+
+      if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+        window.navigator.msSaveOrOpenBlob(blob, filename);
+      } else {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.style.display = 'none';
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(function () {
+          if (a.parentNode) a.parentNode.removeChild(a);
+          URL.revokeObjectURL(url);
+        }, 300);
+      }
+
+      if (typeof window.showToast === 'function') {
+        window.showToast(`CSV Export generated: ${friendlyName.replace(/_/g, ' ')} (${(records || []).length} records)`);
+      }
     }
   };
 

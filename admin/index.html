@@ -33,6 +33,17 @@
             'use strict';
 
             const STORE = window.GuruAdminStore;
+            window.STORE = STORE;
+
+            window.exportCSV = function (colName) {
+                if (window.GuruAdminStore && typeof window.GuruAdminStore.exportCSV === 'function') {
+                    window.GuruAdminStore.exportCSV(colName);
+                } else if (STORE && typeof STORE.exportCSV === 'function') {
+                    STORE.exportCSV(colName);
+                } else {
+                    alert('Data store is initializing. Please try again.');
+                }
+            };
 
             // Auth State
             function isAdminLoggedIn() {
@@ -59,6 +70,7 @@
                     setTimeout(() => toast.remove(), 300);
                 }, 3000);
             }
+            window.showToast = showToast;
 
             let activeTab = 'overview';
             let searchQuery = '';
@@ -834,11 +846,11 @@
                             <h3 class="font-bold text-[#0F172A] text-base font-serif">Data Reports & CSV Export Center</h3>
                             <p class="text-slate-500 font-medium">Export complete business records for financial audit, inventory tracking, and client management.</p>
                             <div class="flex flex-wrap gap-3 pt-2">
-                                <button onclick="STORE.exportCSV('orders')" class="px-4 py-2.5 bg-[#0F172A] hover:bg-[#1E293B] text-[#D4AF37] font-bold rounded-xl shadow-xs transition cursor-pointer border border-[#D4AF37]/50">Export Sales Orders CSV &rarr;</button>
-                                <button onclick="STORE.exportCSV('diamonds')" class="px-4 py-2.5 bg-emerald-700 hover:bg-emerald-800 text-white font-bold rounded-xl shadow-xs transition cursor-pointer">Export Inventory Stock CSV &rarr;</button>
-                                <button onclick="STORE.exportCSV('customers')" class="px-4 py-2.5 bg-slate-800 hover:bg-slate-900 text-white font-bold rounded-xl shadow-xs transition cursor-pointer">Export Customers CSV &rarr;</button>
-                                <button onclick="STORE.exportCSV('appointments')" class="px-4 py-2.5 bg-amber-600 hover:bg-amber-700 text-white font-bold rounded-xl shadow-xs transition cursor-pointer">Export Appointments CSV &rarr;</button>
-                                <button onclick="STORE.exportCSV('inquiries')" class="px-4 py-2.5 bg-slate-800 hover:bg-slate-900 text-white font-bold rounded-xl shadow-xs transition cursor-pointer">Export Inquiries CSV &rarr;</button>
+                                <button type="button" onclick="exportCSV('orders')" class="px-4 py-2.5 bg-[#0F172A] hover:bg-[#1E293B] text-[#D4AF37] font-bold rounded-xl shadow-xs transition cursor-pointer border border-[#D4AF37]/50">Export Sales Orders CSV &rarr;</button>
+                                <button type="button" onclick="exportCSV('diamonds')" class="px-4 py-2.5 bg-emerald-700 hover:bg-emerald-800 text-white font-bold rounded-xl shadow-xs transition cursor-pointer">Export Inventory Stock CSV &rarr;</button>
+                                <button type="button" onclick="exportCSV('customers')" class="px-4 py-2.5 bg-slate-800 hover:bg-slate-900 text-white font-bold rounded-xl shadow-xs transition cursor-pointer">Export Customers CSV &rarr;</button>
+                                <button type="button" onclick="exportCSV('appointments')" class="px-4 py-2.5 bg-amber-600 hover:bg-amber-700 text-white font-bold rounded-xl shadow-xs transition cursor-pointer">Export Appointments CSV &rarr;</button>
+                                <button type="button" onclick="exportCSV('inquiries')" class="px-4 py-2.5 bg-slate-800 hover:bg-slate-900 text-white font-bold rounded-xl shadow-xs transition cursor-pointer">Export Inquiries CSV &rarr;</button>
                             </div>
                         </div>
                     </div>
@@ -1131,7 +1143,7 @@
                                 <button onclick="showAddStockSheetItemModal('${currentStockAdminSubTab}')" class="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-slate-950 font-black text-xs rounded-xl shadow-md transition flex items-center gap-1.5 cursor-pointer">
                                     <span>➕ Add ${isLayout ? 'Fancy Shape' : 'Round Melee'} Item</span>
                                 </button>
-                                <button onclick="STORE.exportCSV('${isLayout ? 'layoutStockData' : 'roundStockData'}')" class="px-3.5 py-2 bg-slate-800 hover:bg-slate-900 text-white font-bold text-xs rounded-xl transition flex items-center gap-1.5 cursor-pointer">
+                                <button type="button" onclick="exportCSV('${isLayout ? 'layoutStockData' : 'roundStockData'}')" class="px-3.5 py-2 bg-slate-800 hover:bg-slate-900 text-white font-bold text-xs rounded-xl transition flex items-center gap-1.5 cursor-pointer">
                                     <span>📥 Export CSV</span>
                                 </button>
                                 <button onclick="resetStockSheetsToPDF()" class="px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded-xl border border-slate-300 transition flex items-center gap-1.5 cursor-pointer">
