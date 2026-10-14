@@ -560,11 +560,12 @@
         "price_hpht": "50",
         "price_cvd": "75"
     },
+    // RM-26: 3.30 - 3.60 mm Range & Calibrated Pointers (14-17 PTS)
     {
-        "id": "RM-26-VVS",
+        "id": "RM-26-RANGE-VVS",
         "sieve": "+14",
-        "mm_size": "3.3-3.6MM",
-        "point_size": "14-17",
+        "mm_size": "3.30 - 3.60 mm",
+        "point_size": "14-17 PTS",
         "shape": "Round Melee",
         "color": "E-F",
         "clarity": "VVS",
@@ -572,10 +573,10 @@
         "price_cvd": "85"
     },
     {
-        "id": "RM-26-VS",
+        "id": "RM-26-RANGE-VS",
         "sieve": "+14",
-        "mm_size": "3.3-3.6MM",
-        "point_size": "14-17",
+        "mm_size": "3.30 - 3.60 mm",
+        "point_size": "14-17 PTS",
         "shape": "Round Melee",
         "color": "E-F",
         "clarity": "VS",
@@ -583,9 +584,99 @@
         "price_cvd": "78"
     },
     {
-        "id": "RM-27-VVS",
-        "sieve": "",
-        "mm_size": "3.7-3.8MM",
+        "id": "RM-26-33-VVS",
+        "sieve": "+14",
+        "mm_size": "3.30 mm",
+        "point_size": "14 PTS",
+        "shape": "Round Melee",
+        "color": "E-F",
+        "clarity": "VVS",
+        "price_hpht": "63",
+        "price_cvd": "85"
+    },
+    {
+        "id": "RM-26-33-VS",
+        "sieve": "+14",
+        "mm_size": "3.30 mm",
+        "point_size": "14 PTS",
+        "shape": "Round Melee",
+        "color": "E-F",
+        "clarity": "VS",
+        "price_hpht": "60",
+        "price_cvd": "78"
+    },
+    {
+        "id": "RM-26-34-VVS",
+        "sieve": "+14",
+        "mm_size": "3.40 mm",
+        "point_size": "15 PTS",
+        "shape": "Round Melee",
+        "color": "E-F",
+        "clarity": "VVS",
+        "price_hpht": "63",
+        "price_cvd": "85"
+    },
+    {
+        "id": "RM-26-34-VS",
+        "sieve": "+14",
+        "mm_size": "3.40 mm",
+        "point_size": "15 PTS",
+        "shape": "Round Melee",
+        "color": "E-F",
+        "clarity": "VS",
+        "price_hpht": "60",
+        "price_cvd": "78"
+    },
+    {
+        "id": "RM-26-35-VVS",
+        "sieve": "+14",
+        "mm_size": "3.50 mm",
+        "point_size": "16 PTS",
+        "shape": "Round Melee",
+        "color": "E-F",
+        "clarity": "VVS",
+        "price_hpht": "63",
+        "price_cvd": "85"
+    },
+    {
+        "id": "RM-26-35-VS",
+        "sieve": "+14",
+        "mm_size": "3.50 mm",
+        "point_size": "16 PTS",
+        "shape": "Round Melee",
+        "color": "E-F",
+        "clarity": "VS",
+        "price_hpht": "60",
+        "price_cvd": "78"
+    },
+    {
+        "id": "RM-26-36-VVS",
+        "sieve": "+14",
+        "mm_size": "3.60 mm",
+        "point_size": "17 PTS",
+        "shape": "Round Melee",
+        "color": "E-F",
+        "clarity": "VVS",
+        "price_hpht": "63",
+        "price_cvd": "85"
+    },
+    {
+        "id": "RM-26-36-VS",
+        "sieve": "+14",
+        "mm_size": "3.60 mm",
+        "point_size": "17 PTS",
+        "shape": "Round Melee",
+        "color": "E-F",
+        "clarity": "VS",
+        "price_hpht": "60",
+        "price_cvd": "78"
+    },
+
+    // RM-27: 3.70 - 3.80 mm Range & Calibrated Pointers (20 PTS)
+    {
+        "id": "RM-27-RANGE-VVS",
+        "sieve": "+14",
+        "mm_size": "3.70 - 3.80 mm",
         "point_size": "20 PTS",
         "shape": "Round Melee",
         "color": "E-F",
@@ -594,9 +685,9 @@
         "price_cvd": "90"
     },
     {
-        "id": "RM-27-VS",
-        "sieve": "",
-        "mm_size": "3.7-3.8MM",
+        "id": "RM-27-RANGE-VS",
+        "sieve": "+14",
+        "mm_size": "3.70 - 3.80 mm",
         "point_size": "20 PTS",
         "shape": "Round Melee",
         "color": "E-F",
@@ -605,9 +696,55 @@
         "price_cvd": "80"
     },
     {
-        "id": "RM-28-VVS",
-        "sieve": "",
-        "mm_size": "3.9-4.1MM",
+        "id": "RM-27-37-VVS",
+        "sieve": "+14",
+        "mm_size": "3.70 mm",
+        "point_size": "20 PTS",
+        "shape": "Round Melee",
+        "color": "E-F",
+        "clarity": "VVS",
+        "price_hpht": "70",
+        "price_cvd": "90"
+    },
+    {
+        "id": "RM-27-37-VS",
+        "sieve": "+14",
+        "mm_size": "3.70 mm",
+        "point_size": "20 PTS",
+        "shape": "Round Melee",
+        "color": "E-F",
+        "clarity": "VS",
+        "price_hpht": "68",
+        "price_cvd": "80"
+    },
+    {
+        "id": "RM-27-38-VVS",
+        "sieve": "+14",
+        "mm_size": "3.80 mm",
+        "point_size": "20 PTS",
+        "shape": "Round Melee",
+        "color": "E-F",
+        "clarity": "VVS",
+        "price_hpht": "70",
+        "price_cvd": "90"
+    },
+    {
+        "id": "RM-27-38-VS",
+        "sieve": "+14",
+        "mm_size": "3.80 mm",
+        "point_size": "20 PTS",
+        "shape": "Round Melee",
+        "color": "E-F",
+        "clarity": "VS",
+        "price_hpht": "68",
+        "price_cvd": "80"
+    },
+
+    // RM-28: 3.90 - 4.10 mm Range & Calibrated Pointers (25 PTS)
+    {
+        "id": "RM-28-RANGE-VVS",
+        "sieve": "+14",
+        "mm_size": "3.90 - 4.10 mm",
         "point_size": "25 PTS",
         "shape": "Round Melee",
         "color": "E-F",
@@ -616,9 +753,9 @@
         "price_cvd": "95"
     },
     {
-        "id": "RM-28-VS",
-        "sieve": "",
-        "mm_size": "3.9-4.1MM",
+        "id": "RM-28-RANGE-VS",
+        "sieve": "+14",
+        "mm_size": "3.90 - 4.10 mm",
         "point_size": "25 PTS",
         "shape": "Round Melee",
         "color": "E-F",
@@ -627,9 +764,77 @@
         "price_cvd": "90"
     },
     {
-        "id": "RM-29-VVS",
-        "sieve": "",
-        "mm_size": "4.2-4.4MM",
+        "id": "RM-28-39-VVS",
+        "sieve": "+14",
+        "mm_size": "3.90 mm",
+        "point_size": "25 PTS",
+        "shape": "Round Melee",
+        "color": "E-F",
+        "clarity": "VVS",
+        "price_hpht": "85",
+        "price_cvd": "95"
+    },
+    {
+        "id": "RM-28-39-VS",
+        "sieve": "+14",
+        "mm_size": "3.90 mm",
+        "point_size": "25 PTS",
+        "shape": "Round Melee",
+        "color": "E-F",
+        "clarity": "VS",
+        "price_hpht": "80",
+        "price_cvd": "90"
+    },
+    {
+        "id": "RM-28-40-VVS",
+        "sieve": "+14",
+        "mm_size": "4.00 mm",
+        "point_size": "25 PTS",
+        "shape": "Round Melee",
+        "color": "E-F",
+        "clarity": "VVS",
+        "price_hpht": "85",
+        "price_cvd": "95"
+    },
+    {
+        "id": "RM-28-40-VS",
+        "sieve": "+14",
+        "mm_size": "4.00 mm",
+        "point_size": "25 PTS",
+        "shape": "Round Melee",
+        "color": "E-F",
+        "clarity": "VS",
+        "price_hpht": "80",
+        "price_cvd": "90"
+    },
+    {
+        "id": "RM-28-41-VVS",
+        "sieve": "+14",
+        "mm_size": "4.10 mm",
+        "point_size": "25 PTS",
+        "shape": "Round Melee",
+        "color": "E-F",
+        "clarity": "VVS",
+        "price_hpht": "85",
+        "price_cvd": "95"
+    },
+    {
+        "id": "RM-28-41-VS",
+        "sieve": "+14",
+        "mm_size": "4.10 mm",
+        "point_size": "25 PTS",
+        "shape": "Round Melee",
+        "color": "E-F",
+        "clarity": "VS",
+        "price_hpht": "80",
+        "price_cvd": "90"
+    },
+
+    // RM-29: 4.20 - 4.40 mm Range & Calibrated Pointers (30 PTS)
+    {
+        "id": "RM-29-RANGE-VVS",
+        "sieve": "+14",
+        "mm_size": "4.20 - 4.40 mm",
         "point_size": "30 PTS",
         "shape": "Round Melee",
         "color": "E-F",
@@ -638,9 +843,9 @@
         "price_cvd": "95"
     },
     {
-        "id": "RM-29-VS",
-        "sieve": "",
-        "mm_size": "4.2-4.4MM",
+        "id": "RM-29-RANGE-VS",
+        "sieve": "+14",
+        "mm_size": "4.20 - 4.40 mm",
         "point_size": "30 PTS",
         "shape": "Round Melee",
         "color": "E-F",
@@ -649,9 +854,77 @@
         "price_cvd": "85"
     },
     {
+        "id": "RM-29-42-VVS",
+        "sieve": "+14",
+        "mm_size": "4.20 mm",
+        "point_size": "30 PTS",
+        "shape": "Round Melee",
+        "color": "E-F",
+        "clarity": "VVS",
+        "price_hpht": "80",
+        "price_cvd": "95"
+    },
+    {
+        "id": "RM-29-42-VS",
+        "sieve": "+14",
+        "mm_size": "4.20 mm",
+        "point_size": "30 PTS",
+        "shape": "Round Melee",
+        "color": "E-F",
+        "clarity": "VS",
+        "price_hpht": "70",
+        "price_cvd": "85"
+    },
+    {
+        "id": "RM-29-43-VVS",
+        "sieve": "+14",
+        "mm_size": "4.30 mm",
+        "point_size": "30 PTS",
+        "shape": "Round Melee",
+        "color": "E-F",
+        "clarity": "VVS",
+        "price_hpht": "80",
+        "price_cvd": "95"
+    },
+    {
+        "id": "RM-29-43-VS",
+        "sieve": "+14",
+        "mm_size": "4.30 mm",
+        "point_size": "30 PTS",
+        "shape": "Round Melee",
+        "color": "E-F",
+        "clarity": "VS",
+        "price_hpht": "70",
+        "price_cvd": "85"
+    },
+    {
+        "id": "RM-29-44-VVS",
+        "sieve": "+14",
+        "mm_size": "4.40 mm",
+        "point_size": "30 PTS",
+        "shape": "Round Melee",
+        "color": "E-F",
+        "clarity": "VVS",
+        "price_hpht": "80",
+        "price_cvd": "95"
+    },
+    {
+        "id": "RM-29-44-VS",
+        "sieve": "+14",
+        "mm_size": "4.40 mm",
+        "point_size": "30 PTS",
+        "shape": "Round Melee",
+        "color": "E-F",
+        "clarity": "VS",
+        "price_hpht": "70",
+        "price_cvd": "85"
+    },
+
+    // RM-30: 4.50 mm (35 PTS)
+    {
         "id": "RM-30-VVS",
-        "sieve": "",
-        "mm_size": "4.5-4.5MM",
+        "sieve": "+14",
+        "mm_size": "4.50 mm",
         "point_size": "35 PTS",
         "shape": "Round Melee",
         "color": "E-F",
@@ -661,8 +934,8 @@
     },
     {
         "id": "RM-30-VS",
-        "sieve": "",
-        "mm_size": "4.5-4.5MM",
+        "sieve": "+14",
+        "mm_size": "4.50 mm",
         "point_size": "35 PTS",
         "shape": "Round Melee",
         "color": "E-F",
@@ -670,10 +943,12 @@
         "price_hpht": "75",
         "price_cvd": "85"
     },
+
+    // RM-31: 4.60 mm (40 PTS)
     {
         "id": "RM-31-VVS",
-        "sieve": "",
-        "mm_size": "4.6-4.6MM",
+        "sieve": "+14",
+        "mm_size": "4.60 mm",
         "point_size": "40 PTS",
         "shape": "Round Melee",
         "color": "E-F",
@@ -683,8 +958,8 @@
     },
     {
         "id": "RM-31-VS",
-        "sieve": "",
-        "mm_size": "4.6-4.6MM",
+        "sieve": "+14",
+        "mm_size": "4.60 mm",
         "point_size": "40 PTS",
         "shape": "Round Melee",
         "color": "E-F",
@@ -692,10 +967,12 @@
         "price_hpht": "70",
         "price_cvd": "85"
     },
+
+    // RM-32: 4.70 - 4.80 mm Range & Calibrated Pointers (45 PTS)
     {
-        "id": "RM-32-VVS",
-        "sieve": "",
-        "mm_size": "4.7-4.8MM",
+        "id": "RM-32-RANGE-VVS",
+        "sieve": "+14",
+        "mm_size": "4.70 - 4.80 mm",
         "point_size": "45 PTS",
         "shape": "Round Melee",
         "color": "E-F",
@@ -704,9 +981,9 @@
         "price_cvd": "95"
     },
     {
-        "id": "RM-32-VS",
-        "sieve": "",
-        "mm_size": "4.7-4.8MM",
+        "id": "RM-32-RANGE-VS",
+        "sieve": "+14",
+        "mm_size": "4.70 - 4.80 mm",
         "point_size": "45 PTS",
         "shape": "Round Melee",
         "color": "E-F",
@@ -715,9 +992,55 @@
         "price_cvd": "85"
     },
     {
-        "id": "RM-33-VVS",
-        "sieve": "",
-        "mm_size": "4.9-5.2MM",
+        "id": "RM-32-47-VVS",
+        "sieve": "+14",
+        "mm_size": "4.70 mm",
+        "point_size": "45 PTS",
+        "shape": "Round Melee",
+        "color": "E-F",
+        "clarity": "VVS",
+        "price_hpht": "80",
+        "price_cvd": "95"
+    },
+    {
+        "id": "RM-32-47-VS",
+        "sieve": "+14",
+        "mm_size": "4.70 mm",
+        "point_size": "45 PTS",
+        "shape": "Round Melee",
+        "color": "E-F",
+        "clarity": "VS",
+        "price_hpht": "70",
+        "price_cvd": "85"
+    },
+    {
+        "id": "RM-32-48-VVS",
+        "sieve": "+14",
+        "mm_size": "4.80 mm",
+        "point_size": "45 PTS",
+        "shape": "Round Melee",
+        "color": "E-F",
+        "clarity": "VVS",
+        "price_hpht": "80",
+        "price_cvd": "95"
+    },
+    {
+        "id": "RM-32-48-VS",
+        "sieve": "+14",
+        "mm_size": "4.80 mm",
+        "point_size": "45 PTS",
+        "shape": "Round Melee",
+        "color": "E-F",
+        "clarity": "VS",
+        "price_hpht": "70",
+        "price_cvd": "85"
+    },
+
+    // RM-33: 4.90 - 5.20 mm Range & Calibrated Pointers (50 PTS)
+    {
+        "id": "RM-33-RANGE-VVS",
+        "sieve": "+14",
+        "mm_size": "4.90 - 5.20 mm",
         "point_size": "50 PTS",
         "shape": "Round Melee",
         "color": "E-F",
@@ -726,9 +1049,9 @@
         "price_cvd": "100"
     },
     {
-        "id": "RM-33-VS",
-        "sieve": "",
-        "mm_size": "4.9-5.2MM",
+        "id": "RM-33-RANGE-VS",
+        "sieve": "+14",
+        "mm_size": "4.90 - 5.20 mm",
         "point_size": "50 PTS",
         "shape": "Round Melee",
         "color": "E-F",
@@ -737,9 +1060,99 @@
         "price_cvd": "90"
     },
     {
+        "id": "RM-33-49-VVS",
+        "sieve": "+14",
+        "mm_size": "4.90 mm",
+        "point_size": "50 PTS",
+        "shape": "Round Melee",
+        "color": "E-F",
+        "clarity": "VVS",
+        "price_hpht": "85",
+        "price_cvd": "100"
+    },
+    {
+        "id": "RM-33-49-VS",
+        "sieve": "+14",
+        "mm_size": "4.90 mm",
+        "point_size": "50 PTS",
+        "shape": "Round Melee",
+        "color": "E-F",
+        "clarity": "VS",
+        "price_hpht": "80",
+        "price_cvd": "90"
+    },
+    {
+        "id": "RM-33-50-VVS",
+        "sieve": "+14",
+        "mm_size": "5.00 mm",
+        "point_size": "50 PTS",
+        "shape": "Round Melee",
+        "color": "E-F",
+        "clarity": "VVS",
+        "price_hpht": "85",
+        "price_cvd": "100"
+    },
+    {
+        "id": "RM-33-50-VS",
+        "sieve": "+14",
+        "mm_size": "5.00 mm",
+        "point_size": "50 PTS",
+        "shape": "Round Melee",
+        "color": "E-F",
+        "clarity": "VS",
+        "price_hpht": "80",
+        "price_cvd": "90"
+    },
+    {
+        "id": "RM-33-51-VVS",
+        "sieve": "+14",
+        "mm_size": "5.10 mm",
+        "point_size": "50 PTS",
+        "shape": "Round Melee",
+        "color": "E-F",
+        "clarity": "VVS",
+        "price_hpht": "85",
+        "price_cvd": "100"
+    },
+    {
+        "id": "RM-33-51-VS",
+        "sieve": "+14",
+        "mm_size": "5.10 mm",
+        "point_size": "50 PTS",
+        "shape": "Round Melee",
+        "color": "E-F",
+        "clarity": "VS",
+        "price_hpht": "80",
+        "price_cvd": "90"
+    },
+    {
+        "id": "RM-33-52-VVS",
+        "sieve": "+14",
+        "mm_size": "5.20 mm",
+        "point_size": "50 PTS",
+        "shape": "Round Melee",
+        "color": "E-F",
+        "clarity": "VVS",
+        "price_hpht": "85",
+        "price_cvd": "100"
+    },
+    {
+        "id": "RM-33-52-VS",
+        "sieve": "+14",
+        "mm_size": "5.20 mm",
+        "point_size": "50 PTS",
+        "shape": "Round Melee",
+        "color": "E-F",
+        "clarity": "VS",
+        "price_hpht": "80",
+        "price_cvd": "90"
+    },
+
+    // RM-34: 5.50 mm (60 PTS)
+    {
         "id": "RM-34-VVS",
-        "sieve": "",
-        "mm_size": "5.50MM",
+        "sieve": "+14",
+        "mm_size": "5.50 mm",
         "point_size": "60 PTS",
         "shape": "Round Melee",
         "color": "E-F",
@@ -749,8 +1162,8 @@
     },
     {
         "id": "RM-34-VS",
-        "sieve": "",
-        "mm_size": "5.50MM",
+        "sieve": "+14",
+        "mm_size": "5.50 mm",
         "point_size": "60 PTS",
         "shape": "Round Melee",
         "color": "E-F",
@@ -758,10 +1171,12 @@
         "price_hpht": "75",
         "price_cvd": "90"
     },
+
+    // RM-35: 5.75 mm (75 PTS)
     {
         "id": "RM-35-VVS",
-        "sieve": "",
-        "mm_size": "5.75MM",
+        "sieve": "+14",
+        "mm_size": "5.75 mm",
         "point_size": "75 PTS",
         "shape": "Round Melee",
         "color": "E-F",
@@ -771,8 +1186,8 @@
     },
     {
         "id": "RM-35-VS",
-        "sieve": "",
-        "mm_size": "5.75MM",
+        "sieve": "+14",
+        "mm_size": "5.75 mm",
         "point_size": "75 PTS",
         "shape": "Round Melee",
         "color": "E-F",
@@ -780,10 +1195,12 @@
         "price_hpht": "80",
         "price_cvd": "90"
     },
+
+    // RM-36: 6.00 mm (90 PTS)
     {
         "id": "RM-36-VVS",
-        "sieve": "",
-        "mm_size": "6.00MM",
+        "sieve": "+14",
+        "mm_size": "6.00 mm",
         "point_size": "90 PTS",
         "shape": "Round Melee",
         "color": "E-F",
@@ -793,14 +1210,62 @@
     },
     {
         "id": "RM-36-VS",
-        "sieve": "",
-        "mm_size": "6.00MM",
+        "sieve": "+14",
+        "mm_size": "6.00 mm",
         "point_size": "90 PTS",
         "shape": "Round Melee",
         "color": "E-F",
         "clarity": "VS",
         "price_hpht": "75",
         "price_cvd": "90"
+    },
+
+    // RM-37: 1.00 ct Non-cert Pointer (6.50 mm / 100 PTS)
+    {
+        "id": "RM-37-VVS",
+        "sieve": "+14 / 1.00 CT",
+        "mm_size": "6.50 mm (1.00 ct)",
+        "point_size": "100 PTS (1.00 ct)",
+        "shape": "Round Melee",
+        "color": "E-F",
+        "clarity": "VVS",
+        "price_hpht": "95",
+        "price_cvd": "110"
+    },
+    {
+        "id": "RM-37-VS",
+        "sieve": "+14 / 1.00 CT",
+        "mm_size": "6.50 mm (1.00 ct)",
+        "point_size": "100 PTS (1.00 ct)",
+        "shape": "Round Melee",
+        "color": "E-F",
+        "clarity": "VS",
+        "price_hpht": "85",
+        "price_cvd": "100"
+    },
+
+    // RM-38: 1.50 ct Non-cert Pointer (7.40 mm / 150 PTS)
+    {
+        "id": "RM-38-VVS",
+        "sieve": "+14 / 1.50 CT",
+        "mm_size": "7.40 mm (1.50 ct)",
+        "point_size": "150 PTS (1.50 ct)",
+        "shape": "Round Melee",
+        "color": "E-F",
+        "clarity": "VVS",
+        "price_hpht": "105",
+        "price_cvd": "125"
+    },
+    {
+        "id": "RM-38-VS",
+        "sieve": "+14 / 1.50 CT",
+        "mm_size": "7.40 mm (1.50 ct)",
+        "point_size": "150 PTS (1.50 ct)",
+        "shape": "Round Melee",
+        "color": "E-F",
+        "clarity": "VS",
+        "price_hpht": "95",
+        "price_cvd": "115"
     }
 ];
     // Build lookup by mm_size to generate all selectable colors and clarities
@@ -827,7 +1292,7 @@
       const hpht = Math.max(50, Math.round(parseFloat(vsItem.price_hpht) * 0.90));
       const cvd = Math.max(50, Math.round(parseFloat(vsItem.price_cvd) * 0.90));
       extended.push({
-        id: `RM-${idx + 1}-SI`,
+        id: vsItem.id.replace('-VS', '-SI'),
         sieve: vsItem.sieve,
         mm_size: vsItem.mm_size,
         point_size: vsItem.point_size,
@@ -854,7 +1319,7 @@
           const finalHpht = Math.max(45, Math.round(baseHpht * (1 - colObj.discount)));
           const finalCvd = Math.max(45, Math.round(baseCvd * (1 - colObj.discount)));
           extended.push({
-            id: `RM-${idx + 1}-${colObj.code.replace('-', '')}-${clar}`,
+            id: `${vvsItem.id.replace('-VVS', '')}-${colObj.code.replace('-', '')}-${clar}`,
             sieve: vvsItem.sieve,
             mm_size: vvsItem.mm_size,
             point_size: vvsItem.point_size,
@@ -995,7 +1460,7 @@
         const itemClarity = (i.clarity || '').toUpperCase().trim();
         return state.selectedClarities.some(sc => {
           const target = sc.toUpperCase().trim();
-          return itemClarity === target || itemClarity.includes(target) || target.includes(itemClarity);
+          return itemClarity === target || itemClarity.split(/[\/\- ]+/).includes(target);
         });
       });
     }
@@ -1004,21 +1469,64 @@
     if (state.selectedMM && state.selectedMM.length > 0) {
       items = items.filter(i => {
         const mmRaw = i.mm_size || '';
-        const itemMM = parseFloat(mmRaw.replace(/[^0-9.]/g, '').split('-')[0]);
-        if (isNaN(itemMM)) return false;
+        const ptRaw = i.point_size || '';
+        const idRaw = i.id || '';
+
         return state.selectedMM.some(valStr => {
-          if (valStr.includes(' - ')) {
-             const parts = valStr.split(' - ');
-             const min = parseFloat(parts[0]);
-             const max = parseFloat(parts[1]);
-             return itemMM >= (min - 0.01) && itemMM <= (max + 0.01);
-          } else {
-             const targetMM = parseFloat(valStr);
-             if (!isNaN(targetMM)) {
-                return Math.abs(itemMM - targetMM) < 0.05;
-             }
-             return mmRaw.toLowerCase().includes(valStr.toLowerCase());
+          if (!valStr) return true;
+
+          // 1. Explicit 1.00 ct pointer check (6.50 mm)
+          if (valStr === '1.00ct' || valStr === '1.0ct' || valStr === '1.0') {
+            return mmRaw.includes('6.50') || ptRaw.includes('1.00 ct') || idRaw.includes('RM-37');
           }
+          // 2. Explicit 1.50 ct pointer check (7.40 mm)
+          if (valStr === '1.50ct' || valStr === '1.5ct' || valStr === '1.5') {
+            return mmRaw.includes('7.40') || ptRaw.includes('1.50 ct') || idRaw.includes('RM-38');
+          }
+
+          // 3. Range check e.g. '3.3 - 3.6'
+          if (valStr.includes(' - ') || (valStr.includes('-') && !valStr.startsWith('RM'))) {
+            const parts = valStr.split(/\s*-\s*/);
+            const min = parseFloat(parts[0]);
+            const max = parseFloat(parts[1]);
+            if (!isNaN(min) && !isNaN(max)) {
+              if (mmRaw.includes('-')) {
+                const itemParts = mmRaw.replace(/[^0-9.-]/g, '').split('-');
+                const itemMin = parseFloat(itemParts[0]);
+                const itemMax = parseFloat(itemParts[1]);
+                if (!isNaN(itemMin) && !isNaN(itemMax)) {
+                  return itemMin >= (min - 0.05) && itemMax <= (max + 0.05);
+                }
+              }
+              const singleMM = parseFloat(mmRaw.replace(/[^0-9.]/g, ''));
+              if (!isNaN(singleMM)) {
+                return singleMM >= (min - 0.01) && singleMM <= (max + 0.01);
+              }
+            }
+          }
+
+          // 4. Single target MM e.g. '3.40', '1.00', '6.50'
+          const targetMM = parseFloat(valStr);
+          if (!isNaN(targetMM)) {
+            // Guard against melee 1.00 or 1.50 matching 6.50/7.40 pointer
+            if ((targetMM === 1.0 || targetMM === 1.5) && (mmRaw.includes('6.50') || mmRaw.includes('7.40') || ptRaw.includes('1.00 ct') || ptRaw.includes('1.50 ct'))) {
+              return false;
+            }
+            if (Math.abs(targetMM - 6.50) < 0.05 && (mmRaw.includes('6.50') || ptRaw.includes('1.00 ct'))) {
+              return true;
+            }
+            if (Math.abs(targetMM - 7.40) < 0.05 && (mmRaw.includes('7.40') || ptRaw.includes('1.50 ct'))) {
+              return true;
+            }
+            if (!mmRaw.includes('-')) {
+              const singleMM = parseFloat(mmRaw.replace(/[^0-9.]/g, ''));
+              if (!isNaN(singleMM)) {
+                return Math.abs(singleMM - targetMM) < 0.04;
+              }
+            }
+          }
+
+          return mmRaw.toLowerCase().includes(valStr.toLowerCase());
         });
       });
     }
