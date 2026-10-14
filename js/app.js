@@ -3474,13 +3474,7 @@
       "Oval Hidden Halo Ring": 2400,
       "Three-Stone Emerald Ring": 2850,
       "Pear Shape Solitaire Ring": 2150,
-      "Toi et Moi Twin Ring": 3200,
-      // Watches
-      "Executive Diamond Watch": 4800,
-      "Full Pavé Luxury Watch": 6500,
-      "Baguette Bezel Chronograph": 7200,
-      "Diamond Dial Dress Watch": 2900,
-      "Ice Out Custom Diamond Watch": 8500
+      "Toi et Moi Twin Ring": 3200
     };
 
     productCards.forEach((card, idx) => {

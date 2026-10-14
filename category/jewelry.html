@@ -213,7 +213,6 @@
                             <a href="jewelry.html?type=necklace">Necklace</a>
                             <a href="jewelry.html?type=pendant">Pendant</a>
                             <a href="jewelry.html?type=ring">Ring</a>
-                            <a href="jewelry.html?type=watch">Watch</a>
                             <a href="../custom-jewelry.html">Design Your Own</a>
                         </div>
                     </div>
@@ -352,7 +351,6 @@
                     <button type="button" class="gd-cat-chip" data-filter="necklace">Necklaces</button>
                     <button type="button" class="gd-cat-chip" data-filter="pendant">Pendants</button>
                     <button type="button" class="gd-cat-chip" data-filter="ring">Rings</button>
-                    <button type="button" class="gd-cat-chip" data-filter="watch">Watches</button>
                 </div>
 
                 <div class="gd-type-switcher gd-type-switcher--light">
@@ -832,81 +830,6 @@
                 </div>
 
 
-                <!-- 7. WATCHES -->
-                <div class="gd-product-card" data-cat="watch">
-                    <div class="gd-product-img-wrap">
-                        <span class="gd-product-tag">Watches</span>
-                        <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=600&q=80" alt="Executive Diamond Watch">
-                    </div>
-                    <div class="gd-product-info">
-                        <h3 class="gd-product-title">Executive Diamond Watch</h3>
-                        <p class="gd-product-meta">Swiss Automatic • 4.20 ctw Diamond Bezel</p>
-                        <div class="gd-product-bottom">
-                            <a href="../signin.html" class="gd-login-price-btn">🔒 Login to View Wholesale Price</a>
-                            <a href="../signin.html" class="gd-product-action-btn">Inquire / Add to Cart</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="gd-product-card" data-cat="watch">
-                    <div class="gd-product-img-wrap">
-                        <span class="gd-product-tag">Watches</span>
-                        <img src="https://images.unsplash.com/photo-1524805444758-089113d48a6d?auto=format&fit=crop&w=600&q=80" alt="Full Pavé Luxury Watch">
-                    </div>
-                    <div class="gd-product-info">
-                        <h3 class="gd-product-title">Full Pavé Luxury Watch</h3>
-                        <p class="gd-product-meta">18K White Gold • Full Pavé Dial &amp; Bracelet</p>
-                        <div class="gd-product-bottom">
-                            <a href="../signin.html" class="gd-login-price-btn">🔒 Login to View Wholesale Price</a>
-                            <a href="../signin.html" class="gd-product-action-btn">Inquire / Add to Cart</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="gd-product-card" data-cat="watch">
-                    <div class="gd-product-img-wrap">
-                        <span class="gd-product-tag">Watches</span>
-                        <img src="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=600&q=80" alt="Baguette Bezel Chronograph">
-                    </div>
-                    <div class="gd-product-info">
-                        <h3 class="gd-product-title">Baguette Bezel Chronograph</h3>
-                        <p class="gd-product-meta">Platinum • Channel Set Baguette Diamonds</p>
-                        <div class="gd-product-bottom">
-                            <a href="../signin.html" class="gd-login-price-btn">🔒 Login to View Wholesale Price</a>
-                            <a href="../signin.html" class="gd-product-action-btn">Inquire / Add to Cart</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="gd-product-card" data-cat="watch">
-                    <div class="gd-product-img-wrap">
-                        <span class="gd-product-tag">Watches</span>
-                        <img src="https://images.unsplash.com/photo-1539185441755-769473a23570?auto=format&fit=crop&w=600&q=80" alt="Diamond Dial Dress Watch">
-                    </div>
-                    <div class="gd-product-info">
-                        <h3 class="gd-product-title">Diamond Dial Dress Watch</h3>
-                        <p class="gd-product-meta">Stainless Steel • Diamond Hour Markers</p>
-                        <div class="gd-product-bottom">
-                            <a href="../signin.html" class="gd-login-price-btn">🔒 Login to View Wholesale Price</a>
-                            <a href="../signin.html" class="gd-product-action-btn">Inquire / Add to Cart</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="gd-product-card" data-cat="watch">
-                    <div class="gd-product-img-wrap">
-                        <span class="gd-product-tag">Watches</span>
-                        <img src="../images/homepage/trade-partner.webp" alt="Ice Out Custom Diamond Watch">
-                    </div>
-                    <div class="gd-product-info">
-                        <h3 class="gd-product-title">Ice Out Custom Diamond Watch</h3>
-                        <p class="gd-product-meta">18K Yellow Gold • 25.00 ctw CVD Diamonds</p>
-                        <div class="gd-product-bottom">
-                            <a href="../signin.html" class="gd-login-price-btn">🔒 Login to View Wholesale Price</a>
-                            <a href="../signin.html" class="gd-product-action-btn">Inquire / Add to Cart</a>
-                        </div>
-                    </div>
-                </div>
 
             </div>
         </div>
@@ -991,7 +914,6 @@
                         <a href="jewelry.html?type=necklace">Necklace</a>
                         <a href="jewelry.html?type=pendant">Pendant</a>
                         <a href="jewelry.html?type=ring">Ring</a>
-                        <a href="jewelry.html?type=watch">Watch</a>
                     </div>
 
                     <div class="gd-foot-col">
@@ -1062,11 +984,14 @@
                 });
             };
 
-            // Check URL query parameter (e.g. ?type=band or ?type=watch)
+            // Check URL query parameter (e.g. ?type=band)
+            const validFilters = ['band', 'bracelet', 'earring', 'necklace', 'pendant', 'ring'];
             const urlParams = new URLSearchParams(window.location.search);
             const typeParam = urlParams.get('type');
-            if (typeParam) {
+            if (typeParam && validFilters.includes(typeParam.toLowerCase())) {
                 applyFilter(typeParam.toLowerCase());
+            } else {
+                applyFilter('all');
             }
 
             // Click listener for filter chips
