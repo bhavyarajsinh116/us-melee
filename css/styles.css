@@ -809,17 +809,23 @@ img {
   position: relative;
 }
 
+.gd-proof-in {
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+}
+
 .gd-proof-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  divide-x: 1px solid rgba(255, 255, 255, 0.1);
+  grid-template-columns: repeat(4, 1fr);
 }
 
 .gd-pcell {
-  padding: 24px 20px;
+  padding: 22px 16px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   text-align: center;
   border-right: 1px solid rgba(255, 255, 255, 0.08);
 }
