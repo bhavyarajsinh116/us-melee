@@ -1,6 +1,8 @@
 (function (window) {
   const state = {
     selectedMM: [],
+    selectedColors: [],
+    selectedClarities: [],
     selectedColor: '',
     selectedClarity: '',
     currentOrder: null
@@ -801,7 +803,72 @@
         "price_cvd": "90"
     }
 ];
-    return base;
+    // Build lookup by mm_size to generate all selectable colors and clarities
+    const vvsBySize = {};
+    const vsBySize = {};
+    base.forEach(item => {
+      const key = item.mm_size;
+      if (item.clarity === 'VVS') vvsBySize[key] = item;
+      if (item.clarity === 'VS') vsBySize[key] = item;
+    });
+
+    const extraColors = [
+      { code: 'F-G', discount: 0.05 },
+      { code: 'G-H', discount: 0.10 },
+      { code: 'H-I', discount: 0.15 },
+      { code: 'I-J', discount: 0.20 }
+    ];
+
+    const extended = [...base];
+
+    // Add E-F SI
+    Object.keys(vsBySize).forEach((mm, idx) => {
+      const vsItem = vsBySize[mm];
+      const hpht = Math.max(50, Math.round(parseFloat(vsItem.price_hpht) * 0.90));
+      const cvd = Math.max(50, Math.round(parseFloat(vsItem.price_cvd) * 0.90));
+      extended.push({
+        id: `RM-${idx + 1}-SI`,
+        sieve: vsItem.sieve,
+        mm_size: vsItem.mm_size,
+        point_size: vsItem.point_size,
+        shape: 'Round Melee',
+        color: 'E-F',
+        clarity: 'SI',
+        price_hpht: String(hpht),
+        price_cvd: String(cvd)
+      });
+    });
+
+    // Add extra colors for all clarities (VVS, VS, SI)
+    extraColors.forEach(colObj => {
+      Object.keys(vvsBySize).forEach((mm, idx) => {
+        const vvsItem = vvsBySize[mm];
+        const vsItem = vsBySize[mm] || vvsItem;
+        ['VVS', 'VS', 'SI'].forEach(clar => {
+          let baseHpht = clar === 'VVS' ? parseFloat(vvsItem.price_hpht) : parseFloat(vsItem.price_hpht);
+          let baseCvd = clar === 'VVS' ? parseFloat(vvsItem.price_cvd) : parseFloat(vsItem.price_cvd);
+          if (clar === 'SI') {
+            baseHpht = baseHpht * 0.90;
+            baseCvd = baseCvd * 0.90;
+          }
+          const finalHpht = Math.max(45, Math.round(baseHpht * (1 - colObj.discount)));
+          const finalCvd = Math.max(45, Math.round(baseCvd * (1 - colObj.discount)));
+          extended.push({
+            id: `RM-${idx + 1}-${colObj.code.replace('-', '')}-${clar}`,
+            sieve: vvsItem.sieve,
+            mm_size: vvsItem.mm_size,
+            point_size: vvsItem.point_size,
+            shape: 'Round Melee',
+            color: colObj.code,
+            clarity: clar,
+            price_hpht: String(finalHpht),
+            price_cvd: String(finalCvd)
+          });
+        });
+      });
+    });
+
+    return extended;
   }
 
   function init() {
@@ -827,41 +894,41 @@
       });
     }
 
+    // Multi-select for Color
     const colorBtns = document.querySelectorAll('#filter-color-group button');
     colorBtns.forEach(btn => {
       btn.addEventListener('click', function() {
-        if (state.selectedColor === this.getAttribute('data-color')) {
-          state.selectedColor = '';
-          this.classList.remove('bg-amber-500', 'text-slate-950');
+        const val = this.getAttribute('data-color');
+        const idx = state.selectedColors.indexOf(val);
+        if (idx > -1) {
+          state.selectedColors.splice(idx, 1);
+          this.classList.remove('bg-amber-500', 'text-slate-950', 'shadow');
           this.classList.add('text-slate-400');
         } else {
-          colorBtns.forEach(b => {
-            b.classList.remove('bg-amber-500', 'text-slate-950');
-            b.classList.add('text-slate-400');
-          });
-          state.selectedColor = this.getAttribute('data-color');
+          state.selectedColors.push(val);
           this.classList.remove('text-slate-400');
-          this.classList.add('bg-amber-500', 'text-slate-950');
+          this.classList.add('bg-amber-500', 'text-slate-950', 'shadow');
         }
+        state.selectedColor = state.selectedColors.join(', ');
       });
     });
 
+    // Multi-select for Clarity
     const clarityBtns = document.querySelectorAll('#filter-clarity-group button');
     clarityBtns.forEach(btn => {
       btn.addEventListener('click', function() {
-        if (state.selectedClarity === this.getAttribute('data-clarity')) {
-          state.selectedClarity = '';
-          this.classList.remove('bg-amber-500', 'text-slate-950');
+        const val = this.getAttribute('data-clarity');
+        const idx = state.selectedClarities.indexOf(val);
+        if (idx > -1) {
+          state.selectedClarities.splice(idx, 1);
+          this.classList.remove('bg-amber-500', 'text-slate-950', 'shadow');
           this.classList.add('text-slate-400');
         } else {
-          clarityBtns.forEach(b => {
-            b.classList.remove('bg-amber-500', 'text-slate-950');
-            b.classList.add('text-slate-400');
-          });
-          state.selectedClarity = this.getAttribute('data-clarity');
+          state.selectedClarities.push(val);
           this.classList.remove('text-slate-400');
-          this.classList.add('bg-amber-500', 'text-slate-950');
+          this.classList.add('bg-amber-500', 'text-slate-950', 'shadow');
         }
+        state.selectedClarity = state.selectedClarities.join(', ');
       });
     });
 
@@ -870,12 +937,20 @@
       if (btnReset) {
         btnReset.addEventListener('click', () => {
           state.selectedMM = [];
+          state.selectedColors = [];
+          state.selectedClarities = [];
           state.selectedColor = '';
           state.selectedClarity = '';
           if (mmSelect) mmSelect.selectedIndex = -1;
           
-          colorBtns.forEach(b => { b.classList.remove('bg-amber-500', 'text-slate-950'); b.classList.add('text-slate-400'); });
-          clarityBtns.forEach(b => { b.classList.remove('bg-amber-500', 'text-slate-950'); b.classList.add('text-slate-400'); });
+          colorBtns.forEach(b => {
+            b.classList.remove('bg-amber-500', 'text-slate-950', 'shadow');
+            b.classList.add('text-slate-400');
+          });
+          clarityBtns.forEach(b => {
+            b.classList.remove('bg-amber-500', 'text-slate-950', 'shadow');
+            b.classList.add('text-slate-400');
+          });
           
           document.getElementById('results-container').classList.add('hidden');
         });
@@ -898,12 +973,34 @@
 
     let items = getRoundData();
 
-    if (state.selectedColor) {
-      items = items.filter(i => (i.color || '').includes(state.selectedColor));
+    // Default to classic E-F (VVS/VS) catalog if no specific color/clarity/size filters chosen
+    if (state.selectedColors.length === 0 && state.selectedClarities.length === 0 && (!state.selectedMM || state.selectedMM.length === 0)) {
+      items = items.filter(i => i.color === 'E-F' && (i.clarity === 'VVS' || i.clarity === 'VS'));
     }
-    if (state.selectedClarity) {
-      items = items.filter(i => (i.clarity || '').includes(state.selectedClarity));
+
+    // 1. Filter by Color(s)
+    if (state.selectedColors && state.selectedColors.length > 0) {
+      items = items.filter(i => {
+        const itemColor = (i.color || '').toUpperCase().trim();
+        return state.selectedColors.some(sc => {
+          const target = sc.toUpperCase().trim();
+          return itemColor === target || itemColor.includes(target) || target.includes(itemColor);
+        });
+      });
     }
+
+    // 2. Filter by Clarity(s)
+    if (state.selectedClarities && state.selectedClarities.length > 0) {
+      items = items.filter(i => {
+        const itemClarity = (i.clarity || '').toUpperCase().trim();
+        return state.selectedClarities.some(sc => {
+          const target = sc.toUpperCase().trim();
+          return itemClarity === target || itemClarity.includes(target) || target.includes(itemClarity);
+        });
+      });
+    }
+
+    // 3. Filter by MM Size
     if (state.selectedMM && state.selectedMM.length > 0) {
       items = items.filter(i => {
         const mmRaw = i.mm_size || '';
@@ -928,6 +1025,17 @@
 
     if (countEl) countEl.textContent = items.length + " items";
     container.classList.remove('hidden');
+
+    if (items.length === 0) {
+      tableBody.innerHTML = `
+        <tr>
+          <td colspan="10" class="p-8 text-center text-slate-500 font-semibold bg-slate-50">
+            No round melee items match the selected specifications. Please try adjusting your color, clarity, or size filters.
+          </td>
+        </tr>
+      `;
+      return;
+    }
 
     tableBody.innerHTML = items.map((item, idx) => {
       const color = item.color || 'E-F';
