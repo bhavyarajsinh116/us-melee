@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Melee Diamonds - Wholesale Lab Grown Diamonds Web Application",
   "scripts": {
-    "dev": "node server.js"
+    "dev": "node local-dev-server.js"
   },
   "keywords": [
     "diamonds",
