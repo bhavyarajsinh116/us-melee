@@ -4,3 +4,6 @@ Thumbs.db
 *.log
 .env
 .env.local
+package.json
+local-dev-server.js
+server.py
