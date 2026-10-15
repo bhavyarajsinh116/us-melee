@@ -1,0 +1,5 @@
+server.py
+local-dev-server.js
+backups/
+pdf/
+*.pdf
