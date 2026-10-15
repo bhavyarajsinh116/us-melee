@@ -2275,6 +2275,38 @@
   }
 ];
 
+  // Helper to ensure each diamond shape has authentic shape-matched inspection imagery
+  const shapeImageMap = {
+    'asscher': 'images/stones/stone-1049916.jpg',
+    'cushion': 'images/stones/stone-106858.jpg',
+    'emerald': 'images/stones/stone-1005905.jpg',
+    'heart': 'images/stones/stone-1605290.jpg',
+    'marquise': 'images/stones/stone-rare-marquise.jpg',
+    'oval': 'images/stones/stone-1560755.jpg',
+    'pear': 'images/stones/stone-806852.jpg',
+    'princess': 'images/stones/stone-1043111.jpg',
+    'radiant': 'images/stones/stone-1042952.jpg',
+    'square radiant': 'images/stones/stone-1042952.jpg',
+    'baguette': 'images/stones/stone-1049916.jpg',
+    'tapered baguette': 'images/stones/stone-1049916.jpg',
+    'tapered bullet': 'images/stones/stone-1049916.jpg',
+    'triangle': 'images/stones/stone-106858.jpg',
+    'trilliant': 'images/stones/stone-106858.jpg',
+    'kite': 'images/stones/stone-106858.jpg',
+    'round': 'images/stones/stone-1042410.jpg'
+  };
+
+  stockDatabase.forEach(stone => {
+    // Preserve custom specific photos (like NAT-20108 green pear stone-1210754.jpg, etc.)
+    if (stone.img && stone.img !== 'images/stones/stone-1042410.jpg') return;
+    const shp = (stone.shape || '').toLowerCase().trim();
+    if (shapeImageMap[shp]) {
+      stone.img = shapeImageMap[shp];
+    }
+  });
+
+  window.stockDatabase = stockDatabase;
+
   // --------------------------------------------------------------------------
   // 2. Global State & Diamond Type Switcher Logic
   // --------------------------------------------------------------------------
@@ -2678,25 +2710,48 @@
 
     // Populate Grid View
     if (gridContainer) {
-      gridContainer.innerHTML = filtered.map(stone => `
+      gridContainer.innerHTML = filtered.map(stone => {
+        const stoneImg = `${basePath}${stone.img}`;
+        const labCert = stone.lab || stone.cert || 'GIA';
+        const certLink = stone.certUrl || (labCert.toUpperCase().includes('IGI') ? 'https://www.igi.org/' : 'https://www.gia.edu/');
+        const titleText = `№ ${stone.stock} — ${stone.shape} ${(stone.carat || 0).toFixed(2)}ct (${labCert})`;
+        const typeLabel = stone.type === 'natural' ? 'Natural' : 'Lab-Grown';
+        return `
         <article class="gd-stone-card">
           <div class="gd-stone-thumb">
             <span class="gd-stone-no">&#8470; ${stone.stock}</span>
             <span class="${stone.type === 'natural' ? 'gd-badge-natural' : 'gd-badge-lab'}" style="position:absolute; top:12px; right:12px; z-index:2;">
-              ${stone.type === 'natural' ? 'Natural' : 'Lab-Grown'}
+              ${typeLabel}
             </span>
-            <span class="gd-loupe" data-spin="${stone.spin}" aria-label="View ${stone.shape} ${stone.carat}ct 360 Video">
-              <img src="${basePath}${stone.img}" alt="${stone.shape} ${stone.carat}ct" loading="lazy">
+            <span class="gd-loupe"
+                  data-spin="${stone.spin}"
+                  data-img="${stoneImg}"
+                  data-stock="${stone.stock}"
+                  data-title="${titleText}"
+                  data-shape="${stone.shape}"
+                  data-carat="${(stone.carat || 0).toFixed(2)}"
+                  data-color="${stone.color}"
+                  data-clarity="${stone.clarity}"
+                  data-cut="${stone.cut || 'EX'}"
+                  data-pol="${stone.polish || 'EX'}"
+                  data-sym="${stone.sym || 'EX'}"
+                  data-lab="${labCert}"
+                  data-mmsize="${stone.mmSize || ''}"
+                  data-price="${stone.price || ''}"
+                  data-type="${typeLabel}"
+                  data-cert="${certLink}"
+                  aria-label="View ${stone.shape} ${stone.carat}ct 360 Video">
+              <img src="${stoneImg}" alt="${stone.shape} ${stone.carat}ct" loading="lazy">
               <span class="gd-loupe-badge">360&deg;</span>
             </span>
           </div>
           <div class="gd-stone-body">
-            <div class="gd-stone-shape">${stone.shape} &middot; ${stone.carat.toFixed(2)} ct</div>
+            <div class="gd-stone-shape">${stone.shape} &middot; ${(stone.carat || 0).toFixed(2)} ct</div>
             <div class="gd-stone-carat" style="font-size:12px; color:#64748b; font-weight:600;">${stone.mmSize || ''}</div>
             <div class="gd-spec-row" style="grid-template-columns: repeat(3, 1fr); gap:6px;">
               <div class="gd-spec"><span class="sk">Color</span><span class="sv">${stone.color}</span></div>
               <div class="gd-spec"><span class="sk">Clarity</span><span class="sv">${stone.clarity}</span></div>
-              <div class="gd-spec"><span class="sk">Lab</span><span class="sv">${stone.lab || stone.cert}</span></div>
+              <div class="gd-spec"><span class="sk">Lab</span><span class="sv">${labCert}</span></div>
               <div class="gd-spec"><span class="sk">Cut</span><span class="sv">${stone.cut || 'EX'}</span></div>
               <div class="gd-spec"><span class="sk">Pol/Sym</span><span class="sv">${stone.polish || 'EX'}/${stone.sym || 'EX'}</span></div>
               <div class="gd-spec"><span class="sk">Depth/Tab</span><span class="sv">${stone.depth || '62'}%/${stone.table || '58'}%</span></div>
@@ -2706,18 +2761,41 @@
                 `<span class="gd-price-tag is-unlocked" style="background:#ecfdf5; color:#065f46; border:1px solid #a7f3d0; font-weight:800; padding:5px 12px; border-radius:8px; font-size:12.5px; display:inline-flex; align-items:center;">$${(stone.price || 0).toLocaleString()} &middot; Wholesale</span>` :
                 `<a href="${basePath}signin.html" class="gd-price-tag">$${(stone.price || 0).toLocaleString()} &middot; Trade Login</a>`
               }
-              <button type="button" class="gd-stone-link gd-loupe-trigger" data-spin="${stone.spin}" data-title="№ ${stone.stock} — ${stone.shape} ${stone.carat}ct (${stone.lab || stone.cert})">
+              <button type="button" class="gd-stone-link gd-loupe-trigger"
+                      data-spin="${stone.spin}"
+                      data-img="${stoneImg}"
+                      data-stock="${stone.stock}"
+                      data-title="${titleText}"
+                      data-shape="${stone.shape}"
+                      data-carat="${(stone.carat || 0).toFixed(2)}"
+                      data-color="${stone.color}"
+                      data-clarity="${stone.clarity}"
+                      data-cut="${stone.cut || 'EX'}"
+                      data-pol="${stone.polish || 'EX'}"
+                      data-sym="${stone.sym || 'EX'}"
+                      data-lab="${labCert}"
+                      data-mmsize="${stone.mmSize || ''}"
+                      data-price="${stone.price || ''}"
+                      data-type="${typeLabel}"
+                      data-cert="${certLink}">
                 360° Loupe &rarr;
               </button>
             </div>
           </div>
         </article>
-      `).join('');
+      `;
+      }).join('');
     }
 
     // Populate Table View
     if (tableBody) {
-      tableBody.innerHTML = filtered.map(s => `
+      tableBody.innerHTML = filtered.map(s => {
+        const sImg = `${basePath}${s.img}`;
+        const sLab = s.lab || s.cert || 'GIA';
+        const sCertLink = s.certUrl || (sLab.toUpperCase().includes('IGI') ? 'https://www.igi.org/' : 'https://www.gia.edu/');
+        const sTitle = `№ ${s.stock} — ${s.shape} ${(s.carat || 0).toFixed(2)}ct (${sLab})`;
+        const sType = s.type === 'natural' ? 'Natural' : 'Lab-Grown';
+        return `
         <tr class="hover:bg-slate-50 transition-colors">
           <td class="p-3 font-mono font-bold text-amber-700">№ ${s.stock}</td>
           <td class="p-3 font-bold text-slate-800">${s.shape}</td>
@@ -2727,18 +2805,35 @@
           <td class="p-3">${s.cut || 'EX'}</td>
           <td class="p-3">${s.polish || 'EX'}</td>
           <td class="p-3">${s.sym || 'EX'}</td>
-          <td class="p-3 font-bold text-indigo-700">${s.lab || s.cert || 'IGI'}</td>
+          <td class="p-3 font-bold text-indigo-700">${sLab}</td>
           <td class="p-3 text-slate-500 font-medium">${s.mmSize || '-'}</td>
           <td class="p-3">${s.depth || 62}%</td>
           <td class="p-3">${s.table || 58}%</td>
           <td class="p-3 text-right font-extrabold text-emerald-700">$${(s.price || 0).toLocaleString()}</td>
           <td class="p-3 text-center">
-            <button type="button" class="gd-stone-link gd-loupe-trigger px-2.5 py-1 text-xs font-bold bg-slate-900 text-amber-300 rounded hover:bg-slate-800 transition" data-spin="${s.spin}" data-title="№ ${s.stock} — ${s.shape} ${s.carat}ct (${s.lab || s.cert})">
+            <button type="button" class="gd-stone-link gd-loupe-trigger px-2.5 py-1 text-xs font-bold bg-slate-900 text-amber-300 rounded hover:bg-slate-800 transition"
+                    data-spin="${s.spin}"
+                    data-img="${sImg}"
+                    data-stock="${s.stock}"
+                    data-title="${sTitle}"
+                    data-shape="${s.shape}"
+                    data-carat="${(s.carat || 0).toFixed(2)}"
+                    data-color="${s.color}"
+                    data-clarity="${s.clarity}"
+                    data-cut="${s.cut || 'EX'}"
+                    data-pol="${s.polish || 'EX'}"
+                    data-sym="${s.sym || 'EX'}"
+                    data-lab="${sLab}"
+                    data-mmsize="${s.mmSize || ''}"
+                    data-price="${s.price || ''}"
+                    data-type="${sType}"
+                    data-cert="${sCertLink}">
               360° Loupe &rarr;
             </button>
           </td>
         </tr>
-      `).join('');
+      `;
+      }).join('');
     }
 
     bindLoupeTriggers();
@@ -2752,7 +2847,7 @@
   // --------------------------------------------------------------------------
   // 8. Interactive Vision360° Diamond Inspection Modal System
   // --------------------------------------------------------------------------
-  window.open360Modal = function (spinUrl, title, stockNo, price, imgUrl, certUrl) {
+  window.open360Modal = function (spinUrl, title, stockNo, price, imgUrl, certUrl, meta = {}) {
     let modalEl = document.getElementById('gd-360-interactive-modal');
     if (!modalEl) {
       modalEl = document.createElement('div');
@@ -2760,44 +2855,114 @@
       modalEl.className = 'gd-360-modal-backdrop';
       modalEl.innerHTML = `
         <div class="gd-360-modal-dialog">
-          <div class="gd-360-modal-header">
-            <div class="gd-360-modal-title-wrap">
-              <span class="gd-360-tag">VISION 360° HD INSPECTION</span>
-              <h3 id="gd-360-title-text" class="gd-360-title">Diamond 360° View</h3>
+          <div class="gd-360-modal-header" style="background:#0c091f; border-bottom:1px solid rgba(255,255,255,0.12); padding:16px 22px;">
+            <div class="gd-360-modal-title-wrap" style="flex:1;">
+              <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
+                <span class="gd-360-tag" style="margin:0;">VISION 360° HD INSPECTION</span>
+                <span id="gd-360-type-badge" style="font-size:10px; font-weight:800; text-transform:uppercase; padding:2px 8px; border-radius:12px; background:#fbbf24; color:#0f172a;">CERTIFIED</span>
+              </div>
+              <h3 id="gd-360-title-text" class="gd-360-title" style="font-size:17px; font-weight:700; color:#ffffff;">Diamond 360° View</h3>
+              <div id="gd-360-spec-chips" style="display:flex; flex-wrap:wrap; gap:6px; margin-top:8px;"></div>
             </div>
-            <button type="button" class="gd-360-close-btn" onclick="window.close360Modal()" aria-label="Close">&times;</button>
+            <button type="button" class="gd-360-close-btn" onclick="window.close360Modal()" aria-label="Close" style="color:#94a3b8; font-size:32px; background:none; border:none; cursor:pointer;">&times;</button>
           </div>
-          <div class="gd-360-modal-body">
-            <div class="gd-360-iframe-wrap">
+          <div class="gd-360-modal-body" style="min-height:460px; position:relative; background:#f8fafc;">
+            <div class="gd-360-iframe-wrap" style="position:absolute; inset:0;">
               <iframe id="gd-360-iframe-player" src="about:blank" allowfullscreen title="360 Diamond Spin"></iframe>
             </div>
           </div>
-          <div class="gd-360-modal-footer">
-            <div class="gd-360-controls">
+          <div class="gd-360-modal-footer" style="padding:14px 22px; background:#ffffff; border-top:1px solid #e2e8f0; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px;">
+            <div class="gd-360-controls" style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
               <button type="button" class="gd-360-ctrl-btn" onclick="window.reload360Player()" title="Reset / Rotate Spin">🔄 Rotate 360°</button>
               <button type="button" class="gd-360-ctrl-btn" onclick="window.toggle360Zoom()" title="High Res Inspection">🔍 High Res Loupe</button>
-              <a id="gd-360-cert-btn" href="https://www.igi.org/" target="_blank" class="gd-360-ctrl-btn" style="text-decoration:none;">📜 View Lab Cert</a>
+              <a id="gd-360-cert-btn" href="https://www.gia.edu/" target="_blank" class="gd-360-ctrl-btn" style="text-decoration:none;">📜 View Lab Cert</a>
             </div>
-            <div id="gd-360-action-area" class="gd-360-action-area"></div>
+            <div id="gd-360-action-area" class="gd-360-action-area" style="display:flex; align-items:center; gap:10px;"></div>
           </div>
         </div>
       `;
       document.body.appendChild(modalEl);
     }
 
+    // Resolve stone metadata from stockDatabase if not provided
+    let stoneRecord = null;
+    if (stockNo && Array.isArray(stockDatabase)) {
+      stoneRecord = stockDatabase.find(s => s.stock === stockNo);
+    }
+
+    const mergedMeta = {
+      shape: meta.shape || (stoneRecord ? stoneRecord.shape : ''),
+      carat: meta.carat || (stoneRecord ? (stoneRecord.carat || 0).toFixed(2) : ''),
+      color: meta.color || (stoneRecord ? stoneRecord.color : ''),
+      clarity: meta.clarity || (stoneRecord ? stoneRecord.clarity : ''),
+      cut: meta.cut || (stoneRecord ? stoneRecord.cut : 'EX'),
+      pol: meta.pol || (stoneRecord ? stoneRecord.polish : 'EX'),
+      sym: meta.sym || (stoneRecord ? stoneRecord.sym : 'EX'),
+      lab: meta.lab || (stoneRecord ? (stoneRecord.lab || stoneRecord.cert) : 'GIA'),
+      mmSize: meta.mmSize || (stoneRecord ? stoneRecord.mmSize : ''),
+      type: meta.type || (stoneRecord ? (stoneRecord.type === 'natural' ? 'Natural' : 'Lab-Grown') : 'Certified')
+    };
+
+    const basePath = window.location.pathname.includes('/category/') ? '../' : '';
+
+    // Accurate image resolution: ensure stone's actual image is used
+    let resolvedImg = imgUrl;
+    if (!resolvedImg && stoneRecord && stoneRecord.img) {
+      resolvedImg = `${basePath}${stoneRecord.img}`;
+    }
+    if (!resolvedImg && mergedMeta.shape) {
+      const shpKey = mergedMeta.shape.toLowerCase().trim();
+      if (typeof shapeImageMap !== 'undefined' && shapeImageMap[shpKey]) {
+        resolvedImg = `${basePath}${shapeImageMap[shpKey]}`;
+      }
+    }
+    if (!resolvedImg) {
+      resolvedImg = `${basePath}images/stones/stone-1042410.jpg`;
+    }
+
     const titleEl = document.getElementById('gd-360-title-text');
+    const typeBadge = document.getElementById('gd-360-type-badge');
+    const specChips = document.getElementById('gd-360-spec-chips');
     const iframeWrap = document.querySelector('#gd-360-interactive-modal .gd-360-iframe-wrap');
     const certBtn = document.getElementById('gd-360-cert-btn');
     const actionArea = document.getElementById('gd-360-action-area');
 
-    if (titleEl) titleEl.textContent = title || 'Diamond 360° HD Inspection';
+    if (typeBadge) {
+      typeBadge.textContent = mergedMeta.type.toUpperCase();
+      typeBadge.style.background = mergedMeta.type.toLowerCase().includes('natural') ? '#fef3c7' : '#e0e7ff';
+      typeBadge.style.color = mergedMeta.type.toLowerCase().includes('natural') ? '#92400e' : '#3730a3';
+    }
 
-    // If URL is missing or uses dummy placeholder domain video.meleediamonds.com, use Interactive Fallback Spinner!
+    const headingTitle = stockNo
+      ? `№ ${stockNo} — ${mergedMeta.shape} ${mergedMeta.carat}ct (${mergedMeta.lab})`
+      : (title || 'Diamond 360° HD Inspection');
+    if (titleEl) titleEl.textContent = headingTitle;
+
+    if (specChips) {
+      const chips = [
+        mergedMeta.shape ? `💎 Shape: ${mergedMeta.shape}` : '',
+        mergedMeta.carat ? `⚖️ ${mergedMeta.carat} ct` : '',
+        mergedMeta.color ? `🎨 Color: ${mergedMeta.color}` : '',
+        mergedMeta.clarity ? `🔍 Clarity: ${mergedMeta.clarity}` : '',
+        mergedMeta.cut ? `✂️ Cut: ${mergedMeta.cut}` : '',
+        (mergedMeta.pol && mergedMeta.sym) ? `✨ Polish/Sym: ${mergedMeta.pol}/${mergedMeta.sym}` : '',
+        mergedMeta.mmSize ? `📐 ${mergedMeta.mmSize}` : '',
+        mergedMeta.lab ? `🏛️ ${mergedMeta.lab}` : ''
+      ].filter(Boolean);
+
+      specChips.innerHTML = chips.map(c => `
+        <span style="font-size:11px; font-weight:700; color:#e2e8f0; background:rgba(255,255,255,0.12); padding:2px 8px; border-radius:6px; border:1px solid rgba(255,255,255,0.15);">
+          ${c}
+        </span>
+      `).join('');
+    }
+
+    // Determine if fallback visualizer is used
     const isPlaceholderUrl = !spinUrl || spinUrl.includes('video.meleediamonds.com');
 
     if (isPlaceholderUrl) {
       if (iframeWrap) {
-        window.renderFallback360Viewer(iframeWrap, imgUrl, title);
+        window.renderFallback360Viewer(iframeWrap, resolvedImg, headingTitle, mergedMeta);
       }
     } else {
       if (iframeWrap) {
@@ -2806,16 +2971,21 @@
     }
 
     if (certBtn) {
-      certBtn.href = certUrl || 'https://www.igi.org/';
+      const isGia = (mergedMeta.lab || '').toUpperCase().includes('GIA');
+      certBtn.href = certUrl || (isGia ? 'https://www.gia.edu/report-check-landing' : 'https://www.igi.org/verify-your-report/');
+      certBtn.textContent = isGia ? '📜 View GIA Cert' : '📜 View IGI Cert';
     }
 
     if (actionArea) {
-      if (price) {
-        const safeTitle = (title || 'Certified Diamond').replace(/'/g, "\\'");
-        const safeImg = (imgUrl || '').replace(/'/g, "\\'");
+      const finalPrice = price || (stoneRecord ? stoneRecord.price : null);
+      if (finalPrice) {
+        const safeTitle = (headingTitle || 'Certified Diamond').replace(/'/g, "\\'");
+        const safeImg = (resolvedImg || '').replace(/'/g, "\\'");
         actionArea.innerHTML = `
-          <span style="font-size:14px; font-weight:700; color:#15803d; background:#f0fdf4; border:1px solid #bbf7d0; padding:6px 12px; border-radius:8px;">Trade Price: $${Number(price).toLocaleString()}</span>
-          <button type="button" onclick="window.addJewelryToCart('${safeTitle}', ${price}, '${safeImg}', '360 Stock #${stockNo || ''}')" style="background:#1b1464; color:#fff; border:none; padding:8px 16px; border-radius:8px; font-weight:700; font-size:13px; cursor:pointer;">🛒 Add to Cart</button>
+          <span style="font-size:14px; font-weight:800; color:#15803d; background:#f0fdf4; border:1px solid #bbf7d0; padding:6px 14px; border-radius:8px;">Trade Price: $${Number(finalPrice).toLocaleString()}</span>
+          <button type="button" onclick="window.addJewelryToCart('${safeTitle}', ${finalPrice}, '${safeImg}', 'Stock #${stockNo || ''}')" style="background:#1b1464; color:#fff; border:none; padding:8px 16px; border-radius:8px; font-weight:700; font-size:13px; cursor:pointer; display:inline-flex; align-items:center; gap:6px;">
+            <span>🛒</span> Add to Cart
+          </button>
         `;
       } else {
         actionArea.innerHTML = `<button type="button" onclick="window.close360Modal()" style="background:#1b1464; color:#fff; border:none; padding:8px 16px; border-radius:8px; font-weight:700; font-size:13px; cursor:pointer;">Close Inspection</button>`;
@@ -2827,67 +2997,163 @@
   };
 
   // --------------------------------------------------------------------------
-  // Interactive Fallback 360° Diamond Spinner Render Engine
+  // Interactive Precision 360° Diamond Turntable & Optical Vision Studio
   // --------------------------------------------------------------------------
-  window.renderFallback360Viewer = function (container, imgUrl, title) {
+  window.renderFallback360Viewer = function (container, imgUrl, title, meta = {}) {
     const basePath = window.location.pathname.includes('/category/') ? '../' : '';
     let safeImg = imgUrl && !imgUrl.includes('undefined') ? imgUrl : 'images/stones/stone-1042410.jpg';
-    if (!safeImg.startsWith('http') && !safeImg.startsWith('../') && basePath) {
+    if (!safeImg.startsWith('http') && !safeImg.startsWith('../') && !safeImg.startsWith('/') && basePath) {
       safeImg = basePath + safeImg;
     }
 
     container.innerHTML = `
       <div class="gd-fallback-360-stage" style="position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; background:radial-gradient(circle at center, #ffffff 30%, #f1f5f9 100%); user-select:none; overflow:hidden;">
-        <div id="gd-360-spin-box" style="position:relative; width:340px; height:340px; display:flex; align-items:center; justify-content:center; cursor:grab;">
-          <img id="gd-360-spin-img" src="${safeImg}" alt="${title || 'Diamond'}" style="max-width:88%; max-height:88%; object-fit:contain; filter:drop-shadow(0 15px 35px rgba(0,0,0,0.2)); pointer-events:none; transition:transform 0.06s ease-out;">
-          <div style="position:absolute; bottom:10px; background:rgba(15,23,42,0.85); color:#fbbf24; padding:6px 14px; border-radius:20px; font-size:12px; font-weight:700; pointer-events:none; display:flex; align-items:center; gap:6px; backdrop-filter:blur(4px); box-shadow:0 4px 12px rgba(0,0,0,0.15);">
-            <span>🔄 Drag or Touch to Spin 360°</span>
+        
+        <!-- Top Studio Controls Overlay -->
+        <div style="position:absolute; top:12px; left:16px; right:16px; display:flex; align-items:center; justify-content:space-between; z-index:20; pointer-events:auto;">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span style="background:#0f172a; color:#fbbf24; font-size:11px; font-weight:800; padding:4px 10px; border-radius:12px; letter-spacing:0.5px; border:1px solid rgba(251,191,36,0.3);">
+              HD 360° TURNTABLE
+            </span>
+            <span id="gd-360-deg-display" style="background:rgba(255,255,255,0.95); color:#334155; font-size:11px; font-weight:700; padding:4px 8px; border-radius:8px; border:1px solid #cbd5e1; font-family:monospace;">
+              0°
+            </span>
+          </div>
+
+          <div style="display:flex; align-items:center; gap:6px;">
+            <button type="button" id="btn-spin-ccw" class="gd-360-ctrl-btn" style="padding:5px 9px; font-size:11px;" title="Rotate 45° Left">⟲ 45°</button>
+            <button type="button" id="btn-spin-cw" class="gd-360-ctrl-btn" style="padding:5px 9px; font-size:11px;" title="Rotate 45° Right">⟳ 45°</button>
+            <button type="button" id="btn-spin-playpause" class="gd-360-ctrl-btn" style="padding:5px 11px; font-size:11px; font-weight:700;">⏸ Pause</button>
+            <button type="button" id="btn-zoom-step" class="gd-360-ctrl-btn" style="padding:5px 11px; font-size:11px;" title="Magnify Facets">🔍 Loupe 2x</button>
+            <button type="button" id="btn-spin-reset" class="gd-360-ctrl-btn" style="padding:5px 9px; font-size:11px;" title="Reset Rotation">↺ Reset</button>
           </div>
         </div>
-        <div style="margin-top:14px; display:flex; align-items:center; gap:10px;">
-          <button type="button" onclick="window.start360AutoSpin()" class="gd-360-ctrl-btn">▶ Auto Spin</button>
-          <button type="button" onclick="window.stop360AutoSpin()" class="gd-360-ctrl-btn">⏸ Pause</button>
-          <button type="button" onclick="window.reset360SpinView()" class="gd-360-ctrl-btn">↺ Reset View</button>
+
+        <!-- 360 Interactive Turntable Area -->
+        <div id="gd-360-turntable-box" style="position:relative; width:100%; height:100%; display:flex; align-items:center; justify-content:center; cursor:grab; touch-action:none;">
+          
+          <!-- Radial Ambient Gem Light -->
+          <div style="position:absolute; width:420px; height:420px; border-radius:50%; background:radial-gradient(circle, rgba(212,175,55,0.06) 0%, rgba(27,20,100,0.02) 50%, transparent 70%); pointer-events:none;"></div>
+
+          <!-- Diamond Turntable Wrapper -->
+          <div id="gd-360-turntable-wrap" style="position:relative; width:340px; height:340px; display:flex; align-items:center; justify-content:center; transform-origin:center center; will-change:transform;">
+            
+            <img id="gd-360-spin-img" src="${safeImg}" alt="${title || 'Diamond'}" 
+                 style="max-width:88%; max-height:88%; object-fit:contain; filter:drop-shadow(0 15px 32px rgba(0,0,0,0.2)); pointer-events:none; user-select:none;">
+
+            <!-- Optical Light Reflection & Facet Refraction Glint -->
+            <div id="gd-360-sparkle-glint" style="position:absolute; inset:10px; border-radius:50%; pointer-events:none; mix-blend-mode:screen; opacity:0.65; background:radial-gradient(circle at 35% 35%, rgba(255,255,255,0.95) 0%, rgba(251,191,36,0.35) 25%, rgba(59,130,246,0.2) 48%, transparent 68%); transition:background 0.05s ease-out;"></div>
+          </div>
+
+          <!-- Drag/Touch Instruction Hint Pill -->
+          <div id="gd-360-drag-hint" style="position:absolute; bottom:16px; background:rgba(15,23,42,0.88); color:#fbbf24; padding:6px 16px; border-radius:20px; font-size:12px; font-weight:800; pointer-events:none; display:flex; align-items:center; gap:8px; backdrop-filter:blur(4px); box-shadow:0 4px 15px rgba(0,0,0,0.2); border:1px solid rgba(251,191,36,0.3);">
+            <span style="font-size:13px;">🔄</span>
+            <span>Drag to Spin 360° · Optical Facet Refraction</span>
+          </div>
+
         </div>
       </div>
     `;
 
     let rotationDeg = 0;
+    let tiltX = 0;
+    let tiltY = 0;
+    let zoomLevel = 1; // 1, 1.4, 1.8
     let autoSpinInterval = null;
     let isDragging = false;
     let startX = 0;
+    let startY = 0;
 
-    const imgEl = document.getElementById('gd-360-spin-img');
-    const boxEl = document.getElementById('gd-360-spin-box');
+    const wrapEl = document.getElementById('gd-360-turntable-wrap');
+    const boxEl = document.getElementById('gd-360-turntable-box');
+    const glintEl = document.getElementById('gd-360-sparkle-glint');
+    const degDisplay = document.getElementById('gd-360-deg-display');
+    const playPauseBtn = document.getElementById('btn-spin-playpause');
+    const zoomBtn = document.getElementById('btn-zoom-step');
+
+    function applyTurntableTransform() {
+      if (wrapEl) {
+        // Natural gemstone turntable rotation (rotate) combined with subtle realistic 3D perspective tilt (clamped to prevent edge-on collapse)
+        wrapEl.style.transform = `scale(${zoomLevel}) rotate(${rotationDeg}deg) perspective(600px) rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
+      }
+      if (glintEl) {
+        const rad = (rotationDeg + 45) * Math.PI / 180;
+        const px = Math.round(50 + Math.cos(rad) * 30);
+        const py = Math.round(50 + Math.sin(rad) * 30);
+        glintEl.style.background = `radial-gradient(circle at ${px}% ${py}%, rgba(255,255,255,0.95) 0%, rgba(251,191,36,0.35) 25%, rgba(59,130,246,0.2) 48%, transparent 68%)`;
+      }
+      if (degDisplay) {
+        const normalized = Math.round(((rotationDeg % 360) + 360) % 360);
+        degDisplay.textContent = `${normalized}°`;
+      }
+    }
 
     window.updateSpinAngle = function (delta) {
       rotationDeg = (rotationDeg + delta) % 360;
-      if (imgEl) {
-        const rad = rotationDeg * Math.PI / 180;
-        imgEl.style.transform = `rotateY(${rotationDeg}deg) rotateZ(${Math.sin(rad) * 6}deg) scale(${1 + Math.abs(Math.sin(rad)) * 0.08})`;
-      }
+      applyTurntableTransform();
     };
 
     window.start360AutoSpin = function () {
       if (autoSpinInterval) clearInterval(autoSpinInterval);
       autoSpinInterval = setInterval(() => window.updateSpinAngle(0.6), 40);
+      if (playPauseBtn) playPauseBtn.textContent = '⏸ Pause';
     };
 
     window.stop360AutoSpin = function () {
       if (autoSpinInterval) clearInterval(autoSpinInterval);
       autoSpinInterval = null;
+      if (playPauseBtn) playPauseBtn.textContent = '▶ Play';
+    };
+
+    window.toggleAutoSpin = function () {
+      if (autoSpinInterval) window.stop360AutoSpin();
+      else window.start360AutoSpin();
     };
 
     window.reset360SpinView = function () {
       window.stop360AutoSpin();
       rotationDeg = 0;
-      if (imgEl) imgEl.style.transform = 'rotateY(0deg) scale(1)';
+      tiltX = 0;
+      tiltY = 0;
+      zoomLevel = 1;
+      if (zoomBtn) zoomBtn.textContent = '🔍 Loupe 2x';
+      applyTurntableTransform();
+      window.start360AutoSpin();
     };
 
+    window.step360Zoom = function () {
+      if (zoomLevel === 1) {
+        zoomLevel = 1.45;
+        if (zoomBtn) zoomBtn.textContent = '🔍 Loupe 3x';
+      } else if (zoomLevel === 1.45) {
+        zoomLevel = 1.85;
+        if (zoomBtn) zoomBtn.textContent = '🔍 Normal 1x';
+      } else {
+        zoomLevel = 1;
+        if (zoomBtn) zoomBtn.textContent = '🔍 Loupe 2x';
+      }
+      applyTurntableTransform();
+    };
+
+    window.toggle360Zoom = window.step360Zoom;
+
+    // Attach studio toolbar button listeners
+    const ccwBtn = document.getElementById('btn-spin-ccw');
+    const cwBtn = document.getElementById('btn-spin-cw');
+    const resetBtn = document.getElementById('btn-spin-reset');
+
+    if (ccwBtn) ccwBtn.addEventListener('click', () => { window.updateSpinAngle(-45); });
+    if (cwBtn) cwBtn.addEventListener('click', () => { window.updateSpinAngle(45); });
+    if (playPauseBtn) playPauseBtn.addEventListener('click', window.toggleAutoSpin);
+    if (zoomBtn) zoomBtn.addEventListener('click', window.step360Zoom);
+    if (resetBtn) resetBtn.addEventListener('click', window.reset360SpinView);
+
+    // Mouse & Touch Drag Interaction
     if (boxEl) {
       boxEl.addEventListener('mousedown', (e) => {
         isDragging = true;
         startX = e.clientX;
+        startY = e.clientY;
         window.stop360AutoSpin();
         boxEl.style.cursor = 'grabbing';
       });
@@ -2895,37 +3161,73 @@
       window.addEventListener('mousemove', (e) => {
         if (!isDragging) return;
         const diffX = e.clientX - startX;
+        const diffY = e.clientY - startY;
         startX = e.clientX;
-        window.updateSpinAngle(diffX * 1.5);
+        startY = e.clientY;
+
+        // Smooth turntable spin based on horizontal drag
+        rotationDeg = (rotationDeg + diffX * 0.8) % 360;
+
+        // Subtle 3D perspective tilt clamped within realistic ±15°
+        tiltY = Math.max(-15, Math.min(15, tiltY + diffX * 0.2));
+        tiltX = Math.max(-15, Math.min(15, tiltX - diffY * 0.2));
+
+        applyTurntableTransform();
       });
 
       window.addEventListener('mouseup', () => {
         if (isDragging) {
           isDragging = false;
           if (boxEl) boxEl.style.cursor = 'grab';
+          // Smoothly return perspective tilt to 0 after drag
+          const returnInterval = setInterval(() => {
+            tiltX *= 0.8;
+            tiltY *= 0.8;
+            if (Math.abs(tiltX) < 0.2 && Math.abs(tiltY) < 0.2) {
+              tiltX = 0;
+              tiltY = 0;
+              clearInterval(returnInterval);
+            }
+            applyTurntableTransform();
+          }, 30);
         }
       });
 
+      // Touch events for mobile/tablet
       boxEl.addEventListener('touchstart', (e) => {
         if (e.touches.length === 1) {
           isDragging = true;
           startX = e.touches[0].clientX;
+          startY = e.touches[0].clientY;
           window.stop360AutoSpin();
         }
-      });
+      }, { passive: true });
 
       window.addEventListener('touchmove', (e) => {
         if (!isDragging || !e.touches.length) return;
         const diffX = e.touches[0].clientX - startX;
+        const diffY = e.touches[0].clientY - startY;
         startX = e.touches[0].clientX;
-        window.updateSpinAngle(diffX * 1.5);
-      });
+        startY = e.touches[0].clientY;
+
+        rotationDeg = (rotationDeg + diffX * 0.8) % 360;
+        tiltY = Math.max(-15, Math.min(15, tiltY + diffX * 0.2));
+        tiltX = Math.max(-15, Math.min(15, tiltX - diffY * 0.2));
+
+        applyTurntableTransform();
+      }, { passive: true });
 
       window.addEventListener('touchend', () => {
-        isDragging = false;
+        if (isDragging) {
+          isDragging = false;
+          tiltX = 0;
+          tiltY = 0;
+          applyTurntableTransform();
+        }
       });
     }
 
+    applyTurntableTransform();
     window.start360AutoSpin();
   };
 
@@ -2941,24 +3243,11 @@
   window.reload360Player = function () {
     if (typeof window.reset360SpinView === 'function') {
       window.reset360SpinView();
-      window.start360AutoSpin();
-    }
-  };
-
-  window.toggle360Zoom = function () {
-    const imgEl = document.getElementById('gd-360-spin-img');
-    const iframeEl = document.getElementById('gd-360-iframe-player');
-    if (imgEl) {
-      const isZoomed = imgEl.style.scale === '1.35';
-      imgEl.style.scale = isZoomed ? '1' : '1.35';
-    }
-    if (iframeEl) {
-      iframeEl.classList.toggle('is-zoomed');
     }
   };
 
   function bindLoupeTriggers() {
-    document.querySelectorAll('.gd-loupe[data-spin], .gd-loupe-trigger[data-spin], .gd-360-badge[data-spin]').forEach(trig => {
+    document.querySelectorAll('.gd-loupe[data-spin], .gd-loupe-trigger[data-spin], .gd-360-badge[data-spin], .gd-loupe').forEach(trig => {
       trig.removeEventListener('click', handleLoupeClick);
       trig.addEventListener('click', handleLoupeClick);
     });
@@ -2970,9 +3259,51 @@
     const titleText = this.getAttribute('data-title') || this.getAttribute('aria-label') || 'Diamond 360° Inspection';
     const stockNo = this.getAttribute('data-stock') || '';
     const price = this.getAttribute('data-price') || null;
-    const imgUrl = this.getAttribute('data-img') || '';
+    let imgUrl = this.getAttribute('data-img') || '';
     const certUrl = this.getAttribute('data-cert') || '';
-    window.open360Modal(spinUrl, titleText, stockNo, price, imgUrl, certUrl);
+
+    // If imgUrl was not directly on trigger element, check child image
+    if (!imgUrl) {
+      const childImg = this.querySelector('img');
+      if (childImg && childImg.getAttribute('src')) {
+        imgUrl = childImg.getAttribute('src');
+      }
+    }
+
+    // If still missing, check parent card
+    if (!imgUrl) {
+      const card = this.closest('.gd-stone-card, tr, .gd-stone-thumb, article');
+      if (card) {
+        const cardImg = card.querySelector('img');
+        if (cardImg && cardImg.getAttribute('src')) {
+          imgUrl = cardImg.getAttribute('src');
+        }
+      }
+    }
+
+    // If still missing and we have stockNo, look up in database
+    if ((!imgUrl || imgUrl.includes('stone-1042410.jpg')) && stockNo && Array.isArray(stockDatabase)) {
+      const stoneRecord = stockDatabase.find(s => s.stock === stockNo);
+      if (stoneRecord && stoneRecord.img) {
+        const basePath = window.location.pathname.includes('/category/') ? '../' : '';
+        imgUrl = `${basePath}${stoneRecord.img}`;
+      }
+    }
+
+    const meta = {
+      shape: this.getAttribute('data-shape') || '',
+      carat: this.getAttribute('data-carat') || '',
+      color: this.getAttribute('data-color') || '',
+      clarity: this.getAttribute('data-clarity') || '',
+      cut: this.getAttribute('data-cut') || '',
+      pol: this.getAttribute('data-pol') || '',
+      sym: this.getAttribute('data-sym') || '',
+      lab: this.getAttribute('data-lab') || '',
+      mmSize: this.getAttribute('data-mmsize') || '',
+      type: this.getAttribute('data-type') || ''
+    };
+
+    window.open360Modal(spinUrl, titleText, stockNo, price, imgUrl, certUrl, meta);
   }
 
   document.addEventListener('keydown', e => {

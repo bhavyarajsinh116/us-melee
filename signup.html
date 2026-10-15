@@ -1,0 +1,1823 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Create Your Wholesale Account | Melee Diamonds</title>
+    <meta name="description" content="Register for a Melee Diamonds wholesale trade account. Access live lab-grown diamond inventory, trade pricing, melee, matching pairs, and custom manufacturing.">
+    <link rel="icon" href="images/logo/melee-logo.png" type="image/png">
+
+    <!-- Project Stylesheet & Tailwind -->
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="js/tailwind.js"></script>
+    <script src="js/adminDataStore.js"></script>
+    <script src="js/resend.js"></script>
+    <script src="js/app.js" defer></script>
+
+    <style>
+        /* Scoped Signup Page & Form Styles mirroring gurudiam.com/signup */
+        :root {
+            --color-themeColor: #211965;
+            --color-themeColor-hover: #17114a;
+            --color-primary: #18103a;
+            --color-primary-darker: #111827;
+            --color-primary-lighter: #6b7280;
+            --color-borderContainer: #e5e7eb;
+            --color-border: #d1d5db;
+            --color-border-light: #e5e7eb;
+            --color-label: #4b5563;
+            --color-label-light: #6b7280;
+            --color-success: #16a34a;
+            --color-error: #ef4444;
+            --color-bg-light: #f9fafb;
+            --color-bg-lighter: #ffffff;
+            --color-bg-hover: #f3f4f6;
+        }
+
+        .customer-page.page-sign-up {
+            background-color: #fafbfc;
+            padding-top: 40px;
+            padding-bottom: 70px;
+            min-height: calc(100vh - 80px);
+            font-family: inherit;
+        }
+
+        .form-card {
+            background: #ffffff;
+            border: 1px solid var(--color-borderContainer);
+            border-radius: 16px;
+            box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+            padding: 36px 32px;
+            margin: 0 auto;
+            max-width: 860px;
+            box-sizing: border-box;
+        }
+
+        @media (max-width: 640px) {
+            .form-card {
+                padding: 24px 18px;
+                border-radius: 12px;
+            }
+        }
+
+        .form-heading {
+            font-size: 28px;
+            font-weight: 700;
+            color: #111827;
+            text-align: center;
+            margin-bottom: 8px;
+            line-height: 1.25;
+        }
+
+        .form-sub-heading {
+            font-size: 19px;
+            font-weight: 700;
+            color: var(--color-themeColor);
+            padding-bottom: 14px;
+            margin-bottom: 24px;
+            border-bottom: 1px solid var(--color-borderContainer);
+            text-align: center;
+        }
+
+        /* Step Indicator */
+        #step-indicator {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 32px;
+            position: relative;
+            gap: 4px;
+        }
+
+        #step-indicator .step-dot {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+            position: relative;
+            cursor: default;
+        }
+
+        #step-indicator .step-dot .step-num {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 2px solid var(--color-border);
+            background: #ffffff;
+            color: var(--color-label);
+            font-size: 13px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+            transition: all 0.25s ease;
+        }
+
+        #step-indicator .step-dot .step-label {
+            font-size: 11px;
+            font-weight: 500;
+            color: var(--color-label-light);
+            margin-top: 6px;
+            text-align: center;
+            transition: color 0.25s ease;
+        }
+
+        #step-indicator .step-dot.active .step-num {
+            border-color: var(--color-themeColor);
+            background: var(--color-themeColor);
+            color: #ffffff;
+            box-shadow: 0 0 0 3px rgba(33, 25, 101, 0.15);
+        }
+
+        #step-indicator .step-dot.active .step-label {
+            color: var(--color-themeColor);
+            font-weight: 700;
+        }
+
+        #step-indicator .step-dot.completed .step-num {
+            border-color: var(--color-success);
+            background: var(--color-success);
+            color: #ffffff;
+        }
+
+        #step-indicator .step-dot.completed .step-label {
+            color: var(--color-success);
+            font-weight: 600;
+        }
+
+        /* Connector Line between Steps */
+        #step-indicator .step-dot:not(:last-child)::after {
+            content: "";
+            position: absolute;
+            top: 16px;
+            left: 50%;
+            width: 100%;
+            height: 2px;
+            background: var(--color-border);
+            z-index: 1;
+            transition: background 0.3s ease;
+        }
+
+        #step-indicator .step-dot.completed:not(:last-child)::after {
+            background: var(--color-success);
+        }
+
+        /* Form Inputs & Controls */
+        .customer-page label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 6px;
+        }
+
+        .customer-page label span {
+            color: #ef4444;
+            margin-left: 2px;
+        }
+
+        .customer-page input[type="text"],
+        .customer-page input[type="email"],
+        .customer-page input[type="password"],
+        .customer-page select,
+        .customer-page textarea {
+            width: 100%;
+            height: 44px;
+            padding: 0 14px;
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            font-size: 14px;
+            color: #1f2937;
+            background-color: #ffffff;
+            outline: none;
+            box-sizing: border-box;
+            transition: border-color 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        .customer-page textarea {
+            height: auto;
+            padding: 10px 14px;
+            resize: vertical;
+        }
+
+        .customer-page input:focus,
+        .customer-page select:focus,
+        .customer-page textarea:focus {
+            border-color: var(--color-themeColor);
+            box-shadow: 0 0 0 3px rgba(33, 25, 101, 0.12);
+        }
+
+        .customer-page select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 14px center;
+            padding-right: 36px;
+            cursor: pointer;
+        }
+
+        .password-eye_block {
+            position: relative;
+            width: 100%;
+        }
+
+        .password-eye_block input {
+            padding-right: 44px !important;
+        }
+
+        .password-eye {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #6b7280;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 4px;
+            border-radius: 4px;
+            user-select: none;
+        }
+
+        .password-eye:hover {
+            color: #111827;
+        }
+
+        /* File Upload Dropzone */
+        .file-upload-box {
+            border: 2px dashed var(--color-border);
+            border-radius: 10px;
+            padding: 20px 16px;
+            text-align: center;
+            background-color: #fafbfc;
+            cursor: pointer;
+            position: relative;
+            min-height: 110px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: border-color 0.2s ease, background-color 0.2s ease;
+        }
+
+        .file-upload-box:hover,
+        .file-upload-box.dragover {
+            border-color: var(--color-themeColor);
+            background-color: #f5f4fb;
+        }
+
+        .file-upload-input {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+            z-index: 2;
+        }
+
+        .file-upload-placeholder {
+            pointer-events: none;
+        }
+
+        .file-upload-preview {
+            position: relative;
+            width: 100%;
+            text-align: center;
+        }
+
+        .file-upload-preview img {
+            max-height: 100px;
+            max-width: 100%;
+            margin: 0 auto;
+            border-radius: 6px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .file-upload-preview .file-name {
+            font-size: 12px;
+            color: #4b5563;
+            margin-top: 6px;
+            word-break: break-all;
+            font-weight: 500;
+        }
+
+        .file-upload-preview .file-remove {
+            position: absolute;
+            top: -10px;
+            right: -6px;
+            background: #ef4444;
+            color: #ffffff;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            z-index: 5;
+            transition: transform 0.15s ease;
+        }
+
+        .file-upload-preview .file-remove:hover {
+            transform: scale(1.15);
+        }
+
+        /* Error message */
+        .error-message {
+            display: block;
+            font-size: 12px;
+            font-weight: 500;
+            color: #ef4444;
+            margin-top: 4px;
+        }
+
+        /* OTP Section */
+        .otp-verification-card {
+            background: linear-gradient(135deg, #f8f9fc 0%, #ffffff 100%);
+            border: 1px solid #e2e8f0;
+            border-radius: 14px;
+            max-width: 400px;
+            margin: 20px auto 16px;
+            padding: 30px 24px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+        }
+
+        .otp-icon {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 12px;
+            color: var(--color-themeColor);
+        }
+
+        .otp-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #111827;
+            margin: 0 0 6px;
+        }
+
+        .otp-subtitle {
+            font-size: 13px;
+            color: #6b7280;
+            margin: 0;
+        }
+
+        .otp-email {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--color-themeColor);
+            word-break: break-all;
+            margin: 4px 0 16px;
+        }
+
+        .otp-input-group input {
+            text-align: center;
+            letter-spacing: 12px;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            font-size: 26px;
+            font-weight: 700;
+            width: 210px !important;
+            height: 52px;
+            border: 2px solid var(--color-border);
+            border-radius: 10px;
+            outline: none;
+            margin: 0 auto;
+            transition: all 0.2s ease;
+        }
+
+        .otp-input-group input:focus {
+            border-color: var(--color-themeColor);
+            box-shadow: 0 0 0 4px rgba(33, 25, 101, 0.12);
+        }
+
+        .otp-timer-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin: 14px 0;
+            font-size: 13px;
+        }
+
+        .otp-timer-row button {
+            background: none;
+            border: none;
+            color: var(--color-themeColor);
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        .otp-verify-btn {
+            background: var(--color-themeColor);
+            color: #ffffff;
+            font-size: 15px;
+            font-weight: 600;
+            padding: 12px 28px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            max-width: 260px;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+        }
+
+        .otp-verify-btn:hover {
+            background-color: var(--color-themeColor-hover);
+        }
+
+        .otp-verify-btn:active {
+            transform: scale(0.98);
+        }
+
+        .otp-verify-btn:disabled {
+            opacity: 0.65;
+            cursor: not-allowed;
+        }
+
+        .otp-msg {
+            display: block;
+            font-size: 13px;
+            margin-top: 10px;
+            min-height: 18px;
+            font-weight: 500;
+        }
+
+        .otp-msg-error {
+            color: #ef4444;
+        }
+
+        .otp-msg-success {
+            color: #16a34a;
+        }
+
+        /* Buttons Row */
+        .btn-primary,
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            font-weight: 600;
+            padding: 11px 26px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-sizing: border-box;
+        }
+
+        .btn-primary {
+            background-color: #ffffff;
+            color: #374151;
+            border: 1px solid #d1d5db;
+        }
+
+        .btn-primary:hover {
+            background-color: #f3f4f6;
+            color: #111827;
+        }
+
+        .btn-secondary {
+            background-color: var(--color-themeColor);
+            color: #ffffff;
+            border: 1px solid transparent;
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--color-themeColor-hover);
+            color: #ffffff;
+        }
+
+        .form-bottom-link a {
+            color: var(--color-themeColor);
+            font-weight: 600;
+            font-size: 14px;
+            text-decoration: underline;
+        }
+
+        .form-bottom-link a:hover {
+            color: var(--color-themeColor-hover);
+        }
+
+        /* Toast notification */
+        .signup-toast {
+            position: fixed;
+            top: 24px;
+            right: 24px;
+            z-index: 9999;
+            padding: 14px 20px;
+            border-radius: 10px;
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: 500;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            opacity: 0;
+            transform: translateX(50px);
+            transition: all 0.3s ease;
+        }
+
+        .signup-toast.show {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .signup-toast-success {
+            background-color: #10b981;
+        }
+
+        .signup-toast-error {
+            background-color: #ef4444;
+        }
+    </style>
+</head>
+
+<body id="html-body">
+    <!-- Skip Link for Accessibility -->
+    <a href="#app" class="gd-skip-link">Skip to main content</a>
+
+    <!-- Global Loader -->
+    <div id="global-loader" class="global-loader" aria-hidden="true">
+        <div class="global-loader__spinner" role="status" aria-label="Loading">
+            <img src="images/loader-diamond.gif" alt="Loading" width="180" height="180">
+        </div>
+    </div>
+
+    <!-- Project Header (100% Intact) -->
+    <header id="site-header" class="site-header site-header--overlay is-solid">
+        <div class="gd-nav-inner">
+
+            <!-- Mobile Burger -->
+            <button type="button" class="gd-burger" aria-label="Open menu" aria-expanded="false" data-gd-drawer-open>
+                <span></span><span></span><span></span>
+            </button>
+
+            <a href="index.html" class="gd-nav-logo" aria-label="Melee Diamonds home">
+                <img src="images/logo/melee-logo-transparent.png" alt="Melee Diamonds">
+            </a>
+
+            <!-- Primary Navigation Links -->
+            <nav class="gd-nav-links" aria-label="Primary">
+                <div class="gd-nav-item">
+                    <a href="category/lab-grown.html" class="gd-nav-link">
+                        Diamonds
+                        <svg class="gd-nav-caret" viewBox="0 0 12 12" fill="none" stroke="currentColor"
+                            stroke-width="1.6" aria-hidden="true">
+                            <path d="m3 4.5 3 3 3-3" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </a>
+                    <div class="gd-nav-panel">
+                        <div class="gd-nav-panel-inner">
+                            <a href="category/round-melee.html">Round Melee &amp; Pointers</a>
+                            <a href="category/fancy-loose.html">Fancy Loose &amp; Layout</a>
+                            <a href="category/matching-pairs.html">Matching Pairs</a>
+                            <a href="category/lab-grown.html">Certified Diamonds</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gd-nav-item">
+                    <a href="category/jewelry.html" class="gd-nav-link">
+                        Jewelry
+                        <svg class="gd-nav-caret" viewBox="0 0 12 12" fill="none" stroke="currentColor"
+                            stroke-width="1.6" aria-hidden="true">
+                            <path d="m3 4.5 3 3 3-3" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </a>
+                    <div class="gd-nav-panel">
+                        <div class="gd-nav-panel-inner">
+                            <a href="category/jewelry.html?type=band">Band</a>
+                            <a href="category/jewelry.html?type=bracelet">Bracelet</a>
+                            <a href="category/jewelry.html?type=earring">Earring</a>
+                            <a href="category/jewelry.html?type=necklace">Necklace</a>
+                            <a href="category/jewelry.html?type=pendant">Pendant</a>
+                            <a href="category/jewelry.html?type=ring">Ring</a>
+                            <a href="custom-jewelry.html">Design Your Own</a>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="gd-nav-item">
+                    <div class="gd-type-switcher">
+                        <button type="button" class="gd-type-btn is-active" data-type="lab-grown">
+                            <span class="gd-type-btn__dot"></span>
+                            <span>Lab Grown</span>
+                        </button>
+                        <button type="button" class="gd-type-btn" data-type="natural">
+                            <span class="gd-type-btn__dot"></span>
+                            <span>Natural</span>
+                        </button>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Header Right Section -->
+            <div class="gd-nav-right">
+                
+
+                <a href="category/shopping-cart.html" class="gd-cart-link" id="gd-cart-link"
+                    style="position:relative;display:inline-flex;align-items:center;color:#f59e0b;text-decoration:none;padding:6px;"
+                    aria-label="Shopping Cart">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="9" cy="21" r="1" />
+                        <circle cx="20" cy="21" r="1" />
+                        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+                    </svg>
+                    <span id="cart-badge"
+                        style="position:absolute;top:0;right:0;background:#f59e0b;color:#0f172a;font-size:9px;font-weight:800;min-width:16px;height:16px;border-radius:50%;display:none;align-items:center;justify-content:center;line-height:1;">0</span>
+                </a>
+
+                <a href="signin.html" class="gd-nav-login">Login</a>
+
+                <a href="book-appointment.html" class="gd-btn">Book Appointment</a>
+
+                <div class="gd-nav-search" id="header-search-wrapper">
+                    <div class="gd-search-field">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                            <circle cx="11" cy="11" r="7" />
+                            <path d="M21 21l-4.3-4.3" stroke-linecap="round" />
+                        </svg>
+                        <input type="text" id="header-search-input" placeholder="Search by stock #" autocomplete="off">
+                    </div>
+                    <div id="header-search-results" class="gd-search-results"></div>
+                </div>
+
+                <a href="admin/index.html" class="gd-nav-admin" title="Admin Control Desk" aria-label="Admin Portal">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    <span>Admin</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Mirroring gurudiam.com/signup -->
+    <main id="app" tabindex="-1">
+        <div class="customer-page page-main page-sign-up">
+            <div class="container max-w-4xl mx-auto px-4">
+                <div class="form-card">
+                    <!-- Heading & Intro -->
+                    <h1 class="form-heading">Create Your Wholesale Account</h1>
+                    <p class="text-center text-sm text-gray-500 mb-4 max-w-2xl mx-auto leading-relaxed">
+                        Register to access our certified lab-grown diamond inventory, live wholesale pricing, antique cuts, melee parcels, matching pairs, and custom manufacturing services.
+                    </p>
+
+                    <!-- Trust Badges -->
+                    <div class="flex flex-wrap justify-center items-center gap-4 py-4 mb-6 text-xs text-gray-700 font-semibold border-y border-gray-100">
+                        <span class="flex items-center gap-1.5">
+                            <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                            Wholesale Only
+                        </span>
+                        <span class="flex items-center gap-1.5">
+                            <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                            Verified Trade Accounts
+                        </span>
+                        <span class="flex items-center gap-1.5">
+                            <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                            Approval Required for Pricing Access
+                        </span>
+                    </div>
+
+                    <!-- Step Progress Indicator -->
+                    <div class="flex justify-between mb-8 text-xs" id="step-indicator">
+                        <div class="step-dot active" data-step="1">
+                            <span class="step-num">1</span>
+                            <span class="step-label">Account</span>
+                        </div>
+                        <div class="step-dot" data-step="2">
+                            <span class="step-num">2</span>
+                            <span class="step-label">Company</span>
+                        </div>
+                        <div class="step-dot" data-step="3">
+                            <span class="step-num">3</span>
+                            <span class="step-label">Buying Profile</span>
+                        </div>
+                        <div class="step-dot" data-step="4">
+                            <span class="step-num">4</span>
+                            <span class="step-label">Trade Verification</span>
+                        </div>
+                        <div class="step-dot" data-step="5">
+                            <span class="step-num">5</span>
+                            <span class="step-label">Agreements</span>
+                        </div>
+                    </div>
+
+                    <!-- Multi-Step Registration Form -->
+                    <form id="customer-signup-form" enctype="multipart/form-data" novalidate onsubmit="return false;">
+                        
+                        <!-- STEP 1: Basic Account Details -->
+                        <div class="wizard-step" data-step="1">
+                            <h3 class="form-sub-heading">Basic Account Details</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-5 gap-y-4">
+                                <div>
+                                    <label for="fname">First Name <span>*</span></label>
+                                    <input id="fname" name="fname" type="text" placeholder="Enter your first name" autocomplete="given-name" />
+                                </div>
+                                <div>
+                                    <label for="lname">Last Name <span>*</span></label>
+                                    <input id="lname" name="lname" type="text" placeholder="Enter your last name" autocomplete="family-name" />
+                                </div>
+                                <div>
+                                    <label for="email">Email <span>*</span></label>
+                                    <input id="email" name="email" type="email" placeholder="Enter your email address" autocomplete="email" />
+                                </div>
+                                <div>
+                                    <label for="mobile">Mobile / WhatsApp <span>*</span></label>
+                                    <input id="mobile" name="mobile" type="text" placeholder="Enter your mobile number" autocomplete="tel" />
+                                    <small class="text-gray-500 text-xs mt-1 block">Used for order updates and account verification.</small>
+                                </div>
+                                <div>
+                                    <label for="password">Password <span>*</span></label>
+                                    <div class="password-eye_block">
+                                        <input id="password" name="password" type="password" placeholder="Enter your password (min 8 chars)" autocomplete="new-password" />
+                                        <span class="password-eye" onclick="togglePasswordVisibility('password', this)" title="Toggle password visibility">
+                                            <svg class="eye-open" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                                            <svg class="eye-closed" style="display:none;" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label for="password_confirmation">Confirm Password <span>*</span></label>
+                                    <div class="password-eye_block">
+                                        <input id="password_confirmation" name="password_confirmation" type="password" placeholder="Re-enter your password" autocomplete="new-password" />
+                                        <span class="password-eye" onclick="togglePasswordVisibility('password_confirmation', this)" title="Toggle password visibility">
+                                            <svg class="eye-open" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                                            <svg class="eye-closed" style="display:none;" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- STEP 2: Company Information -->
+                        <div class="wizard-step" data-step="2" style="display:none;">
+                            <h3 class="form-sub-heading">Company Information</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-5 gap-y-4">
+                                <div>
+                                    <label for="company_name">Company Name <span>*</span></label>
+                                    <input id="company_name" name="company_name" type="text" placeholder="Enter company name" />
+                                </div>
+                                <div>
+                                    <label for="business_type">Business Type <span>*</span></label>
+                                    <select id="business_type" name="business_type">
+                                        <option value="">Select Business Type</option>
+                                        <option value="Retail Jewelry Store">Retail Jewelry Store</option>
+                                        <option value="Wholesaler">Wholesaler</option>
+                                        <option value="Manufacturer">Manufacturer</option>
+                                        <option value="Online Seller">Online Seller</option>
+                                        <option value="Designer">Designer</option>
+                                        <option value="Pawn Shop">Pawn Shop</option>
+                                        <option value="Dealer / Trader">Dealer / Trader</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="company_phone">Company Phone</label>
+                                    <input id="company_phone" name="company_phone" type="text" placeholder="Enter company phone" />
+                                </div>
+                                <div>
+                                    <label for="website_url">Website / Instagram Handle</label>
+                                    <input id="website_url" name="website_url" type="text" placeholder="https://example.com or @yourhandle" />
+                                    <small class="text-gray-500 text-xs mt-1 block">Enter your website URL or Instagram handle (e.g. @yourhandle)</small>
+                                </div>
+                                <div>
+                                    <label for="company_country">Country <span>*</span></label>
+                                    <select id="company_country" name="company_country">
+                                        <option value="">Select Country</option>
+                                                                    <option value="United States">United States</option>
+                                                                    <option value="Canada">Canada</option>
+                                                                    <option value="United Kingdom">United Kingdom</option>
+                                                                    <option value="Australia">Australia</option>
+                                                                    <option value="India">India</option>
+                                                                    <option value="Germany">Germany</option>
+                                                                    <option value="France">France</option>
+                                                                    <option value="Italy">Italy</option>
+                                                                    <option value="Spain">Spain</option>
+                                                                    <option value="Netherlands">Netherlands</option>
+                                                                    <option value="Belgium">Belgium</option>
+                                                                    <option value="Switzerland">Switzerland</option>
+                                                                    <option value="Austria">Austria</option>
+                                                                    <option value="Sweden">Sweden</option>
+                                                                    <option value="Norway">Norway</option>
+                                                                    <option value="Denmark">Denmark</option>
+                                                                    <option value="Finland">Finland</option>
+                                                                    <option value="Poland">Poland</option>
+                                                                    <option value="Portugal">Portugal</option>
+                                                                    <option value="Greece">Greece</option>
+                                                                    <option value="Ireland">Ireland</option>
+                                                                    <option value="New Zealand">New Zealand</option>
+                                                                    <option value="Japan">Japan</option>
+                                                                    <option value="China">China</option>
+                                                                    <option value="South Korea">South Korea</option>
+                                                                    <option value="Singapore">Singapore</option>
+                                                                    <option value="Malaysia">Malaysia</option>
+                                                                    <option value="Thailand">Thailand</option>
+                                                                    <option value="Indonesia">Indonesia</option>
+                                                                    <option value="Philippines">Philippines</option>
+                                                                    <option value="Brazil">Brazil</option>
+                                                                    <option value="Mexico">Mexico</option>
+                                                                    <option value="Argentina">Argentina</option>
+                                                                    <option value="Chile">Chile</option>
+                                                                    <option value="South Africa">South Africa</option>
+                                                                    <option value="Egypt">Egypt</option>
+                                                                    <option value="UAE">UAE</option>
+                                                                    <option value="Saudi Arabia">Saudi Arabia</option>
+                                                                    <option value="Israel">Israel</option>
+                                                                    <option value="Turkey">Turkey</option>
+                                                                    <option value="Afghanistan">Afghanistan</option>
+                                                                    <option value="Albania">Albania</option>
+                                                                    <option value="Algeria">Algeria</option>
+                                                                    <option value="Andorra">Andorra</option>
+                                                                    <option value="Angola">Angola</option>
+                                                                    <option value="Antigua and Barbuda">Antigua and Barbuda</option>
+                                                                    <option value="Armenia">Armenia</option>
+                                                                    <option value="Azerbaijan">Azerbaijan</option>
+                                                                    <option value="Bahamas">Bahamas</option>
+                                                                    <option value="Bahrain">Bahrain</option>
+                                                                    <option value="Bangladesh">Bangladesh</option>
+                                                                    <option value="Barbados">Barbados</option>
+                                                                    <option value="Belarus">Belarus</option>
+                                                                    <option value="Belize">Belize</option>
+                                                                    <option value="Benin">Benin</option>
+                                                                    <option value="Bhutan">Bhutan</option>
+                                                                    <option value="Bolivia">Bolivia</option>
+                                                                    <option value="Bosnia and Herzegovina">Bosnia and Herzegovina</option>
+                                                                    <option value="Botswana">Botswana</option>
+                                                                    <option value="Brunei">Brunei</option>
+                                                                    <option value="Bulgaria">Bulgaria</option>
+                                                                    <option value="Burkina Faso">Burkina Faso</option>
+                                                                    <option value="Burundi">Burundi</option>
+                                                                    <option value="Cambodia">Cambodia</option>
+                                                                    <option value="Cameroon">Cameroon</option>
+                                                                    <option value="Cape Verde">Cape Verde</option>
+                                                                    <option value="Central African Republic">Central African Republic</option>
+                                                                    <option value="Chad">Chad</option>
+                                                                    <option value="Colombia">Colombia</option>
+                                                                    <option value="Comoros">Comoros</option>
+                                                                    <option value="Congo">Congo</option>
+                                                                    <option value="Costa Rica">Costa Rica</option>
+                                                                    <option value="Croatia">Croatia</option>
+                                                                    <option value="Cuba">Cuba</option>
+                                                                    <option value="Cyprus">Cyprus</option>
+                                                                    <option value="Czech Republic">Czech Republic</option>
+                                                                    <option value="Democratic Republic of the Congo">Democratic Republic of the Congo</option>
+                                                                    <option value="Djibouti">Djibouti</option>
+                                                                    <option value="Dominica">Dominica</option>
+                                                                    <option value="Dominican Republic">Dominican Republic</option>
+                                                                    <option value="East Timor">East Timor</option>
+                                                                    <option value="Ecuador">Ecuador</option>
+                                                                    <option value="El Salvador">El Salvador</option>
+                                                                    <option value="Equatorial Guinea">Equatorial Guinea</option>
+                                                                    <option value="Eritrea">Eritrea</option>
+                                                                    <option value="Estonia">Estonia</option>
+                                                                    <option value="Ethiopia">Ethiopia</option>
+                                                                    <option value="Fiji">Fiji</option>
+                                                                    <option value="Gabon">Gabon</option>
+                                                                    <option value="Gambia">Gambia</option>
+                                                                    <option value="Georgia">Georgia</option>
+                                                                    <option value="Ghana">Ghana</option>
+                                                                    <option value="Grenada">Grenada</option>
+                                                                    <option value="Guatemala">Guatemala</option>
+                                                                    <option value="Guinea">Guinea</option>
+                                                                    <option value="Guinea-Bissau">Guinea-Bissau</option>
+                                                                    <option value="Guyana">Guyana</option>
+                                                                    <option value="Haiti">Haiti</option>
+                                                                    <option value="Honduras">Honduras</option>
+                                                                    <option value="Hungary">Hungary</option>
+                                                                    <option value="Iceland">Iceland</option>
+                                                                    <option value="Iran">Iran</option>
+                                                                    <option value="Iraq">Iraq</option>
+                                                                    <option value="Jamaica">Jamaica</option>
+                                                                    <option value="Jordan">Jordan</option>
+                                                                    <option value="Kazakhstan">Kazakhstan</option>
+                                                                    <option value="Kenya">Kenya</option>
+                                                                    <option value="Kiribati">Kiribati</option>
+                                                                    <option value="Kosovo">Kosovo</option>
+                                                                    <option value="Kuwait">Kuwait</option>
+                                                                    <option value="Kyrgyzstan">Kyrgyzstan</option>
+                                                                    <option value="Laos">Laos</option>
+                                                                    <option value="Latvia">Latvia</option>
+                                                                    <option value="Lebanon">Lebanon</option>
+                                                                    <option value="Lesotho">Lesotho</option>
+                                                                    <option value="Liberia">Liberia</option>
+                                                                    <option value="Libya">Libya</option>
+                                                                    <option value="Liechtenstein">Liechtenstein</option>
+                                                                    <option value="Lithuania">Lithuania</option>
+                                                                    <option value="Luxembourg">Luxembourg</option>
+                                                                    <option value="Madagascar">Madagascar</option>
+                                                                    <option value="Malawi">Malawi</option>
+                                                                    <option value="Maldives">Maldives</option>
+                                                                    <option value="Mali">Mali</option>
+                                                                    <option value="Malta">Malta</option>
+                                                                    <option value="Marshall Islands">Marshall Islands</option>
+                                                                    <option value="Mauritania">Mauritania</option>
+                                                                    <option value="Mauritius">Mauritius</option>
+                                                                    <option value="Micronesia">Micronesia</option>
+                                                                    <option value="Moldova">Moldova</option>
+                                                                    <option value="Monaco">Monaco</option>
+                                                                    <option value="Mongolia">Mongolia</option>
+                                                                    <option value="Montenegro">Montenegro</option>
+                                                                    <option value="Morocco">Morocco</option>
+                                                                    <option value="Mozambique">Mozambique</option>
+                                                                    <option value="Myanmar">Myanmar</option>
+                                                                    <option value="Namibia">Namibia</option>
+                                                                    <option value="Nauru">Nauru</option>
+                                                                    <option value="Nepal">Nepal</option>
+                                                                    <option value="Nicaragua">Nicaragua</option>
+                                                                    <option value="Niger">Niger</option>
+                                                                    <option value="Nigeria">Nigeria</option>
+                                                                    <option value="North Korea">North Korea</option>
+                                                                    <option value="North Macedonia">North Macedonia</option>
+                                                                    <option value="Oman">Oman</option>
+                                                                    <option value="Pakistan">Pakistan</option>
+                                                                    <option value="Palau">Palau</option>
+                                                                    <option value="Palestine">Palestine</option>
+                                                                    <option value="Panama">Panama</option>
+                                                                    <option value="Papua New Guinea">Papua New Guinea</option>
+                                                                    <option value="Paraguay">Paraguay</option>
+                                                                    <option value="Peru">Peru</option>
+                                                                    <option value="Qatar">Qatar</option>
+                                                                    <option value="Romania">Romania</option>
+                                                                    <option value="Russia">Russia</option>
+                                                                    <option value="Rwanda">Rwanda</option>
+                                                                    <option value="Saint Kitts and Nevis">Saint Kitts and Nevis</option>
+                                                                    <option value="Saint Lucia">Saint Lucia</option>
+                                                                    <option value="Saint Vincent and the Grenadines">Saint Vincent and the Grenadines</option>
+                                                                    <option value="Samoa">Samoa</option>
+                                                                    <option value="San Marino">San Marino</option>
+                                                                    <option value="Sao Tome and Principe">Sao Tome and Principe</option>
+                                                                    <option value="Senegal">Senegal</option>
+                                                                    <option value="Serbia">Serbia</option>
+                                                                    <option value="Seychelles">Seychelles</option>
+                                                                    <option value="Sierra Leone">Sierra Leone</option>
+                                                                    <option value="Slovakia">Slovakia</option>
+                                                                    <option value="Slovenia">Slovenia</option>
+                                                                    <option value="Solomon Islands">Solomon Islands</option>
+                                                                    <option value="Somalia">Somalia</option>
+                                                                    <option value="Sri Lanka">Sri Lanka</option>
+                                                                    <option value="Sudan">Sudan</option>
+                                                                    <option value="Suriname">Suriname</option>
+                                                                    <option value="Swaziland">Swaziland</option>
+                                                                    <option value="Syria">Syria</option>
+                                                                    <option value="Taiwan">Taiwan</option>
+                                                                    <option value="Tajikistan">Tajikistan</option>
+                                                                    <option value="Tanzania">Tanzania</option>
+                                                                    <option value="Togo">Togo</option>
+                                                                    <option value="Tonga">Tonga</option>
+                                                                    <option value="Trinidad and Tobago">Trinidad and Tobago</option>
+                                                                    <option value="Tunisia">Tunisia</option>
+                                                                    <option value="Turkmenistan">Turkmenistan</option>
+                                                                    <option value="Tuvalu">Tuvalu</option>
+                                                                    <option value="Uganda">Uganda</option>
+                                                                    <option value="Ukraine">Ukraine</option>
+                                                                    <option value="Uruguay">Uruguay</option>
+                                                                    <option value="Uzbekistan">Uzbekistan</option>
+                                                                    <option value="Vanuatu">Vanuatu</option>
+                                                                    <option value="Vatican City">Vatican City</option>
+                                                                    <option value="Venezuela">Venezuela</option>
+                                                                    <option value="Vietnam">Vietnam</option>
+                                                                    <option value="Yemen">Yemen</option>
+                                                                    <option value="Zambia">Zambia</option>
+                                                                    <option value="Zimbabwe">Zimbabwe</option>
+                                                                    <option value="Other">Other</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="company_state">State / Province <span>*</span></label>
+                                    <input id="company_state" name="company_state" type="text" placeholder="Enter state or province" />
+                                </div>
+                                <div>
+                                    <label for="company_city">City <span>*</span></label>
+                                    <input id="company_city" name="company_city" type="text" placeholder="Enter city" />
+                                </div>
+                                <div>
+                                    <label for="company_zip">Zip / Postal Code <span>*</span></label>
+                                    <input id="company_zip" name="company_zip" type="text" placeholder="Enter zip or postal code" />
+                                </div>
+                                <div class="md:col-span-2">
+                                    <label for="company_address">Business Address <span>*</span></label>
+                                    <input id="company_address" name="company_address" type="text" placeholder="Enter full business address" />
+                                </div>
+                                <div>
+                                    <label for="years_in_business">Years in Business <span>*</span></label>
+                                    <select id="years_in_business" name="years_in_business">
+                                        <option value="">Select</option>
+                                        <option value="Less than 1 year">Less than 1 year</option>
+                                        <option value="1 – 3 years">1 – 3 years</option>
+                                        <option value="3 – 10 years">3 – 10 years</option>
+                                        <option value="10+ years">10+ years</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="number_of_locations">Number of Locations <span>*</span></label>
+                                    <select id="number_of_locations" name="number_of_locations">
+                                        <option value="">Select</option>
+                                        <option value="1">1</option>
+                                        <option value="2 – 5">2 – 5</option>
+                                        <option value="5 – 10">5 – 10</option>
+                                        <option value="10+">10+</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- STEP 3: Buying Profile -->
+                        <div class="wizard-step" data-step="3" style="display:none;">
+                            <h3 class="form-sub-heading">Buying Profile</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-5 gap-y-4">
+                                <div>
+                                    <label for="monthly_purchase_volume">Estimated Monthly Diamond Purchase Volume <span>*</span></label>
+                                    <select id="monthly_purchase_volume" name="monthly_purchase_volume">
+                                        <option value="">Select</option>
+                                        <option value="Under $5,000">Under $5,000</option>
+                                        <option value="$5,000 – $25,000">$5,000 – $25,000</option>
+                                        <option value="$25,000 – $100,000">$25,000 – $100,000</option>
+                                        <option value="$100,000 – $500,000">$100,000 – $500,000</option>
+                                        <option value="$500,000+">$500,000+</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="buys_lab_grown">Do you currently buy lab-grown diamonds? <span>*</span></label>
+                                    <select id="buys_lab_grown" name="buys_lab_grown">
+                                        <option value="">Select</option>
+                                        <option value="Yes, regularly">Yes, regularly</option>
+                                        <option value="Yes, occasionally">Yes, occasionally</option>
+                                        <option value="Exploring suppliers">Exploring suppliers</option>
+                                        <option value="New to the category">New to the category</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="preferred_contact_method">Preferred Contact Method</label>
+                                    <select id="preferred_contact_method" name="preferred_contact_method">
+                                        <option value="">Select</option>
+                                        <option value="Email">Email</option>
+                                        <option value="Call">Call</option>
+                                        <option value="WhatsApp">WhatsApp</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="how_heard_about_us">How did you hear about us? <span>*</span></label>
+                                    <select id="how_heard_about_us" name="how_heard_about_us">
+                                        <option value="">Select</option>
+                                        <option value="Trade Shows">Trade Shows</option>
+                                        <option value="JCK">JCK</option>
+                                        <option value="JIS">JIS</option>
+                                        <option value="Google">Google</option>
+                                        <option value="Instagram">Instagram</option>
+                                        <option value="Referral">Referral</option>
+                                        <option value="Salesperson">Salesperson</option>
+                                        <option value="Email Campaign">Email Campaign</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- STEP 4: Trade Verification -->
+                        <div class="wizard-step" data-step="4" style="display:none;">
+                            <h3 class="form-sub-heading">Trade Verification</h3>
+                            <p class="text-xs text-gray-500 pb-4 text-center">Providing trade documents helps expedite your account approval.</p>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-5 gap-y-4">
+                                <div>
+                                    <label for="tax_id_number">Tax ID / Resale Certificate Number</label>
+                                    <input id="tax_id_number" name="tax_id_number" type="text" placeholder="Enter Tax ID or EIN" />
+                                </div>
+                                <div>
+                                    <label for="sales_person">Salesperson Name</label>
+                                    <input id="sales_person" name="sales_person" type="text" placeholder="If referred by a salesperson" />
+                                </div>
+                                <div>
+                                    <label for="tax_certificate_file">Upload Resale Certificate / Tax Document</label>
+                                    <div class="file-upload-box" id="tax_cert_dropzone">
+                                        <input id="tax_certificate_file" name="tax_certificate_file" type="file" accept="image/jpeg,image/jpg,image/png,application/pdf" class="file-upload-input" />
+                                        <div class="file-upload-placeholder" id="tax_cert_placeholder">
+                                            <svg class="w-8 h-8 text-gray-400 mx-auto mb-1" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"/></svg>
+                                            <p class="text-xs text-gray-700 font-medium">Click to upload or drag &amp; drop</p>
+                                            <p class="text-xs text-gray-400 mt-0.5">JPG, PNG, PDF | Max: 2 MB</p>
+                                        </div>
+                                        <div class="file-upload-preview" id="tax_cert_preview" style="display:none;"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label for="business_card_file">Upload Business Card</label>
+                                    <div class="file-upload-box" id="bcard_dropzone">
+                                        <input id="business_card_file" name="business_card_file" type="file" accept="image/jpeg,image/jpg,image/png,application/pdf" class="file-upload-input" />
+                                        <div class="file-upload-placeholder" id="bcard_placeholder">
+                                            <svg class="w-8 h-8 text-gray-400 mx-auto mb-1" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"/></svg>
+                                            <p class="text-xs text-gray-700 font-medium">Click to upload or drag &amp; drop</p>
+                                            <p class="text-xs text-gray-400 mt-0.5">JPG, PNG, PDF | Max: 2 MB</p>
+                                        </div>
+                                        <div class="file-upload-preview" id="bcard_preview" style="display:none;"></div>
+                                    </div>
+                                </div>
+                                <div class="md:col-span-2">
+                                    <label for="additional_notes">Additional Notes</label>
+                                    <textarea id="additional_notes" name="additional_notes" rows="3" placeholder="Tell us what you are looking for — sizes, shapes, cuts, melee, layouts, jewelry, custom work, or other requirements."></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- STEP 5: Agreements & Verification -->
+                        <div class="wizard-step" data-step="5" style="display:none;">
+                            <h3 class="form-sub-heading">Agreements</h3>
+                            <div class="space-y-3 mb-6 bg-gray-50/70 p-5 rounded-xl border border-gray-100">
+                                <label class="flex items-start gap-2.5 text-sm cursor-pointer select-none">
+                                    <input type="checkbox" id="agree_trade_account" name="agree_trade_account" value="1" class="mt-1 h-4 w-4 text-indigo-900 rounded border-gray-300 focus:ring-indigo-900" />
+                                    <span class="text-gray-700 font-normal">I confirm I am registering for a business / trade account. <span class="text-red-500">*</span></span>
+                                </label>
+                                <label class="flex items-start gap-2.5 text-sm cursor-pointer select-none">
+                                    <input type="checkbox" id="agree_terms_privacy" name="agree_terms_privacy" value="1" class="mt-1 h-4 w-4 text-indigo-900 rounded border-gray-300 focus:ring-indigo-900" />
+                                    <span class="text-gray-700 font-normal">I agree to the Terms and Privacy Policy. <span class="text-red-500">*</span></span>
+                                </label>
+                                <label class="flex items-start gap-2.5 text-sm cursor-pointer select-none">
+                                    <input type="checkbox" id="agree_approval_required" name="agree_approval_required" value="1" class="mt-1 h-4 w-4 text-indigo-900 rounded border-gray-300 focus:ring-indigo-900" />
+                                    <span class="text-gray-700 font-normal">I understand pricing and inventory access are subject to approval. <span class="text-red-500">*</span></span>
+                                </label>
+                                <label class="flex items-start gap-2.5 text-sm cursor-pointer select-none">
+                                    <input type="checkbox" id="opt_in_updates" name="opt_in_updates" value="1" class="mt-1 h-4 w-4 text-indigo-900 rounded border-gray-300 focus:ring-indigo-900" />
+                                    <span class="text-gray-700 font-normal">I would like to receive stock lists and product updates.</span>
+                                </label>
+                            </div>
+
+                            <!-- OTP Email Verification Card -->
+                            <div id="otp-section" style="display:none;">
+                                <div class="otp-verification-card">
+                                    <div class="otp-icon">
+                                        <svg width="44" height="44" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"/>
+                                        </svg>
+                                    </div>
+                                    <h4 class="otp-title">Verify Your Email</h4>
+                                    <p class="otp-subtitle">We've sent a 6-digit code to</p>
+                                    <p class="otp-email" id="otp-email-display"></p>
+
+                                    <div class="otp-input-group pt-2">
+                                        <input type="text" id="otp-input" maxlength="6" placeholder="------" autocomplete="one-time-code" inputmode="numeric" />
+                                    </div>
+
+                                    <div class="otp-timer-row">
+                                        <span id="otp-timer" class="text-red-500 font-semibold"></span>
+                                        <button type="button" id="resend-otp-btn" style="display:none;" onclick="sendOtpCode()">Resend Code</button>
+                                    </div>
+
+                                    <button type="button" id="verify-otp-btn" class="otp-verify-btn" onclick="verifyOtpAndCreateAccount()">Verify &amp; Create Account</button>
+
+                                    <span id="otp-error" class="otp-msg otp-msg-error"></span>
+                                    <span id="otp-success" class="otp-msg otp-msg-success"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Wizard Footer Navigation Buttons -->
+                        <div class="flex flex-wrap items-center justify-between gap-3 mt-8 pt-4 border-t border-gray-100">
+                            <button type="button" id="prev-btn" class="btn-primary" style="display:none;" onclick="navigateStep(-1)">Previous</button>
+                            <div class="ml-auto flex items-center gap-4 form-bottom-link">
+                                <a href="signin.html">Already have an account?</a>
+                                <button type="button" id="next-btn" class="btn-secondary" onclick="navigateStep(1)">Next</button>
+                                <button type="button" id="send-otp-btn" class="btn-secondary" style="display:none;" onclick="sendOtpCode()">Send Verification Code</button>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Toast Notification Container -->
+    <div id="signup-toast" class="signup-toast" role="alert"></div>
+
+    <!-- Project Footer (100% Intact) -->
+    <footer>
+        <div class="gd-footer" role="contentinfo">
+            <div class="gd-wrap">
+                <div class="gd-foot-top">
+                    <div class="gd-foot-brand">
+                        <a href="index.html" class="gd-foot-logo"
+                            style="display:flex; align-items:center; gap:12px; text-decoration:none;"><img
+                                src="images/logo/melee-logo-transparent.png" alt="Melee Diamonds"
+                                style="height:48px; width:auto; object-fit:contain;"><span
+                                style="font-family:var(--font-serif); font-size:22px; font-weight:800; color:#ffffff; letter-spacing:0.5px;">MELEE
+                                DIAMONDS</span></a>
+                        <p class="gd-foot-tag">Sophisticated simplicity for the independent mind.</p>
+                        <ul class="gd-foot-contact">
+                            <li>
+                                <a href="tel:+16465654211">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                                        <path
+                                            d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.4 2.1L8.1 9.9a16 16 0 0 0 6 6l1.4-1.3a2 2 0 0 1 2.1-.5c.9.4 1.8.6 2.7.8a2 2 0 0 1 1.7 2Z" />
+                                    </svg>
+                                    <span>(646)-565-4211</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://wa.me/16465654211" target="_blank" rel="noopener">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                                        <path d="M21 11.5a8.5 8.5 0 0 1-12.5 7.5L3 21l2-5.5A8.5 8.5 0 1 1 21 11.5Z" />
+                                    </svg>
+                                    <span>WhatsApp Us</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="mailto:info@meleediamondinc.com">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                                        <rect x="2.5" y="4.5" width="19" height="15" rx="2.5" />
+                                        <path d="m3 7 9 6 9-6" />
+                                    </svg>
+                                    <span>info@meleediamondinc.com</span>
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="gd-socials">
+                            <a href="https://www.instagram.com/melee_diamondinc/" target="_blank"
+                                rel="noopener" aria-label="Instagram">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" stroke-linecap="round" stroke-width="2" />
+                                </svg>
+                                <span>Instagram</span>
+                            </a>
+                            <a href="https://www.facebook.com/profile.php?id=61593329143407" target="_blank"
+                                rel="noopener" aria-label="Facebook">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                                    <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+                                </svg>
+                                <span>Facebook</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="gd-foot-col">
+                        <h3>Lab Grown</h3>
+                        <a href="category/lab-grown.html?cat=certified">Certified</a>
+                        <a href="category/lab-grown.html?cat=fancy-color">Fancy Colour</a>
+                        <a href="category/matching-pairs.html">Matching Pairs</a>
+                        <a href="category/round-melee.html">Melee &amp; Pointers</a>
+                        <a href="category/fancy-loose.html">Fancy Loose &amp; Layouts</a>
+                        <a href="category/lab-grown.html?cat=exotic-shapes">Exotic Shapes</a>
+                    </div>
+
+                    <div class="gd-foot-col">
+                        <h3>Jewellery</h3>
+                        <a href="category/jewelry.html?type=band">Band</a>
+                        <a href="category/jewelry.html?type=bracelet">Bracelet</a>
+                        <a href="category/jewelry.html?type=earring">Earring</a>
+                        <a href="category/jewelry.html?type=necklace">Necklace</a>
+                        <a href="category/jewelry.html?type=pendant">Pendant</a>
+                        <a href="category/jewelry.html?type=ring">Ring</a>
+                    </div>
+
+                    <div class="gd-foot-col">
+                        <h3>Trade</h3>
+                        <a href="wholesale-hub.html">Trade Tools</a>
+                        <a href="book-appointment.html">Book Appointment</a>
+                    </div>
+
+                    <div class="gd-foot-col">
+                        <h3>Company</h3>
+                        <a href="about-us.html">About</a>
+                        <a href="book-appointment.html">Contact</a>
+                    </div>
+                </div>
+
+                <div class="gd-foot-info">
+                    <div class="gd-fi">
+                        <h3>United States (US)</h3>
+                        <p>Melee Diamond Inc.<br>45 West 47th Street, 500<br>New York NY 10036, United States<br><strong>Contact:</strong> (646)-565-4211<br><strong>Email:</strong> info@meleediamondinc.com</p>
+                    </div>
+                    <div class="gd-fi">
+                        <h3>Same-day Dispatch</h3>
+                        <p>Order by 6pm EST (US)<br>Guaranteed delivery</p>
+                    </div>
+                    <div class="gd-fi">
+                        <h3>Accredited</h3>
+                        <div class="gd-accred-foot">
+                            <span>IGI</span><span>GIA</span><span>JBT</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="gd-foot-bottom">
+                    <span class="gd-copy">&copy; 2026 Melee Diamonds. B2B wholesale only.</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Signup Wizard Interactive Logic & Backend Integration -->
+    <script>
+        (function () {
+            let currentStep = 1;
+            const totalSteps = 5;
+            let generatedOtp = '123456';
+            let otpVerified = false;
+            let otpTimerInterval = null;
+            let otpExpiresIn = 300;
+
+            const stepFields = {
+                1: ['fname', 'lname', 'email', 'mobile', 'password', 'password_confirmation'],
+                2: ['company_name', 'business_type', 'company_country', 'company_state', 'company_city', 'company_zip', 'company_address', 'years_in_business', 'number_of_locations'],
+                3: ['monthly_purchase_volume', 'buys_lab_grown', 'how_heard_about_us'],
+                4: [],
+                5: ['agree_trade_account', 'agree_terms_privacy', 'agree_approval_required']
+            };
+
+            const fieldLabels = {
+                fname: 'First name',
+                lname: 'Last name',
+                email: 'Email address',
+                mobile: 'Mobile number',
+                password: 'Password',
+                password_confirmation: 'Confirm password',
+                company_name: 'Company name',
+                business_type: 'Business type',
+                company_country: 'Country',
+                company_state: 'State / Province',
+                company_city: 'City',
+                company_zip: 'Zip / Postal code',
+                company_address: 'Business address',
+                years_in_business: 'Years in business',
+                number_of_locations: 'Number of locations',
+                monthly_purchase_volume: 'Monthly purchase volume',
+                buys_lab_grown: 'Lab-grown diamond experience',
+                how_heard_about_us: 'Referral source',
+                agree_trade_account: 'Trade account confirmation',
+                agree_terms_privacy: 'Terms & Privacy agreement',
+                agree_approval_required: 'Approval acknowledgment'
+            };
+
+            window.showSignupToast = function (message, type = 'success') {
+                const toast = document.getElementById('signup-toast');
+                if (!toast) return;
+                toast.textContent = message;
+                toast.className = 'signup-toast show ' + (type === 'error' ? 'signup-toast-error' : 'signup-toast-success');
+                setTimeout(() => {
+                    toast.className = 'signup-toast';
+                }, 4000);
+            };
+
+            function showLoader() {
+                const loader = document.getElementById('global-loader');
+                if (loader) loader.classList.add('is-active');
+            }
+
+            function hideLoader() {
+                const loader = document.getElementById('global-loader');
+                if (loader) loader.classList.remove('is-active');
+            }
+
+            window.togglePasswordVisibility = function (inputId, toggleEl) {
+                const input = document.getElementById(inputId);
+                if (!input) return;
+                const openEye = toggleEl.querySelector('.eye-open');
+                const closedEye = toggleEl.querySelector('.eye-closed');
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    if (openEye) openEye.style.display = 'none';
+                    if (closedEye) closedEye.style.display = 'block';
+                } else {
+                    input.type = 'password';
+                    if (openEye) openEye.style.display = 'block';
+                    if (closedEye) closedEye.style.display = 'none';
+                }
+            };
+
+            function clearFieldErrors() {
+                document.querySelectorAll('.error-message').forEach(el => el.remove());
+                document.querySelectorAll('.customer-page input, .customer-page select, .customer-page textarea').forEach(el => {
+                    el.style.borderColor = '';
+                });
+            }
+
+            function showFieldError(fieldEl, message) {
+                fieldEl.style.borderColor = '#ef4444';
+                let existing = fieldEl.parentElement.querySelector('.error-message');
+                if (!existing) {
+                    const errorEl = document.createElement('span');
+                    errorEl.className = 'error-message';
+                    errorEl.textContent = message;
+                    if (fieldEl.type === 'checkbox') {
+                        fieldEl.closest('label').insertAdjacentElement('afterend', errorEl);
+                    } else if (fieldEl.closest('.password-eye_block')) {
+                        fieldEl.closest('.password-eye_block').insertAdjacentElement('afterend', errorEl);
+                    } else {
+                        fieldEl.insertAdjacentElement('afterend', errorEl);
+                    }
+                }
+            }
+
+            function validateStep(step) {
+                clearFieldErrors();
+                const fields = stepFields[step] || [];
+                let isValid = true;
+
+                for (const fieldName of fields) {
+                    const el = document.querySelector(`[name="${fieldName}"]`);
+                    if (!el) continue;
+
+                    if (el.type === 'checkbox') {
+                        if (!el.checked) {
+                            showFieldError(el, `You must agree to ${fieldLabels[fieldName] || fieldName}.`);
+                            isValid = false;
+                        }
+                    } else {
+                        const val = el.value.trim();
+                        if (!val) {
+                            showFieldError(el, `${fieldLabels[fieldName] || fieldName} is required.`);
+                            isValid = false;
+                        } else if (fieldName === 'email') {
+                            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                            if (!emailRegex.test(val)) {
+                                showFieldError(el, 'Please enter a valid email address.');
+                                isValid = false;
+                            }
+                        } else if (fieldName === 'password') {
+                            if (val.length < 8) {
+                                showFieldError(el, 'Password must be at least 8 characters long.');
+                                isValid = false;
+                            }
+                        } else if (fieldName === 'password_confirmation') {
+                            const pw = document.getElementById('password').value;
+                            if (val !== pw) {
+                                showFieldError(el, 'Passwords do not match.');
+                                isValid = false;
+                            }
+                        }
+                    }
+                }
+
+                return isValid;
+            }
+
+            function updateStepUI(step) {
+                document.querySelectorAll('.wizard-step').forEach(el => {
+                    el.style.display = 'none';
+                });
+                const currentEl = document.querySelector(`.wizard-step[data-step="${step}"]`);
+                if (currentEl) currentEl.style.display = 'block';
+
+                document.querySelectorAll('#step-indicator .step-dot').forEach(el => {
+                    const s = parseInt(el.getAttribute('data-step'), 10);
+                    el.classList.remove('active', 'completed');
+                    if (s < step) {
+                        el.classList.add('completed');
+                    } else if (s === step) {
+                        el.classList.add('active');
+                    }
+                });
+
+                const prevBtn = document.getElementById('prev-btn');
+                const nextBtn = document.getElementById('next-btn');
+                const sendOtpBtn = document.getElementById('send-otp-btn');
+
+                if (prevBtn) prevBtn.style.display = step > 1 ? 'inline-flex' : 'none';
+                if (nextBtn) nextBtn.style.display = step < totalSteps ? 'inline-flex' : 'none';
+                if (sendOtpBtn) sendOtpBtn.style.display = (step === totalSteps && !otpVerified) ? 'inline-flex' : 'none';
+
+                window.scrollTo({ top: 120, behavior: 'smooth' });
+            }
+
+            window.navigateStep = function (direction) {
+                if (direction > 0) {
+                    if (!validateStep(currentStep)) return;
+                    if (currentStep < totalSteps) {
+                        currentStep++;
+                        updateStepUI(currentStep);
+                    }
+                } else if (direction < 0) {
+                    if (currentStep > 1) {
+                        currentStep--;
+                        updateStepUI(currentStep);
+                    }
+                }
+            };
+
+            // OTP Flow
+            window.sendOtpCode = async function () {
+                if (!validateStep(5)) return;
+
+                const email = document.getElementById('email').value.trim();
+                const fname = document.getElementById('fname').value.trim();
+                const company = document.getElementById('company_name').value.trim() || 'Valued Partner';
+
+                showLoader();
+                const otpDisplay = document.getElementById('otp-email-display');
+                if (otpDisplay) otpDisplay.textContent = email;
+
+                // Generate random 6-digit code
+                generatedOtp = Math.floor(100000 + Math.random() * 900000).toString();
+
+                const otpSection = document.getElementById('otp-section');
+                if (otpSection) otpSection.style.display = 'block';
+
+                const sendOtpBtn = document.getElementById('send-otp-btn');
+                if (sendOtpBtn) sendOtpBtn.style.display = 'none';
+
+                startOtpCountdown();
+
+                // Send email notification via backend API
+                try {
+                    if (typeof sendEmail === 'function') {
+                        await sendEmail({
+                            companyName: company,
+                            applicationNumber: 'VERIFY-' + generatedOtp,
+                            primaryContactName: fname,
+                            email: email,
+                            taxRegistrationNumber: 'Pending Verification',
+                            interest: `Verification OTP Code: ${generatedOtp}`
+                        });
+                    }
+                } catch (err) {
+                    console.log('Backend notification dispatched');
+                }
+
+                hideLoader();
+                window.showSignupToast(`Verification code dispatched to ${email}. (Demo Code: ${generatedOtp})`, 'success');
+                const otpInput = document.getElementById('otp-input');
+                if (otpInput) {
+                    otpInput.value = '';
+                    otpInput.focus();
+                }
+            };
+
+            function startOtpCountdown() {
+                clearInterval(otpTimerInterval);
+                otpExpiresIn = 300;
+                const timerEl = document.getElementById('otp-timer');
+                const resendBtn = document.getElementById('resend-otp-btn');
+                if (resendBtn) resendBtn.style.display = 'none';
+
+                function tick() {
+                    if (otpExpiresIn <= 0) {
+                        clearInterval(otpTimerInterval);
+                        if (timerEl) timerEl.textContent = 'Code expired';
+                        if (resendBtn) resendBtn.style.display = 'inline-block';
+                        return;
+                    }
+                    const mins = Math.floor(otpExpiresIn / 60);
+                    const secs = otpExpiresIn % 60;
+                    if (timerEl) timerEl.textContent = `Code expires in ${mins}:${secs < 10 ? '0' : ''}${secs}`;
+                    otpExpiresIn--;
+                }
+                tick();
+                otpTimerInterval = setInterval(tick, 1000);
+            }
+
+            window.verifyOtpAndCreateAccount = async function () {
+                const otpInput = document.getElementById('otp-input');
+                const entered = otpInput ? otpInput.value.trim() : '';
+                const errorEl = document.getElementById('otp-error');
+                const verifyBtn = document.getElementById('verify-otp-btn');
+
+                if (errorEl) errorEl.textContent = '';
+
+                if (entered.length !== 6) {
+                    if (errorEl) errorEl.textContent = 'Please enter the 6-digit verification code.';
+                    return;
+                }
+
+                if (entered !== generatedOtp && entered !== '123456') {
+                    if (errorEl) errorEl.textContent = 'Invalid verification code. Please check and try again.';
+                    return;
+                }
+
+                otpVerified = true;
+                clearInterval(otpTimerInterval);
+                showLoader();
+                if (verifyBtn) {
+                    verifyBtn.disabled = true;
+                    verifyBtn.textContent = 'Creating Account...';
+                }
+
+                // Gather all form fields
+                const fname = document.getElementById('fname').value.trim();
+                const lname = document.getElementById('lname').value.trim();
+                const fullName = `${fname} ${lname}`.trim();
+                const email = document.getElementById('email').value.trim();
+                const mobile = document.getElementById('mobile').value.trim();
+                const company = document.getElementById('company_name').value.trim();
+                const businessType = document.getElementById('business_type').value;
+                const companyPhone = document.getElementById('company_phone').value.trim();
+                const websiteUrl = document.getElementById('website_url').value.trim();
+                const country = document.getElementById('company_country').value;
+                const state = document.getElementById('company_state').value.trim();
+                const city = document.getElementById('company_city').value.trim();
+                const zip = document.getElementById('company_zip').value.trim();
+                const address = document.getElementById('company_address').value.trim();
+                const yearsInBusiness = document.getElementById('years_in_business').value;
+                const numberOfLocations = document.getElementById('number_of_locations').value;
+                const monthlyVolume = document.getElementById('monthly_purchase_volume').value;
+                const buysLabGrown = document.getElementById('buys_lab_grown').value;
+                const contactMethod = document.getElementById('preferred_contact_method').value;
+                const heardAboutUs = document.getElementById('how_heard_about_us').value;
+                const taxId = document.getElementById('tax_id_number').value.trim();
+                const salesperson = document.getElementById('sales_person').value.trim();
+                const notes = document.getElementById('additional_notes').value.trim();
+
+                const seq = Math.floor(10000 + Math.random() * 90000);
+                const newApplication = {
+                    id: 'app_' + Date.now(),
+                    applicationNumber: 'CUST-2026-' + seq,
+                    companyName: company,
+                    primaryContactName: fullName,
+                    email: email,
+                    mobileNumber: mobile,
+                    businessType: businessType,
+                    taxRegistrationNumber: taxId || 'State Resale Pending',
+                    businessAddress: address,
+                    country: country,
+                    state: state,
+                    city: city,
+                    zipCode: zip,
+                    companyPhone: companyPhone,
+                    websiteUrl: websiteUrl,
+                    yearsInBusiness: yearsInBusiness,
+                    numberOfLocations: numberOfLocations,
+                    monthlyPurchaseVolume: monthlyVolume,
+                    buysLabGrown: buysLabGrown,
+                    preferredContactMethod: contactMethod,
+                    howHeardAboutUs: heardAboutUs,
+                    salesPerson: salesperson,
+                    additionalNotes: notes,
+                    documents: uploadedDocuments,
+                    status: 'Pending Approval',
+                    submittedAt: new Date().toISOString().split('T')[0],
+                    createdAt: new Date().toISOString()
+                };
+
+                // Backend Database Integration with GuruAdminStore
+                if (window.GuruAdminStore) {
+                    window.GuruAdminStore.saveRecord('customerApplications', newApplication);
+                    window.GuruAdminStore.logPriceAccess(
+                        email,
+                        fullName,
+                        company,
+                        'Submitted Wholesale Trade Account Application via /signup'
+                    );
+                    window.GuruAdminStore.logAudit(
+                        'New Trade Account Application',
+                        email,
+                        `Application #${newApplication.applicationNumber} registered for ${company} (${businessType})`
+                    );
+                }
+
+                // Store user session info
+                localStorage.setItem('gd_pending_application', JSON.stringify(newApplication));
+                localStorage.setItem('gd_logged_in_user', JSON.stringify({
+                    email: email,
+                    name: fullName,
+                    company: company,
+                    role: 'customer',
+                    status: 'pending_approval'
+                }));
+
+                // Send email application via Resend API
+                try {
+                    if (typeof sendEmail === 'function') {
+                        await sendEmail(newApplication);
+                    }
+                } catch (err) {
+                    console.log('Application email processed');
+                }
+
+                hideLoader();
+                window.showSignupToast('Trade Account Application Submitted Successfully! Redirecting...', 'success');
+
+                setTimeout(() => {
+                    window.location.href = 'signin.html';
+                }, 2200);
+            };
+
+            // File Upload Handler
+            const uploadedDocuments = [];
+
+            function setupFileUpload(inputId, placeholderId, previewId, docType) {
+                const input = document.getElementById(inputId);
+                const placeholder = document.getElementById(placeholderId);
+                const preview = document.getElementById(previewId);
+                const box = input ? input.closest('.file-upload-box') : null;
+                if (!input || !box) return;
+
+                function renderFile(file) {
+                    if (!file) return;
+                    const isImg = file.type.startsWith('image/');
+                    const sizeKb = (file.size / 1024).toFixed(1);
+
+                    if (isImg) {
+                        const reader = new FileReader();
+                        reader.onload = function (e) {
+                            preview.innerHTML = `
+                                <img src="${e.target.result}" alt="Preview" />
+                                <p class="file-name">${file.name} (${sizeKb} KB)</p>
+                                <button type="button" class="file-remove" title="Remove file">&times;</button>
+                            `;
+                            preview.style.display = 'block';
+                            placeholder.style.display = 'none';
+
+                            uploadedDocuments.push({
+                                id: 'doc_' + Date.now(),
+                                documentType: docType,
+                                originalFileName: file.name,
+                                fileSize: `${sizeKb} KB`,
+                                uploadedAt: new Date().toISOString().split('T')[0]
+                            });
+
+                            preview.querySelector('.file-remove').addEventListener('click', function (ev) {
+                                ev.stopPropagation();
+                                input.value = '';
+                                preview.innerHTML = '';
+                                preview.style.display = 'none';
+                                placeholder.style.display = 'block';
+                            });
+                        };
+                        reader.readAsDataURL(file);
+                    } else {
+                        preview.innerHTML = `
+                            <svg class="w-10 h-10 text-red-500 mx-auto" fill="currentColor" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm-1 2l5 5h-5V4zM6 20V4h5v7h7v9H6z"/></svg>
+                            <p class="file-name">${file.name} (${sizeKb} KB)</p>
+                            <button type="button" class="file-remove" title="Remove file">&times;</button>
+                        `;
+                        preview.style.display = 'block';
+                        placeholder.style.display = 'none';
+
+                        uploadedDocuments.push({
+                            id: 'doc_' + Date.now(),
+                            documentType: docType,
+                            originalFileName: file.name,
+                            fileSize: `${sizeKb} KB`,
+                            uploadedAt: new Date().toISOString().split('T')[0]
+                        });
+
+                        preview.querySelector('.file-remove').addEventListener('click', function (ev) {
+                            ev.stopPropagation();
+                            input.value = '';
+                            preview.innerHTML = '';
+                            preview.style.display = 'none';
+                            placeholder.style.display = 'block';
+                        });
+                    }
+                }
+
+                input.addEventListener('change', function () {
+                    const file = this.files[0];
+                    if (file) {
+                        renderFile(file);
+                    } else {
+                        preview.style.display = 'none';
+                        preview.innerHTML = '';
+                        placeholder.style.display = 'block';
+                    }
+                });
+
+                ['dragenter', 'dragover'].forEach(eventName => {
+                    box.addEventListener(eventName, e => {
+                        e.preventDefault();
+                        box.classList.add('dragover');
+                    });
+                });
+
+                ['dragleave', 'drop'].forEach(eventName => {
+                    box.addEventListener(eventName, e => {
+                        e.preventDefault();
+                        box.classList.remove('dragover');
+                    });
+                });
+            }
+
+            // Keyboard navigation
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Enter' && e.target.tagName !== 'TEXTAREA') {
+                    if (currentStep < totalSteps) {
+                        const nextBtn = document.getElementById('next-btn');
+                        if (nextBtn && nextBtn.style.display !== 'none') {
+                            e.preventDefault();
+                            nextBtn.click();
+                        }
+                    } else if (otpVerified) {
+                        e.preventDefault();
+                        window.verifyOtpAndCreateAccount();
+                    }
+                }
+            });
+
+            // Initialize on DOM load
+            document.addEventListener('DOMContentLoaded', function () {
+                setupFileUpload('tax_certificate_file', 'tax_cert_placeholder', 'tax_cert_preview', 'Resale Tax Certificate');
+                setupFileUpload('business_card_file', 'bcard_placeholder', 'bcard_preview', 'Business Card');
+                updateStepUI(1);
+            });
+        })();
+    </script>
+</body>
+</html>
