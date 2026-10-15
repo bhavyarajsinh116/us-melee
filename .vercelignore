@@ -1,5 +1,11 @@
-server.py
+package.json
 local-dev-server.js
+server.py
 backups/
 pdf/
 *.pdf
+pdf1_dump.json
+pdf2_dump.json
+scratch_css.css
+.DS_Store
+node_modules/
